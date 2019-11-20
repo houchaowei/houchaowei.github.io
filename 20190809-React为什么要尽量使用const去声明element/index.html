@@ -441,6 +441,10 @@
           
 
   
+    <div id="gitalk-container"></div>
+
+
+  
 
 
 
@@ -702,6 +706,24 @@
 
 
 
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '5ea5c7c8c8b8a126f692',
+          clientSecret: 'ea4f745bc47c68c5273ce43c996af58313845a42',
+          repo: 'houchaowei.github.io',
+          owner: 'houchaowei',
+          admin: ['houchaowei'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
 
 
 

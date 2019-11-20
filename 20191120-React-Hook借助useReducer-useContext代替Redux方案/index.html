@@ -86,20 +86,20 @@
 
 
 
-<meta name="description" content="当我们使用redux进行数据管理的时候，一般都是在根组件通过Provider的方式引入store，然后在每个子组件中，通过connect的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然hooks带来了新特性，不如一起来用用看  目录结构图 1234567├── otherPage // 其他页面|   ├── index.jsx // 共享`Test`页面的">
+<meta name="description" content="当我们使用redux进行数据管理的时候，一般都是在根组件通过Provider的方式引入store，然后在每个子组件中，通过connect的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然hooks带来了新特性，不如一起来用用看  目录结构图">
 <meta name="keywords" content="MonkeyBlog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React Hook借助useReducer, useContext代替Redux方案">
 <meta property="og:url" content="http://houchaowei.github.io/20191120-React-Hook借助useReducer-useContext代替Redux方案/index.html">
 <meta property="og:site_name" content="MonkeyBlog">
-<meta property="og:description" content="当我们使用redux进行数据管理的时候，一般都是在根组件通过Provider的方式引入store，然后在每个子组件中，通过connect的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然hooks带来了新特性，不如一起来用用看  目录结构图 1234567├── otherPage // 其他页面|   ├── index.jsx // 共享`Test`页面的">
+<meta property="og:description" content="当我们使用redux进行数据管理的时候，一般都是在根组件通过Provider的方式引入store，然后在每个子组件中，通过connect的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然hooks带来了新特性，不如一起来用用看  目录结构图">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://houchaowei.github.io/20191120-React-Hook借助useReducer-useContext代替Redux方案/clipboard.png">
 <meta property="og:image" content="http://houchaowei.github.io/20191120-React-Hook借助useReducer-useContext代替Redux方案/gifhome_1920x1048_10s.gif">
-<meta property="og:updated_time" content="2019-11-20T07:01:36.239Z">
+<meta property="og:updated_time" content="2019-11-20T10:59:48.532Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Hook借助useReducer, useContext代替Redux方案">
-<meta name="twitter:description" content="当我们使用redux进行数据管理的时候，一般都是在根组件通过Provider的方式引入store，然后在每个子组件中，通过connect的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然hooks带来了新特性，不如一起来用用看  目录结构图 1234567├── otherPage // 其他页面|   ├── index.jsx // 共享`Test`页面的">
+<meta name="twitter:description" content="当我们使用redux进行数据管理的时候，一般都是在根组件通过Provider的方式引入store，然后在每个子组件中，通过connect的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然hooks带来了新特性，不如一起来用用看  目录结构图">
 <meta name="twitter:image" content="http://houchaowei.github.io/20191120-React-Hook借助useReducer-useContext代替Redux方案/clipboard.png">
 
 
@@ -375,7 +375,7 @@
         <blockquote>
 <p>当我们使用<code>redux</code>进行数据管理的时候，一般都是在根组件通过<code>Provider</code>的方式引入<code>store</code>，然后在每个子组件中，通过<code>connect</code>的方式使用高阶组件进行连接，这样造成的一个问题是，大量的高阶组件代码冗余度特别高，既然<code>hooks</code>带来了新特性，不如一起来用用看</p>
 </blockquote>
-<h2 id="目录结构图"><a href="#目录结构图" class="headerlink" title="目录结构图"></a>目录结构图</h2><p><img src="/20191120-React-Hook借助useReducer-useContext代替Redux方案/clipboard.png" alt="目录示例"></p>
+<h2 id="目录结构图"><a href="#目录结构图" class="headerlink" title="目录结构图"></a>目录结构图</h2><p><img src="/20191120-React-Hook借助useReducer-useContext代替Redux方案/clipboard.png" alt="目录示例"> <a id="more"></a></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├── otherPage <span class="comment">// 其他页面</span></span><br><span class="line">|   ├── index.jsx <span class="comment">// 共享`Test`页面的状态；</span></span><br><span class="line">├── Test <span class="comment">// 测试页面</span></span><br><span class="line">|   ├── child.jsx <span class="comment">// 测试页面的子组件。1、`useContext`定义的位置，获取父组件提供的`context`；2、`useEffect`进行异步请求；</span></span><br><span class="line">|   ├── index.jsx <span class="comment">// 测试页面父组件。1、通过使用`Provider`提供给子组件`context`；2、`useReducer`定义的位置，引入一个`reducer`并且提供初始状态`initialState`；</span></span><br><span class="line">|   ├── otherPage.jsx <span class="comment">// 其他页面，已删除~~</span></span><br><span class="line">|   └── reducer.jsx <span class="comment">// 处理不同类型的`action`操作</span></span><br></pre></td></tr></table></figure>
 <h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/20191120-React-Hook借助useReducer-useContext代替Redux方案/gifhome_1920x1048_10s.gif" alt="效果图"></p>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="Test-reducer-jsx"><a href="#Test-reducer-jsx" class="headerlink" title="Test/reducer.jsx"></a><code>Test/reducer.jsx</code></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span> (<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'ADD'</span>: <span class="comment">// 加</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        type: <span class="string">'add'</span>,</span><br><span class="line">        index: ++state.index</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'DOWN'</span>: <span class="comment">// 减</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        type: <span class="string">'down'</span>,</span><br><span class="line">        index: --state.index</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'FETCH'</span>: <span class="comment">//请求</span></span><br><span class="line">      axios(<span class="string">'/addFetch'</span>).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(result);</span><br><span class="line">      &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">      &#125;); ;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state);</span><br><span class="line">    <span class="keyword">default</span>: <span class="comment">// 重置</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        index: <span class="number">1</span></span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> reducer;</span><br></pre></td></tr></table></figure>
@@ -451,6 +451,10 @@
 
 
           
+
+  
+    <div id="gitalk-container"></div>
+
 
   
 
@@ -739,6 +743,24 @@
 
 
 
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '5ea5c7c8c8b8a126f692',
+          clientSecret: 'ea4f745bc47c68c5273ce43c996af58313845a42',
+          repo: 'houchaowei.github.io',
+          owner: 'houchaowei',
+          admin: ['houchaowei'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
 
 
 
