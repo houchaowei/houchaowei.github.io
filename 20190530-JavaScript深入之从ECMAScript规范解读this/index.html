@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,">
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript深入之从ECMAScript规范解读this">
+<meta property="og:url" content="http://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/js.jpg">
+<meta property="og:updated_time" content="2019-11-20T03:29:12.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript深入之从ECMAScript规范解读this">
+<meta name="twitter:image" content="http://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/js.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/">
+
+
+
+
+
+  <title>JavaScript深入之从ECMAScript规范解读this | MonkeyBlog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/houchaowei" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513;
+    color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MonkeyBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">生命的意義在於編程</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JavaScript深入之从ECMAScript规范解读this</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-30T16:24:51+08:00">
+                2019-05-30 16:24:51
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript深入系列/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript深入系列</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/20190530-JavaScript深入之从ECMAScript规范解读this/js.jpg" alt="JavaScript深入系列"><a id="more"></a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在《JavaScript深入之执行上下文栈》中讲到，当JavaScript代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(execution context)。</p>
+<p>对于每个执行上下文，都有三个重要属性</p>
+<ul>
+<li>变量对象(Variable object，VO)</li>
+<li>作用域链(Scope chain)</li>
+<li>this</li>
+</ul>
+<blockquote>
+<p>今天重点讲讲 this，然而不好讲。</p>
+</blockquote>
+<p>……</p>
+<p>因为我们要从 ECMASciript5 规范开始讲起。</p>
+<p>先奉上 ECMAScript 5.1 规范地址：</p>
+<p>英文版：<a href="http://es5.github.io/#x15.1" target="_blank" rel="noopener">http://es5.github.io/#x15.1</a></p>
+<p>中文版：<a href="http://yanhaijing.com/es5/#115" target="_blank" rel="noopener">http://yanhaijing.com/es5/#115</a></p>
+<p>让我们开始了解规范吧！</p>
+<h1 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h1><p>首先是第 8 章 Types：</p>
+<blockquote>
+<p>Types are further subclassified into ECMAScript language types and specification types.</p>
+</blockquote>
+<blockquote>
+<p>An ECMAScript language type corresponds to values that are directly manipulated by an ECMAScript programmer using the ECMAScript language. The ECMAScript language types are Undefined, Null, Boolean, String, Number, and Object.</p>
+</blockquote>
+<blockquote>
+<p>A specification type corresponds to meta-values that are used within algorithms to describe the semantics of ECMAScript language constructs and ECMAScript language types. The specification types are Reference, List, Completion, Property Descriptor, Property Identifier, Lexical Environment, and Environment Record.</p>
+</blockquote>
+<p>我们简单的翻译一下：</p>
+<p>ECMAScript 的类型分为语言类型和规范类型。</p>
+<p>ECMAScript 语言类型是开发者直接使用 ECMAScript 可以操作的。其实就是我们常说的Undefined, Null, Boolean, String, Number, 和 Object。</p>
+<p>而规范类型相当于 meta-values，是用来用算法描述 ECMAScript 语言结构和 ECMAScript 语言类型的。规范类型包括：Reference, List, Completion, Property Descriptor, Property Identifier, Lexical Environment, 和 Environment Record。</p>
+<p>没懂？没关系，我们只要知道在 ECMAScript 规范中还有一种只存在于规范中的类型，它们的作用是用来描述语言底层行为逻辑。</p>
+<p>今天我们要讲的重点是便是其中的 Reference 类型。它与 this 的指向有着密切的关联。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>那什么又是 Reference ？</p>
+<p>让我们看 8.7 章 The Reference Specification Type：</p>
+<blockquote>
+<p>The Reference type is used to explain the behaviour of such operators as delete, typeof, and the assignment operators.</p>
+</blockquote>
+<p>所以 Reference 类型就是用来解释诸如 delete、typeof 以及赋值等操作行为的。</p>
+<p>抄袭尤雨溪大大的话，就是：</p>
+<blockquote>
+<p>这里的 Reference 是一个 Specification Type，也就是 “只存在于规范里的抽象类型”。它们是为了更好地描述语言的底层行为逻辑才存在的，但并不存在于实际的 js 代码中。</p>
+</blockquote>
+<p>再看接下来的这段具体介绍 Reference 的内容：</p>
+<blockquote>
+<p>A Reference is a resolved name binding.</p>
+</blockquote>
+<blockquote>
+<p>A Reference consists of three components, the base value, the referenced name and the Boolean valued strict reference flag.</p>
+</blockquote>
+<blockquote>
+<p>The base value is either undefined, an Object, a Boolean, a String, a Number, or an environment record (10.2.1).</p>
+</blockquote>
+<blockquote>
+<p>A base value of undefined indicates that the reference could not be resolved to a binding. The referenced name is a String.</p>
+</blockquote>
+<p>这段讲述了 Reference 的构成，由三个组成部分，分别是：</p>
+<ul>
+<li>base value</li>
+<li>referenced name</li>
+<li>strict reference<br>可是这些到底是什么呢？</li>
+</ul>
+<p>我们简单的理解的话：</p>
+<p>base value 就是属性所在的对象或者就是 EnvironmentRecord，它的值只可能是 undefined, an Object, a Boolean, a String, a Number, or an environment record 其中的一种。</p>
+<p>referenced name 就是属性的名称。</p>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;</span><br><span class="line"></span><br><span class="line">// 对应的Reference是：</span><br><span class="line">var fooReference = &#123;</span><br><span class="line">    base: EnvironmentRecord,</span><br><span class="line">    name: &apos;foo&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>再举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var foo = &#123;</span><br><span class="line">    bar: function () &#123;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">foo.bar(); // foo</span><br><span class="line"></span><br><span class="line">// bar对应的Reference是：</span><br><span class="line">var BarReference = &#123;</span><br><span class="line">    base: foo,</span><br><span class="line">    propertyName: &apos;bar&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>而且规范中还提供了获取 Reference 组成部分的方法，比如 GetBase 和 IsPropertyReference。</p>
+<p>这两个方法很简单，简单看一看：</p>
+<h2 id="1-GetBase"><a href="#1-GetBase" class="headerlink" title="1.GetBase"></a>1.GetBase</h2><blockquote>
+<p>GetBase(V). Returns the base value component of the reference V.</p>
+</blockquote>
+<p>返回 reference 的 base value。</p>
+<h2 id="2-IsPropertyReference"><a href="#2-IsPropertyReference" class="headerlink" title="2.IsPropertyReference"></a>2.IsPropertyReference</h2><blockquote>
+<p>IsPropertyReference(V). Returns true if either the base value is an object or HasPrimitiveBase(V) is true; otherwise returns false.</p>
+</blockquote>
+<p>简单的理解：如果 base value 是一个对象，就返回true。</p>
+<h1 id="GetValue"><a href="#GetValue" class="headerlink" title="GetValue"></a>GetValue</h1><p>除此之外，紧接着在 8.7.1 章规范中就讲了一个用于从 Reference 类型获取对应值的方法： GetValue。</p>
+<p>简单模拟 GetValue 的使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;</span><br><span class="line"></span><br><span class="line">var fooReference = &#123;</span><br><span class="line">    base: EnvironmentRecord,</span><br><span class="line">    name: &apos;foo&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">GetValue(fooReference) // 1;</span><br></pre></td></tr></table></figure></p>
+<p>GetValue 返回对象属性真正的值，但是要注意：</p>
+<p>调用 GetValue，返回的将是具体的值，而不再是一个 Reference</p>
+<p>这个很重要，这个很重要，这个很重要。</p>
+<h1 id="如何确定this的值"><a href="#如何确定this的值" class="headerlink" title="如何确定this的值"></a>如何确定this的值</h1><p>关于 Reference 讲了那么多，为什么要讲 Reference 呢？到底 Reference 跟本文的主题 this 有哪些关联呢？如果你能耐心看完之前的内容，以下开始进入高能阶段：</p>
+<p>看规范 11.2.3 Function Calls：</p>
+<p>这里讲了当函数调用的时候，如何确定 this 的取值。</p>
+<p>只看第一步、第六步、第七步：</p>
+<ul>
+<li><p>1.Let ref be the result of evaluating MemberExpression.</p>
+</li>
+<li><p>6.If Type(ref) is Reference, then</p>
+<ul>
+<li>a.If IsPropertyReference(ref) is true, then<ul>
+<li>i.Let thisValue be GetBase(ref).</li>
+</ul>
+</li>
+<li>b.Else, the base of ref is an Environment Record<ul>
+<li>i.Let thisValue be the result of calling the ImplicitThisValue concrete method of GetBase(ref).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>7.Else, Type(ref) is not Reference.</p>
+<ul>
+<li>a. Let thisValue be undefined.</li>
+</ul>
+</li>
+</ul>
+<p>让我们描述一下：</p>
+<ul>
+<li><p>1.计算 MemberExpression 的结果赋值给 ref</p>
+</li>
+<li><p>2.判断 ref 是不是一个 Reference 类型</p>
+<ul>
+<li><p>2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)</p>
+</li>
+<li><p>2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)</p>
+</li>
+<li><p>2.3 如果 ref 不是 Reference，那么 this 的值为 undefined</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>具体分析<br>让我们一步一步看：</p>
+<h2 id="1-计算-MemberExpression-的结果赋值给-ref"><a href="#1-计算-MemberExpression-的结果赋值给-ref" class="headerlink" title="1.计算 MemberExpression 的结果赋值给 ref"></a>1.计算 MemberExpression 的结果赋值给 ref</h2><p>什么是 MemberExpression？看规范 11.2 Left-Hand-Side Expressions：</p>
+<p>MemberExpression :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PrimaryExpression // 原始表达式 可以参见《JavaScript权威指南第四章》</span><br><span class="line">FunctionExpression // 函数定义表达式</span><br><span class="line">MemberExpression [ Expression ] // 属性访问表达式</span><br><span class="line">MemberExpression . IdentifierName // 属性访问表达式</span><br><span class="line">new MemberExpression Arguments // 对象创建表达式</span><br></pre></td></tr></table></figure></p>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console.log(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(); // MemberExpression 是 foo</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">    return function() &#123;</span><br><span class="line">        console.log(this)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo()(); // MemberExpression 是 foo()</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">    bar: function () &#123;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.bar(); // MemberExpression 是 foo.bar</span><br></pre></td></tr></table></figure></p>
+<p>所以简单理解 MemberExpression 其实就是()左边的部分。</p>
+<h2 id="2-判断-ref-是不是一个-Reference-类型。"><a href="#2-判断-ref-是不是一个-Reference-类型。" class="headerlink" title="2.判断 ref 是不是一个 Reference 类型。"></a>2.判断 ref 是不是一个 Reference 类型。</h2><p>关键就在于看规范是如何处理各种 MemberExpression，返回的结果是不是一个Reference类型。</p>
+<p>举最后一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">  value: 2,</span><br><span class="line">  bar: function () &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//示例1</span><br><span class="line">console.log(foo.bar());</span><br><span class="line">//示例2</span><br><span class="line">console.log((foo.bar)());</span><br><span class="line">//示例3</span><br><span class="line">console.log((foo.bar = foo.bar)());</span><br><span class="line">//示例4</span><br><span class="line">console.log((false || foo.bar)());</span><br><span class="line">//示例5</span><br><span class="line">console.log((foo.bar, foo.bar)());</span><br><span class="line">foo.bar()</span><br></pre></td></tr></table></figure></p>
+<p>在示例 1 中，MemberExpression 计算的结果是 foo.bar，那么 foo.bar 是不是一个 Reference 呢？</p>
+<p>查看规范 11.2.1 Property Accessors，这里展示了一个计算的过程，什么都不管了，就看最后一步：</p>
+<blockquote>
+<p>Return a value of type Reference whose base value is baseValue and whose referenced name is propertyNameString, and whose strict mode flag is strict.</p>
+</blockquote>
+<p>我们得知该表达式返回了一个 Reference 类型！</p>
+<p>根据之前的内容，我们知道该值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Reference = &#123;</span><br><span class="line">  base: foo,</span><br><span class="line">  name: &apos;bar&apos;,</span><br><span class="line">  strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>接下来按照 2.1 的判断流程走：</p>
+<p>2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)</p>
+<p>该值是 Reference 类型，那么 IsPropertyReference(ref) 的结果是多少呢？</p>
+<p>前面我们已经铺垫了 IsPropertyReference 方法，如果 base value 是一个对象，结果返回 true。</p>
+<p>base value 为 foo，是一个对象，所以 IsPropertyReference(ref) 结果为 true。</p>
+<p>这个时候我们就可以确定 this 的值了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this = GetBase(ref)，</span><br></pre></td></tr></table></figure></p>
+<p>GetBase 也已经铺垫了，获得 base value 值，这个例子中就是foo，所以 this 的值就是 foo ，示例1的结果就是 2！</p>
+<p>唉呀妈呀，为了证明 this 指向foo，真是累死我了！但是知道了原理，剩下的就更快了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>看示例2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log((foo.bar)());</span><br></pre></td></tr></table></figure></p>
+<p>foo.bar 被 () 包住，查看规范 11.1.6 The Grouping Operator</p>
+<p>直接看结果部分：</p>
+<blockquote>
+<p>Return the result of evaluating Expression. This may be of type Reference.</p>
+</blockquote>
+<blockquote>
+<p>NOTE This algorithm does not apply GetValue to the result of evaluating Expression.</p>
+</blockquote>
+<p>实际上 () 并没有对 MemberExpression 进行计算，所以其实跟示例 1 的结果是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo.bar = foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>看示例3，有赋值操作符，查看规范 11.13.1 Simple Assignment ( = ):</p>
+<p>计算的第三步：</p>
+<h2 id="3-Let-rval-be-GetValue-rref"><a href="#3-Let-rval-be-GetValue-rref" class="headerlink" title="3.Let rval be GetValue(rref)."></a>3.Let rval be GetValue(rref).</h2><p>因为使用了 GetValue，所以返回的值不是 Reference 类型，</p>
+<p>按照之前讲的判断逻辑：</p>
+<p>2.3 如果 ref 不是Reference，那么 this 的值为 undefined</p>
+<p>this 为 undefined，非严格模式下，this 的值为 undefined 的时候，其值会被隐式转换为全局对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(false || foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>看示例4，逻辑与算法，查看规范 11.11 Binary Logical Operators：</p>
+<p>计算第二步：</p>
+<p>2.Let lval be GetValue(lref).</p>
+<p>因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo.bar, foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>看示例5，逗号操作符，查看规范11.14 Comma Operator ( , )</p>
+<p>计算第二步：</p>
+<p>2.Call GetValue(lref).</p>
+<p>因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined</p>
+<p>揭晓结果<br>所以最后一个例子的结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">  value: 2,</span><br><span class="line">  bar: function () &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//示例1</span><br><span class="line">console.log(foo.bar()); // 2</span><br><span class="line">//示例2</span><br><span class="line">console.log((foo.bar)()); // 2</span><br><span class="line">//示例3</span><br><span class="line">console.log((foo.bar = foo.bar)()); // 1</span><br><span class="line">//示例4</span><br><span class="line">console.log((false || foo.bar)()); // 1</span><br><span class="line">//示例5</span><br><span class="line">console.log((foo.bar, foo.bar)()); // 1</span><br></pre></td></tr></table></figure></p>
+<p>注意：以上是在非严格模式下的结果，严格模式下因为 this 返回 undefined，所以示例 3 会报错。</p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>最最后，忘记了一个最最普通的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console.log(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(); </span><br><span class="line">MemberExpression 是 foo，解析标识符，查看规范 10.3.1 Identifier Resolution，会返回一个 Reference 类型的值：</span><br><span class="line"></span><br><span class="line">var fooReference = &#123;</span><br><span class="line">    base: EnvironmentRecord,</span><br><span class="line">    name: &apos;foo&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>接下来进行判断：</p>
+<h2 id="2-1-如果-ref-是-Reference，并且-IsPropertyReference-ref-是-true-那么-this-的值为-GetBase-ref"><a href="#2-1-如果-ref-是-Reference，并且-IsPropertyReference-ref-是-true-那么-this-的值为-GetBase-ref" class="headerlink" title="2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)"></a>2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)</h2><p>因为 base value 是 EnvironmentRecord，并不是一个 Object 类型，还记得前面讲过的 base value 的取值可能吗？ 只可能是 undefined, an Object, a Boolean, a String, a Number, 和 an environment record 中的一种。</p>
+<p>IsPropertyReference(ref) 的结果为 false，进入下个判断：</p>
+<h2 id="2-2-如果-ref-是-Reference，并且-base-value-值是-Environment-Record-那么this的值为-ImplicitThisValue-ref"><a href="#2-2-如果-ref-是-Reference，并且-base-value-值是-Environment-Record-那么this的值为-ImplicitThisValue-ref" class="headerlink" title="2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)"></a>2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)</h2><p>base value 正是 Environment Record，所以会调用 ImplicitThisValue(ref)</p>
+<p>查看规范 10.2.1.1.6，ImplicitThisValue 方法的介绍：该函数始终返回 undefined。</p>
+<p>所以最后 this 的值就是 undefined。</p>
+<h1 id="多说一句"><a href="#多说一句" class="headerlink" title="多说一句"></a>多说一句</h1><p>尽管我们可以简单的理解 this 为调用函数的对象，如果是这样的话，如何解释下面这个例子呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">  value: 2,</span><br><span class="line">  bar: function () &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log((false || foo.bar)()); // 1</span><br></pre></td></tr></table></figure></p>
+<p>此外，又如何确定调用函数的对象是谁呢？在写文章之初，我就面临着这些问题，最后还是放弃从多个情形下给大家讲解 this 指向的思路，而是追根溯源的从 ECMASciript 规范讲解 this 的指向，尽管从这个角度写起来和读起来都比较吃力，但是一旦多读几遍，明白原理，绝对会给你一个全新的视角看待 this 。而你也就能明白，尽管 foo() 和 (foo.bar = foo.bar)() 最后结果都指向了 undefined，但是两者从规范的角度上却有着本质的区别。</p>
+<p>此篇讲解执行上下文的 this，即便不是很理解此篇的内容，依然不影响大家了解执行上下文这个主题下其他的内容。所以，依然可以安心的看下一篇文章。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20190530-JavaScript深入之作用域链/" rel="next" title="JavaScript深入之作用域链">
+                <i class="fa fa-chevron-left"></i> JavaScript深入之作用域链
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20190603-JavaScript专题之跟着underscore学防抖/" rel="prev" title="JavaScript专题之跟着underscore学防抖">
+                JavaScript专题之跟着underscore学防抖 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="MonkeyBlog">
+            
+              <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Types"><span class="nav-number">2.</span> <span class="nav-text">Types</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-GetBase"><span class="nav-number">3.1.</span> <span class="nav-text">1.GetBase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-IsPropertyReference"><span class="nav-number">3.2.</span> <span class="nav-text">2.IsPropertyReference</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GetValue"><span class="nav-number">4.</span> <span class="nav-text">GetValue</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何确定this的值"><span class="nav-number">5.</span> <span class="nav-text">如何确定this的值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-计算-MemberExpression-的结果赋值给-ref"><span class="nav-number">5.1.</span> <span class="nav-text">1.计算 MemberExpression 的结果赋值给 ref</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-判断-ref-是不是一个-Reference-类型。"><span class="nav-number">5.2.</span> <span class="nav-text">2.判断 ref 是不是一个 Reference 类型。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Let-rval-be-GetValue-rref"><span class="nav-number">5.3.</span> <span class="nav-text">3.Let rval be GetValue(rref).</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">6.</span> <span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-如果-ref-是-Reference，并且-IsPropertyReference-ref-是-true-那么-this-的值为-GetBase-ref"><span class="nav-number">6.1.</span> <span class="nav-text">2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-如果-ref-是-Reference，并且-base-value-值是-Environment-Record-那么this的值为-ImplicitThisValue-ref"><span class="nav-number">6.2.</span> <span class="nav-text">2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多说一句"><span class="nav-number">7.</span> <span class="nav-text">多说一句</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
