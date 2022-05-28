@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin： 123&quot;bin&quot;: &amp;#123;	&quot;zhcli&quot;: &quot;bin/zh-cli.js&quot;&amp;#125; 本地npm link">
+<meta name="description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin：">
 <meta name="keywords" content="MonkeyBlog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="脚手架实践: 集成模板搭建及线上部署">
 <meta property="og:url" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/index.html">
 <meta property="og:site_name" content="MonkeyBlog">
-<meta property="og:description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin： 123&quot;bin&quot;: &amp;#123;	&quot;zhcli&quot;: &quot;bin/zh-cli.js&quot;&amp;#125; 本地npm link">
+<meta property="og:description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527214905927.png">
 <meta property="og:image" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527222335168.png">
@@ -104,10 +104,10 @@
 <meta property="og:image" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000018425.png">
 <meta property="og:image" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000333623.png">
 <meta property="og:image" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000500833.png">
-<meta property="og:updated_time" content="2022-05-28T16:12:46.620Z">
+<meta property="og:updated_time" content="2022-05-28T16:15:25.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="脚手架实践: 集成模板搭建及线上部署">
-<meta name="twitter:description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin： 123&quot;bin&quot;: &amp;#123;	&quot;zhcli&quot;: &quot;bin/zh-cli.js&quot;&amp;#125; 本地npm link">
+<meta name="twitter:description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin：">
 <meta name="twitter:image" content="http://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527214905927.png">
 
 
@@ -362,7 +362,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'hello zh-cli'</span>)</span><br></pre></td></tr></table></figure>
 <p>执行<code>node bin/zh-cli.js</code>，即可输出</p>
 <p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527214905927.png" alt="image-20220527214905927" style="zoom:50%;"></p>
-<p>配置下package.json的bin：</p>
+<p>配置下package.json的bin：<br><a id="more"></a></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"bin": &#123;</span><br><span class="line">	"zhcli": "bin/zh-cli.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>本地<code>npm link</code> , 即可执行<code>zhcli</code> , 等价于<code>node bin/zh-cli.js</code>。</p>
 <blockquote>
