@@ -765,17 +765,17 @@
 
    <script type="text/javascript">
         var gitalk = new Gitalk({
-          clientID: '',
-          clientSecret: '',
+          clientID: 'Iv1.fdd6f0aaf7bcd1e6',
+          clientSecret: 'ae5b308b33e99041c59b34c6b9efd05335cce846',
           repo: 'houchaowei.github.io',
-          owner: '',
-          admin: [''],
-          id:'_20190127195226',
-          labels: '',
-          perPage: ,
-          pagerDirection: '',
-          createIssueManually: ,
-          distractionFreeMode: 
+          owner: 'houchaowei',
+          admin: ['houchaowei'],
+          id:'gitalk_20190127195226',
+          labels: 'gitalk'.split(',').filter(l => l),
+          perPage: 20,
+          pagerDirection: 'last',
+          createIssueManually: true,
+          distractionFreeMode: false
         })
 
         gitalk.render('gitalk-container')           

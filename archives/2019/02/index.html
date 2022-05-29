@@ -753,6 +753,28 @@
 
 
 
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'Iv1.fdd6f0aaf7bcd1e6',
+          clientSecret: 'ae5b308b33e99041c59b34c6b9efd05335cce846',
+          repo: 'houchaowei.github.io',
+          owner: 'houchaowei',
+          admin: ['houchaowei'],
+          id:'gitalk_Invalid date',
+          labels: 'gitalk'.split(',').filter(l => l),
+          perPage: 20,
+          pagerDirection: 'last',
+          createIssueManually: true,
+          distractionFreeMode: false
+        })
+
+        gitalk.render('gitalk-container')           
+       </script>
+
+
   
 
 
