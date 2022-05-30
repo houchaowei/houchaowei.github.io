@@ -642,7 +642,7 @@
 
 
 
-    <script async src="https://cdn.jsdelivr.net/npm/busuanzi-statistics@0.0.2/lib/busuanzi-statistics.min.js"></script>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
@@ -651,7 +651,7 @@
 
         
 <div class="busuanzi-count">
-  <script async src="https://cdn.jsdelivr.net/npm/busuanzi-statistics@0.0.2/lib/busuanzi-statistics.min.js"></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
     <span class="site-uv">
@@ -822,9 +822,9 @@
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
    <script type="text/javascript">
-        var gitalk = new Gitalk({
-          clientID: 'Iv1.a72dd87372524503',
-          clientSecret: 'b343166e228ec2483c9739db9148042ee8203d59',
+        var params = {
+          clientID: '5ea5c7c8c8b8a126f692',
+          clientSecret: 'dfe5a20ea8085b0185eeef1559a4b1a09c3bb962',
           repo: 'houchaowei.github.io',
           owner: 'houchaowei',
           admin: ['houchaowei'],
@@ -834,7 +834,9 @@
           pagerDirection: 'last',
           createIssueManually: true,
           distractionFreeMode: false
-        })
+        }
+        console.log(params)
+        var gitalk = new Gitalk(params)
 
         gitalk.render('gitalk-container')           
        </script>
