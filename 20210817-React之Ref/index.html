@@ -803,16 +803,10 @@
           repo: 'houchaowei.github.io',
           owner: 'houchaowei',
           admin: ['houchaowei'],
-          id:'gitalk_20210817205204',
-          labels: 'gitalk'.split(',').filter(l => l),
           perPage: 20,
-          pagerDirection: 'last',
-          createIssueManually: true,
           distractionFreeMode: false
         }
-        console.log(params)
         var gitalk = new Gitalk(params)
-
         gitalk.render('gitalk-container')           
        </script>
 
