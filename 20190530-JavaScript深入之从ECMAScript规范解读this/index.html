@@ -12,12 +12,15 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="keywords" content="javascript">
@@ -26,11 +29,9 @@
 <meta property="og:url" content="https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/index.html">
 <meta property="og:site_name" content="MonkeyBlog">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/js.jpg">
 <meta property="og:updated_time" content="2025-07-01T09:12:40.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript深入之从ECMAScript规范解读this">
-<meta name="twitter:image" content="https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/js.jpg">
 
 <link rel="canonical" href="https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/">
 
@@ -44,7 +45,13 @@
     lang   : 'zh-Hans'
   };
 </script>
+<!-- 添加代码字体 -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- 添加FullCalendar日历库 -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/locales/zh-cn.js"></script> 
   <title>JavaScript深入之从ECMAScript规范解读this | MonkeyBlog</title>
   
 
@@ -118,9 +125,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">20</span></a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">41</span></a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap/" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -193,7 +225,14 @@
                 </span>
             </span>
 
-          <br>
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
             <span class="post-meta-item" title="Symbols count in article">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -218,7 +257,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/20190530-JavaScript深入之从ECMAScript规范解读this/js.jpg" alt="JavaScript深入系列"><a id="more"></a></p>
+        <p><img data-src="js.jpg" alt="JavaScript深入系列"><a id="more"></a></p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在《JavaScript深入之执行上下文栈》中讲到，当JavaScript代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(execution context)。</p>
 <p>对于每个执行上下文，都有三个重要属性</p>
 <ul>
@@ -283,8 +322,8 @@
 <p>我们简单的理解的话：</p>
 <p>base value 就是属性所在的对象或者就是 EnvironmentRecord，它的值只可能是 undefined, an Object, a Boolean, a String, a Number, or an environment record 其中的一种。</p>
 <p>referenced name 就是属性的名称。</p>
-<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;</span><br><span class="line"></span><br><span class="line">// 对应的Reference是：</span><br><span class="line">var fooReference = &#123;</span><br><span class="line">    base: EnvironmentRecord,</span><br><span class="line">    name: &apos;foo&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>再举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var foo = &#123;</span><br><span class="line">    bar: function () &#123;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">foo.bar(); // foo</span><br><span class="line"></span><br><span class="line">// bar对应的Reference是：</span><br><span class="line">var BarReference = &#123;</span><br><span class="line">    base: foo,</span><br><span class="line">    propertyName: &apos;bar&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>举个例子：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">var</span> foo = <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">// 对应的Reference是：</span><br><span class="hljs-keyword">var</span> fooReference = &#123;<br>    <span class="hljs-keyword">base</span>: EnvironmentRecord,<br>    name: <span class="hljs-string">'foo'</span>,<br>    strict: <span class="hljs-literal">false</span><br>&#125;;<br></code></pre></td></tr></table></figure></p>
+<p>再举个例子：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">var</span> foo = &#123;<br>    bar: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br>&#125;;<br> <br>foo.bar(); <span class="hljs-comment">// foo</span><br><br><span class="hljs-comment">// bar对应的Reference是：</span><br><span class="hljs-keyword">var</span> BarReference = &#123;<br>    base: foo,<br>    propertyName: <span class="hljs-string">'bar'</span>,<br>    strict: <span class="hljs-literal">false</span><br>&#125;;<br></code></pre></td></tr></table></figure></p>
 <p>而且规范中还提供了获取 Reference 组成部分的方法，比如 GetBase 和 IsPropertyReference。</p>
 <p>这两个方法很简单，简单看一看：</p>
 <h2 id="1-GetBase"><a href="#1-GetBase" class="headerlink" title="1.GetBase"></a>1.GetBase</h2><blockquote>
@@ -296,7 +335,7 @@
 </blockquote>
 <p>简单的理解：如果 base value 是一个对象，就返回true。</p>
 <h1 id="GetValue"><a href="#GetValue" class="headerlink" title="GetValue"></a>GetValue</h1><p>除此之外，紧接着在 8.7.1 章规范中就讲了一个用于从 Reference 类型获取对应值的方法： GetValue。</p>
-<p>简单模拟 GetValue 的使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;</span><br><span class="line"></span><br><span class="line">var fooReference = &#123;</span><br><span class="line">    base: EnvironmentRecord,</span><br><span class="line">    name: &apos;foo&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">GetValue(fooReference) // 1;</span><br></pre></td></tr></table></figure></p>
+<p>简单模拟 GetValue 的使用：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-string">var</span> <span class="hljs-string">foo</span> <span class="hljs-string">=</span> <span class="hljs-number">1</span><span class="hljs-string">;</span><br><br><span class="hljs-string">var</span> <span class="hljs-string">fooReference</span> <span class="hljs-string">=</span> <span class="hljs-string">&#123;</span><br>    <span class="hljs-attr">base:</span> <span class="hljs-string">EnvironmentRecord,</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">'foo'</span><span class="hljs-string">,</span><br>    <span class="hljs-attr">strict:</span> <span class="hljs-literal">false</span><br><span class="hljs-string">&#125;;</span><br><br><span class="hljs-string">GetValue(fooReference)</span> <span class="hljs-string">//</span> <span class="hljs-number">1</span><span class="hljs-string">;</span><br></code></pre></td></tr></table></figure></p>
 <p>GetValue 返回对象属性真正的值，但是要注意：</p>
 <p>调用 GetValue，返回的将是具体的值，而不再是一个 Reference</p>
 <p>这个很重要，这个很重要，这个很重要。</p>
@@ -342,27 +381,27 @@
 </ul>
 <p>具体分析<br>让我们一步一步看：</p>
 <h2 id="1-计算-MemberExpression-的结果赋值给-ref"><a href="#1-计算-MemberExpression-的结果赋值给-ref" class="headerlink" title="1.计算 MemberExpression 的结果赋值给 ref"></a>1.计算 MemberExpression 的结果赋值给 ref</h2><p>什么是 MemberExpression？看规范 11.2 Left-Hand-Side Expressions：</p>
-<p>MemberExpression :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PrimaryExpression // 原始表达式 可以参见《JavaScript权威指南第四章》</span><br><span class="line">FunctionExpression // 函数定义表达式</span><br><span class="line">MemberExpression [ Expression ] // 属性访问表达式</span><br><span class="line">MemberExpression . IdentifierName // 属性访问表达式</span><br><span class="line">new MemberExpression Arguments // 对象创建表达式</span><br></pre></td></tr></table></figure></p>
-<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console.log(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(); // MemberExpression 是 foo</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">    return function() &#123;</span><br><span class="line">        console.log(this)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo()(); // MemberExpression 是 foo()</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">    bar: function () &#123;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.bar(); // MemberExpression 是 foo.bar</span><br></pre></td></tr></table></figure></p>
+<p>MemberExpression :<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined">PrimaryExpression <span class="hljs-comment">// 原始表达式 可以参见《JavaScript权威指南第四章》</span><br>FunctionExpression <span class="hljs-comment">// 函数定义表达式</span><br>MemberExpression [ Expression ] <span class="hljs-comment">// 属性访问表达式</span><br>MemberExpression . IdentifierName <span class="hljs-comment">// 属性访问表达式</span><br><span class="hljs-keyword">new</span> <span class="hljs-type">MemberExpression</span> Arguments <span class="hljs-comment">// 对象创建表达式</span><br></code></pre></td></tr></table></figure></p>
+<p>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>)<br>&#125;<br><br>foo(); <span class="hljs-comment">// MemberExpression 是 foo</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>)<br>    &#125;<br>&#125;<br><br>foo()(); <span class="hljs-comment">// MemberExpression 是 foo()</span><br><br><span class="hljs-keyword">var</span> foo = &#123;<br>    <span class="hljs-attr">bar</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br>&#125;<br><br>foo.bar(); <span class="hljs-comment">// MemberExpression 是 foo.bar</span><br></code></pre></td></tr></table></figure></p>
 <p>所以简单理解 MemberExpression 其实就是()左边的部分。</p>
 <h2 id="2-判断-ref-是不是一个-Reference-类型。"><a href="#2-判断-ref-是不是一个-Reference-类型。" class="headerlink" title="2.判断 ref 是不是一个 Reference 类型。"></a>2.判断 ref 是不是一个 Reference 类型。</h2><p>关键就在于看规范是如何处理各种 MemberExpression，返回的结果是不是一个Reference类型。</p>
-<p>举最后一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">  value: 2,</span><br><span class="line">  bar: function () &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//示例1</span><br><span class="line">console.log(foo.bar());</span><br><span class="line">//示例2</span><br><span class="line">console.log((foo.bar)());</span><br><span class="line">//示例3</span><br><span class="line">console.log((foo.bar = foo.bar)());</span><br><span class="line">//示例4</span><br><span class="line">console.log((false || foo.bar)());</span><br><span class="line">//示例5</span><br><span class="line">console.log((foo.bar, foo.bar)());</span><br><span class="line">foo.bar()</span><br></pre></td></tr></table></figure></p>
+<p>举最后一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">var</span> value = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">var</span> foo = &#123;<br>  <span class="hljs-attr">value</span>: <span class="hljs-number">2</span>,<br>  <span class="hljs-attr">bar</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.value;<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">//示例1</span><br><span class="hljs-built_in">console</span>.log(foo.bar());<br><span class="hljs-comment">//示例2</span><br><span class="hljs-built_in">console</span>.log((foo.bar)());<br><span class="hljs-comment">//示例3</span><br><span class="hljs-built_in">console</span>.log((foo.bar = foo.bar)());<br><span class="hljs-comment">//示例4</span><br><span class="hljs-built_in">console</span>.log((<span class="hljs-literal">false</span> || foo.bar)());<br><span class="hljs-comment">//示例5</span><br><span class="hljs-built_in">console</span>.log((foo.bar, foo.bar)());<br>foo.bar()<br></code></pre></td></tr></table></figure></p>
 <p>在示例 1 中，MemberExpression 计算的结果是 foo.bar，那么 foo.bar 是不是一个 Reference 呢？</p>
 <p>查看规范 11.2.1 Property Accessors，这里展示了一个计算的过程，什么都不管了，就看最后一步：</p>
 <blockquote>
 <p>Return a value of type Reference whose base value is baseValue and whose referenced name is propertyNameString, and whose strict mode flag is strict.</p>
 </blockquote>
 <p>我们得知该表达式返回了一个 Reference 类型！</p>
-<p>根据之前的内容，我们知道该值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Reference = &#123;</span><br><span class="line">  base: foo,</span><br><span class="line">  name: &apos;bar&apos;,</span><br><span class="line">  strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>根据之前的内容，我们知道该值为：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-string">var</span> <span class="hljs-string">Reference</span> <span class="hljs-string">=</span> <span class="hljs-string">&#123;</span><br>  <span class="hljs-attr">base:</span> <span class="hljs-string">foo,</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">'bar'</span><span class="hljs-string">,</span><br>  <span class="hljs-attr">strict:</span> <span class="hljs-literal">false</span><br><span class="hljs-string">&#125;;</span><br></code></pre></td></tr></table></figure></p>
 <p>接下来按照 2.1 的判断流程走：</p>
 <p>2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)</p>
 <p>该值是 Reference 类型，那么 IsPropertyReference(ref) 的结果是多少呢？</p>
 <p>前面我们已经铺垫了 IsPropertyReference 方法，如果 base value 是一个对象，结果返回 true。</p>
 <p>base value 为 foo，是一个对象，所以 IsPropertyReference(ref) 结果为 true。</p>
-<p>这个时候我们就可以确定 this 的值了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this = GetBase(ref)，</span><br></pre></td></tr></table></figure></p>
+<p>这个时候我们就可以确定 this 的值了：<br><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">this</span> = GetBase(<span class="hljs-built_in">ref</span>)，<br></code></pre></td></tr></table></figure></p>
 <p>GetBase 也已经铺垫了，获得 base value 值，这个例子中就是foo，所以 this 的值就是 foo ，示例1的结果就是 2！</p>
-<p>唉呀妈呀，为了证明 this 指向foo，真是累死我了！但是知道了原理，剩下的就更快了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo.bar)()</span><br></pre></td></tr></table></figure></p>
-<p>看示例2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log((foo.bar)());</span><br></pre></td></tr></table></figure></p>
+<p>唉呀妈呀，为了证明 this 指向foo，真是累死我了！但是知道了原理，剩下的就更快了。<br><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">(<span class="hljs-name">foo.bar</span>)()<br></code></pre></td></tr></table></figure></p>
+<p>看示例2：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-selector-tag">console</span><span class="hljs-selector-class">.log</span>((<span class="hljs-selector-tag">foo</span><span class="hljs-selector-class">.bar</span>)());<br></code></pre></td></tr></table></figure></p>
 <p>foo.bar 被 () 包住，查看规范 11.1.6 The Grouping Operator</p>
 <p>直接看结果部分：</p>
 <blockquote>
@@ -371,31 +410,31 @@
 <blockquote>
 <p>NOTE This algorithm does not apply GetValue to the result of evaluating Expression.</p>
 </blockquote>
-<p>实际上 () 并没有对 MemberExpression 进行计算，所以其实跟示例 1 的结果是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo.bar = foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>实际上 () 并没有对 MemberExpression 进行计算，所以其实跟示例 1 的结果是一样的。<br><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">(<span class="hljs-name">foo.bar</span> = foo.bar)()<br></code></pre></td></tr></table></figure></p>
 <p>看示例3，有赋值操作符，查看规范 11.13.1 Simple Assignment ( = ):</p>
 <p>计算的第三步：</p>
 <h2 id="3-Let-rval-be-GetValue-rref"><a href="#3-Let-rval-be-GetValue-rref" class="headerlink" title="3.Let rval be GetValue(rref)."></a>3.Let rval be GetValue(rref).</h2><p>因为使用了 GetValue，所以返回的值不是 Reference 类型，</p>
 <p>按照之前讲的判断逻辑：</p>
 <p>2.3 如果 ref 不是Reference，那么 this 的值为 undefined</p>
-<p>this 为 undefined，非严格模式下，this 的值为 undefined 的时候，其值会被隐式转换为全局对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(false || foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>this 为 undefined，非严格模式下，this 的值为 undefined 的时候，其值会被隐式转换为全局对象。<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">(<span class="hljs-name">false</span> || foo.bar)()<br></code></pre></td></tr></table></figure></p>
 <p>看示例4，逻辑与算法，查看规范 11.11 Binary Logical Operators：</p>
 <p>计算第二步：</p>
 <p>2.Let lval be GetValue(lref).</p>
-<p>因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo.bar, foo.bar)()</span><br></pre></td></tr></table></figure></p>
+<p>因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined<br><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">(<span class="hljs-name">foo.bar</span>, foo.bar)()<br></code></pre></td></tr></table></figure></p>
 <p>看示例5，逗号操作符，查看规范11.14 Comma Operator ( , )</p>
 <p>计算第二步：</p>
 <p>2.Call GetValue(lref).</p>
 <p>因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined</p>
-<p>揭晓结果<br>所以最后一个例子的结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">  value: 2,</span><br><span class="line">  bar: function () &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//示例1</span><br><span class="line">console.log(foo.bar()); // 2</span><br><span class="line">//示例2</span><br><span class="line">console.log((foo.bar)()); // 2</span><br><span class="line">//示例3</span><br><span class="line">console.log((foo.bar = foo.bar)()); // 1</span><br><span class="line">//示例4</span><br><span class="line">console.log((false || foo.bar)()); // 1</span><br><span class="line">//示例5</span><br><span class="line">console.log((foo.bar, foo.bar)()); // 1</span><br></pre></td></tr></table></figure></p>
+<p>揭晓结果<br>所以最后一个例子的结果是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">var</span> value = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">var</span> foo = &#123;<br>  <span class="hljs-attr">value</span>: <span class="hljs-number">2</span>,<br>  <span class="hljs-attr">bar</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.value;<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">//示例1</span><br><span class="hljs-built_in">console</span>.log(foo.bar()); <span class="hljs-comment">// 2</span><br><span class="hljs-comment">//示例2</span><br><span class="hljs-built_in">console</span>.log((foo.bar)()); <span class="hljs-comment">// 2</span><br><span class="hljs-comment">//示例3</span><br><span class="hljs-built_in">console</span>.log((foo.bar = foo.bar)()); <span class="hljs-comment">// 1</span><br><span class="hljs-comment">//示例4</span><br><span class="hljs-built_in">console</span>.log((<span class="hljs-literal">false</span> || foo.bar)()); <span class="hljs-comment">// 1</span><br><span class="hljs-comment">//示例5</span><br><span class="hljs-built_in">console</span>.log((foo.bar, foo.bar)()); <span class="hljs-comment">// 1</span><br></code></pre></td></tr></table></figure></p>
 <p>注意：以上是在非严格模式下的结果，严格模式下因为 this 返回 undefined，所以示例 3 会报错。</p>
-<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>最最后，忘记了一个最最普通的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console.log(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(); </span><br><span class="line">MemberExpression 是 foo，解析标识符，查看规范 10.3.1 Identifier Resolution，会返回一个 Reference 类型的值：</span><br><span class="line"></span><br><span class="line">var fooReference = &#123;</span><br><span class="line">    base: EnvironmentRecord,</span><br><span class="line">    name: &apos;foo&apos;,</span><br><span class="line">    strict: false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>最最后，忘记了一个最最普通的情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>)<br>&#125;<br><br>foo(); <br>MemberExpression 是 foo，解析标识符，查看规范 <span class="hljs-number">10.3</span><span class="hljs-number">.1</span> Identifier Resolution，会返回一个 Reference 类型的值：<br><br><span class="hljs-keyword">var</span> fooReference = &#123;<br>    <span class="hljs-attr">base</span>: EnvironmentRecord,<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">'foo'</span>,<br>    <span class="hljs-attr">strict</span>: <span class="hljs-literal">false</span><br>&#125;;<br></code></pre></td></tr></table></figure></p>
 <p>接下来进行判断：</p>
 <h2 id="2-1-如果-ref-是-Reference，并且-IsPropertyReference-ref-是-true-那么-this-的值为-GetBase-ref"><a href="#2-1-如果-ref-是-Reference，并且-IsPropertyReference-ref-是-true-那么-this-的值为-GetBase-ref" class="headerlink" title="2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)"></a>2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)</h2><p>因为 base value 是 EnvironmentRecord，并不是一个 Object 类型，还记得前面讲过的 base value 的取值可能吗？ 只可能是 undefined, an Object, a Boolean, a String, a Number, 和 an environment record 中的一种。</p>
 <p>IsPropertyReference(ref) 的结果为 false，进入下个判断：</p>
 <h2 id="2-2-如果-ref-是-Reference，并且-base-value-值是-Environment-Record-那么this的值为-ImplicitThisValue-ref"><a href="#2-2-如果-ref-是-Reference，并且-base-value-值是-Environment-Record-那么this的值为-ImplicitThisValue-ref" class="headerlink" title="2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)"></a>2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)</h2><p>base value 正是 Environment Record，所以会调用 ImplicitThisValue(ref)</p>
 <p>查看规范 10.2.1.1.6，ImplicitThisValue 方法的介绍：该函数始终返回 undefined。</p>
 <p>所以最后 this 的值就是 undefined。</p>
-<h1 id="多说一句"><a href="#多说一句" class="headerlink" title="多说一句"></a>多说一句</h1><p>尽管我们可以简单的理解 this 为调用函数的对象，如果是这样的话，如何解释下面这个例子呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">var foo = &#123;</span><br><span class="line">  value: 2,</span><br><span class="line">  bar: function () &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log((false || foo.bar)()); // 1</span><br></pre></td></tr></table></figure></p>
+<h1 id="多说一句"><a href="#多说一句" class="headerlink" title="多说一句"></a>多说一句</h1><p>尽管我们可以简单的理解 this 为调用函数的对象，如果是这样的话，如何解释下面这个例子呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">var</span> value = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">var</span> foo = &#123;<br>  <span class="hljs-attr">value</span>: <span class="hljs-number">2</span>,<br>  <span class="hljs-attr">bar</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.value;<br>  &#125;<br>&#125;<br><span class="hljs-built_in">console</span>.log((<span class="hljs-literal">false</span> || foo.bar)()); <span class="hljs-comment">// 1</span><br></code></pre></td></tr></table></figure></p>
 <p>此外，又如何确定调用函数的对象是谁呢？在写文章之初，我就面临着这些问题，最后还是放弃从多个情形下给大家讲解 this 指向的思路，而是追根溯源的从 ECMASciript 规范讲解 this 的指向，尽管从这个角度写起来和读起来都比较吃力，但是一旦多读几遍，明白原理，绝对会给你一个全新的视角看待 this 。而你也就能明白，尽管 foo() 和 (foo.bar = foo.bar)() 最后结果都指向了 undefined，但是两者从规范的角度上却有着本质的区别。</p>
 <p>此篇讲解执行上下文的 this，即便不是很理解此篇的内容，依然不影响大家了解执行上下文这个主题下其他的内容。所以，依然可以安心的看下一篇文章。</p>
 
@@ -404,6 +443,23 @@
     
     
     
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>MonkeyBlog
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/" title="JavaScript深入之从ECMAScript规范解读this">https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -488,6 +544,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="MonkeyBlog"
+      src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">MonkeyBlog</p>
   <div class="site-description" itemprop="description">MonkeyBlog</div>
 </div>
@@ -496,22 +554,29 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+          
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">28</span>
+          
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/houchaowei" title="GitHub → https://github.com/houchaowei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
@@ -533,7 +598,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -544,18 +609,38 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">327k</span>
+    <span title="Symbols count total">263k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">4:58</span>
+    <span title="Reading time total">3:59</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        Total Visitors: <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        Total Views: <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -569,13 +654,24 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 <script src="/js/next-boot.js"></script>
 
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three-waves.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_sphere.min.js"></script>
 
 
   
@@ -597,6 +693,16 @@
   
 
   
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://houchaowei.github.io/20190530-JavaScript深入之从ECMAScript规范解读this/',]
+      });
+      });
+  </script>
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
@@ -604,8 +710,8 @@
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
-      clientID    : '5ea5c7c8c8b8a126f692',
-      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      clientID    : '',
+      clientSecret: '',
       repo        : 'houchaowei.github.io',
       owner       : 'houchaowei',
       admin       : ['houchaowei'],
@@ -617,6 +723,966 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   }, window.Gitalk);
 });
 </script>
+<!-- 添加粒子背景效果 -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建粒子容器
+  var particlesContainer = document.createElement('div');
+  particlesContainer.id = 'particles-js';
+  particlesContainer.style.position = 'fixed';
+  particlesContainer.style.top = '0';
+  particlesContainer.style.left = '0';
+  particlesContainer.style.width = '100%';
+  particlesContainer.style.height = '100%';
+  particlesContainer.style.zIndex = '-1';
+  particlesContainer.style.pointerEvents = 'none';
+  document.body.prepend(particlesContainer);
 
+  // 初始化粒子
+  particlesJS('particles-js', {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#ffffff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        }
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 3,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "grab"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 140,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true
+  });
+});
+</script>
+
+<!-- 添加动态波浪效果 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建波浪容器
+  var waveContainer = document.createElement('div');
+  waveContainer.className = 'waveWrapper waveAnimation';
+  waveContainer.style.position = 'fixed';
+  waveContainer.style.top = '0';
+  waveContainer.style.left = '0';
+  waveContainer.style.width = '100%';
+  waveContainer.style.height = '100%';
+  waveContainer.style.zIndex = '-2';
+  waveContainer.style.pointerEvents = 'none';
+  
+  // 创建波浪
+  var waveHTML = '';
+  for (var i = 1; i <= 4; i++) {
+    waveHTML += '<div class="waveWrapperInner wave' + i + '">' +
+                '<div class="wave"></div>' +
+                '</div>';
+  }
+  waveContainer.innerHTML = waveHTML;
+  document.body.prepend(waveContainer);
+
+  // 添加波浪样式
+  var style = document.createElement('style');
+  style.textContent = `
+    .waveWrapper {
+      overflow: hidden;
+    }
+    .waveWrapperInner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      bottom: -1px;
+      background-image: linear-gradient(to top, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 80%);
+    }
+    .wave {
+      position: absolute;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background-repeat: repeat no-repeat;
+      background-position: 0 bottom;
+      transform-origin: center bottom;
+    }
+    .wave1 .wave {
+      background-size: 50% 100px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.3)"/></svg>');
+      animation: wave 15s linear infinite;
+    }
+    .wave2 .wave {
+      background-size: 50% 120px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.4)"/></svg>');
+      animation: wave 10s linear infinite;
+    }
+    .wave3 .wave {
+      background-size: 50% 80px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.2)"/></svg>');
+      animation: wave 13s linear infinite;
+    }
+    .wave4 .wave {
+      background-size: 50% 100px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.3)"/></svg>');
+      animation: wave 5s linear infinite;
+    }
+    @keyframes wave {
+      0% {
+        transform: translateX(0) translateZ(0) scaleY(1);
+      }
+      50% {
+        transform: translateX(-25%) translateZ(0) scaleY(0.8);
+      }
+      100% {
+        transform: translateX(-50%) translateZ(0) scaleY(1);
+      }
+    }
+    .waveAnimation .waveWrapperInner {
+      animation: waveMove 15s linear infinite;
+      animation-delay: calc(var(--i) * -0.5s);
+    }
+    @keyframes waveMove {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- 添加鼠标跟随效果 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建鼠标跟随容器
+  var cursorContainer = document.createElement('div');
+  cursorContainer.className = 'cursor-container';
+  document.body.appendChild(cursorContainer);
+
+  // 添加样式
+  var style = document.createElement('style');
+  style.textContent = `
+    .cursor-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .cursor {
+      position: absolute;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 创建鼠标跟随效果
+  var cursors = [];
+  var cursorCount = 20;
+  var colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#8b00ff'];
+
+  for (var i = 0; i < cursorCount; i++) {
+    var cursor = document.createElement('div');
+    cursor.className = 'cursor';
+    cursor.style.width = (i / cursorCount * 20) + 'px';
+    cursor.style.height = (i / cursorCount * 20) + 'px';
+    cursor.style.backgroundColor = colors[i % colors.length];
+    cursor.style.opacity = (1 - i / cursorCount) * 0.5;
+    cursor.style.zIndex = cursorCount - i;
+    cursorContainer.appendChild(cursor);
+    cursors.push({
+      el: cursor,
+      x: 0,
+      y: 0,
+      delay: i * 2
+    });
+  }
+
+  var mouseX = 0;
+  var mouseY = 0;
+  var prevX = 0;
+  var prevY = 0;
+
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animate() {
+    prevX += (mouseX - prevX) * 0.1;
+    prevY += (mouseY - prevY) * 0.1;
+
+    for (var i = 0; i < cursors.length; i++) {
+      var cursor = cursors[i];
+      var nextCursor = cursors[i + 1] || { x: prevX, y: prevY };
+      
+      cursor.x += (nextCursor.x - cursor.x) * 0.2;
+      cursor.y += (nextCursor.y - cursor.y) * 0.2;
+      
+      cursor.el.style.transform = `translate(${cursor.x}px, ${cursor.y}px)`;
+    }
+    
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+});
+</script>
+
+<!-- 添加流星效果 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建流星容器
+  var meteorContainer = document.createElement('div');
+  meteorContainer.className = 'meteor-container';
+  meteorContainer.style.position = 'fixed';
+  meteorContainer.style.top = '0';
+  meteorContainer.style.left = '0';
+  meteorContainer.style.width = '100%';
+  meteorContainer.style.height = '100%';
+  meteorContainer.style.zIndex = '-1';
+  meteorContainer.style.pointerEvents = 'none';
+  document.body.prepend(meteorContainer);
+
+  // 添加样式
+  var style = document.createElement('style');
+  style.textContent = `
+    .meteor {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 2px white;
+      transform: rotate(-45deg);
+    }
+    .meteor::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+      transform-origin: left;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 创建流星
+  function createMeteor() {
+    var meteor = document.createElement('div');
+    meteor.className = 'meteor';
+    
+    var x = Math.random() * window.innerWidth;
+    var y = Math.random() * window.innerHeight / 2;
+    var size = Math.random() * 2 + 1;
+    var speed = Math.random() * 10 + 10;
+    
+    meteor.style.left = x + 'px';
+    meteor.style.top = y + 'px';
+    meteor.style.width = size + 'px';
+    meteor.style.height = size + 'px';
+    meteor.style.animation = `meteor ${speed}s linear forwards`;
+    
+    meteorContainer.appendChild(meteor);
+    
+    // 添加流星动画
+    var keyframes = `
+      @keyframes meteor {
+        0% {
+          transform: translate(0, 0) rotate(-45deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(${-x}px, ${window.innerHeight}px) rotate(-45deg);
+          opacity: 0;
+        }
+      }
+    `;
+    var styleSheet = document.createElement('style');
+    styleSheet.textContent = keyframes;
+    document.head.appendChild(styleSheet);
+    
+    // 移除流星
+    setTimeout(function() {
+      meteor.remove();
+      styleSheet.remove();
+    }, speed * 1000);
+  }
+
+  // 定期创建流星
+  setInterval(createMeteor, 3000);
+  
+  // 初始创建几个流星
+  for (var i = 0; i < 3; i++) {
+    setTimeout(createMeteor, i * 1000);
+  }
+});
+</script>
+
+<!-- 粒子效果 -->
+<script src="//cdn.jsdelivr.net/npm/canvas-nest.js@2.0.4/dist/canvas-nest.js"></script>
+
+<!-- 标签云动画效果和分类功能 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 只在标签页面添加动画效果和分类功能
+  if (document.querySelector('.tag-cloud')) {
+    const tagCloud = document.querySelector('.tag-cloud');
+    const tagLinks = document.querySelectorAll('.tag-cloud-tags a');
+    const tagCloudTitle = document.querySelector('.tag-cloud-title');
+    
+    // 创建搜索框
+    const searchBox = document.createElement('div');
+    searchBox.className = 'tag-search-box';
+    searchBox.innerHTML = `
+      <input type="text" class="tag-search-input" placeholder="搜索标签...">
+      <div class="tag-search-icon">🔍</div>
+    `;
+    
+    // 创建分类控制按钮
+    const controlPanel = document.createElement('div');
+    controlPanel.className = 'tag-control-panel';
+    controlPanel.innerHTML = `
+      <button class="tag-sort-btn active" data-sort="default">默认排序</button>
+      <button class="tag-sort-btn" data-sort="size">按大小排序</button>
+      <button class="tag-sort-btn" data-sort="alpha">按字母排序</button>
+      <button class="tag-sort-btn" data-sort="random">随机排序</button>
+    `;
+    
+    // 在标题后插入搜索框和控制面板
+    if (tagCloudTitle) {
+      tagCloudTitle.insertAdjacentElement('afterend', searchBox);
+      searchBox.insertAdjacentElement('afterend', controlPanel);
+    }
+    
+    // 为每个标签添加随机延迟的动画
+    tagLinks.forEach((tag, index) => {
+      // 添加初始透明度和缩放
+      tag.style.opacity = '0';
+      tag.style.transform = 'scale(0.8)';
+      tag.style.transition = 'all 0.5s ease';
+      
+      // 随机延迟显示
+      setTimeout(() => {
+        tag.style.opacity = '1';
+        tag.style.transform = 'scale(1)';
+      }, 100 + Math.random() * 500);
+      
+      // 鼠标悬停时添加脉动效果
+      tag.addEventListener('mouseover', function() {
+        this.style.animation = 'pulse 0.8s infinite alternate';
+      });
+      
+      tag.addEventListener('mouseout', function() {
+        this.style.animation = '';
+      });
+    });
+    
+    // 搜索功能
+    const searchInput = document.querySelector('.tag-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let hasResults = false;
+        
+        tagLinks.forEach(tag => {
+          const tagText = tag.textContent.toLowerCase();
+          if (tagText.includes(searchTerm) || searchTerm === '') {
+            tag.style.display = 'inline-block';
+            tag.style.opacity = '1';
+            tag.style.transform = 'scale(1)';
+            hasResults = true;
+          } else {
+            tag.style.opacity = '0';
+            tag.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+              if (this.value.toLowerCase().trim() !== searchTerm) return;
+              tag.style.display = 'none';
+            }, 500);
+          }
+        });
+        
+        // 显示无结果提示
+        let noResultsMsg = document.querySelector('.no-results-msg');
+        if (!hasResults && searchTerm !== '') {
+          if (!noResultsMsg) {
+            noResultsMsg = document.createElement('div');
+            noResultsMsg.className = 'no-results-msg';
+            noResultsMsg.textContent = '没有找到匹配的标签';
+            document.querySelector('.tag-cloud-tags').appendChild(noResultsMsg);
+          }
+          noResultsMsg.style.display = 'block';
+        } else if (noResultsMsg) {
+          noResultsMsg.style.display = 'none';
+        }
+      });
+    }
+    
+    // 排序功能
+    const sortBtns = document.querySelectorAll('.tag-sort-btn');
+    if (sortBtns.length) {
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // 更新活动按钮状态
+          sortBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const sortType = this.getAttribute('data-sort');
+          const tagsContainer = document.querySelector('.tag-cloud-tags');
+          const tags = Array.from(tagLinks);
+          
+          // 根据不同排序方式排序
+          switch (sortType) {
+            case 'size':
+              tags.sort((a, b) => parseFloat(b.style.fontSize) - parseFloat(a.style.fontSize));
+              break;
+            case 'alpha':
+              tags.sort((a, b) => a.textContent.localeCompare(b.textContent, 'zh-CN'));
+              break;
+            case 'random':
+              tags.sort(() => Math.random() - 0.5);
+              break;
+            default:
+              // 默认排序，不做任何操作
+              break;
+          }
+          
+          // 重新添加到容器
+          tags.forEach(tag => {
+            // 添加过渡动画
+            tag.style.opacity = '0';
+            tag.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+              tagsContainer.appendChild(tag);
+              
+              // 延迟显示，产生动画效果
+              setTimeout(() => {
+                tag.style.opacity = '1';
+                tag.style.transform = 'scale(1)';
+              }, 50);
+            }, 300);
+          });
+        });
+      });
+    }
+  }
+  
+  // 只在日程页面添加交互式时间线功能和日历功能
+  if (document.querySelector('.page-type-schedule')) {
+    // 技能进度条动画
+    const skillLevels = document.querySelectorAll('.skill-level');
+    
+    if (skillLevels.length > 0) {
+      // 初始化进度条为0%
+      skillLevels.forEach(skill => {
+        const targetWidth = skill.style.width;
+        skill.style.width = '0%';
+        
+        // 添加到可视区域监听
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // 当元素进入可视区域时，开始动画
+              setTimeout(() => {
+                skill.style.width = targetWidth;
+              }, 200);
+              // 只触发一次
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(skill);
+      });
+    }
+    
+    // 创建日历容器
+    const calendarContainer = document.createElement('div');
+    calendarContainer.className = 'calendar-container';
+    calendarContainer.innerHTML = '<div id="calendar"></div>';
+    
+    // 将日历插入到页面中
+    const scheduleContent = document.querySelector('.page-type-schedule .post-block');
+    if (scheduleContent) {
+      // 创建日历标题
+      const calendarTitle = document.createElement('h2');
+      calendarTitle.textContent = '📆 日程日历';
+      calendarTitle.style.marginTop = '50px';
+      
+      // 插入日历到页面中
+      scheduleContent.insertBefore(calendarTitle, scheduleContent.children[1]);
+      scheduleContent.insertBefore(calendarContainer, scheduleContent.children[2]);
+      
+      // 日历事件数据
+      const calendarEvents = [
+        { title: 'Vue3学习开始', start: '2023-01-15', backgroundColor: '#42b883', borderColor: '#42b883' },
+        { title: '电商平台项目启动', start: '2023-02-20', backgroundColor: '#ff6666', borderColor: '#ff6666' },
+        { title: '博客改版上线', start: '2023-03-15', backgroundColor: '#6699cc', borderColor: '#6699cc' },
+        { title: 'React Hooks学习', start: '2023-04-10', backgroundColor: '#61dafb', borderColor: '#61dafb' },
+        { title: 'Docker技术学习', start: '2023-05-05', backgroundColor: '#2496ed', borderColor: '#2496ed' },
+        { title: '前端技术分享', start: '2023-06-20', backgroundColor: '#f5a623', borderColor: '#f5a623' },
+        { title: 'Node.js学习开始', start: '2023-07-01', backgroundColor: '#68a063', borderColor: '#68a063' },
+        { title: 'CI/CD学习', start: '2023-08-15', backgroundColor: '#8e44ad', borderColor: '#8e44ad' },
+        { title: '开源项目发布', start: '2023-09-10', backgroundColor: '#6699cc', borderColor: '#6699cc' },
+        { title: '微前端架构学习', start: '2023-10-01', backgroundColor: '#42b883', borderColor: '#42b883' },
+        { title: '技术博客发表', start: '2023-11-15', backgroundColor: '#f5a623', borderColor: '#f5a623' },
+        { title: '年度技术总结', start: '2023-12-31', backgroundColor: '#6699cc', borderColor: '#6699cc' }
+      ];
+      
+      // 初始化日历
+      const calendarEl = document.getElementById('calendar');
+      if (calendarEl && typeof FullCalendar !== 'undefined') {
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listMonth'
+          },
+          locale: 'zh-cn',
+          events: calendarEvents,
+          eventClick: function(info) {
+            alert(info.event.title);
+          },
+          height: 'auto',
+          themeSystem: 'standard',
+          firstDay: 1, // 周一作为一周的第一天
+          buttonText: {
+            today: '今天',
+            month: '月',
+            week: '周',
+            list: '列表'
+          },
+          allDayText: '全天',
+          eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: false
+          }
+        });
+        
+        calendar.render();
+      }
+    }
+    
+    // 创建时间线数据
+    const timelineData = [
+      { date: '2023-01-15', title: 'Vue3学习开始', category: '学习', content: '开始深入学习Vue3的Composition API和新特性。' },
+      { date: '2023-02-20', title: '电商平台项目启动', category: '工作', content: '开始电商平台重构项目，负责前端架构设计和核心功能实现。' },
+      { date: '2023-03-15', title: '博客改版上线', category: '个人', content: '完成个人博客的改版和功能升级，采用了新的主题和功能。' },
+      { date: '2023-04-10', title: 'React Hooks学习', category: '学习', content: '开始学习React Hooks的高级用法和最佳实践。' },
+      { date: '2023-05-05', title: 'Docker技术学习', category: '学习', content: '学习Docker容器化技术，为DevOps做准备。' },
+      { date: '2023-06-20', title: '前端技术分享', category: '分享', content: '在公司内部进行Vue3相关技术分享，获得良好反馈。' },
+      { date: '2023-07-01', title: 'Node.js学习开始', category: '学习', content: '开始学习Node.js高级应用，包括性能优化和微服务架构。' },
+      { date: '2023-08-15', title: 'CI/CD学习', category: '学习', content: '学习持续集成和持续部署工具及流程。' },
+      { date: '2023-09-10', title: '开源项目发布', category: '个人', content: '发布个人开源项目，获得社区关注和反馈。' },
+      { date: '2023-10-01', title: '微前端架构学习', category: '学习', content: '开始学习微前端架构，研究如何将大型应用拆分为更小的独立部分。' },
+      { date: '2023-11-15', title: '技术博客发表', category: '分享', content: '在掘金平台发表技术文章，分享前端开发经验。' },
+      { date: '2023-12-31', title: '年度技术总结', category: '个人', content: '回顾全年技术学习和项目经验，制定来年计划。' }
+    ];
+    
+    // 创建时间线容器
+    const timelineContainer = document.createElement('div');
+    timelineContainer.className = 'timeline-container';
+    
+    // 创建时间线过滤器
+    const filterContainer = document.createElement('div');
+    filterContainer.className = 'timeline-filter';
+    filterContainer.innerHTML = `
+      <span class="filter-label">筛选类别：</span>
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="学习">学习</button>
+      <button class="filter-btn" data-filter="工作">工作</button>
+      <button class="filter-btn" data-filter="个人">个人</button>
+      <button class="filter-btn" data-filter="分享">分享</button>
+    `;
+    
+    // 创建时间线HTML
+    let timelineHTML = '<div class="timeline">';
+    timelineData.forEach((item, index) => {
+      const date = new Date(item.date);
+      const formattedDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+      
+      timelineHTML += `
+        <div class="timeline-item" data-category="${item.category}">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">${formattedDate}</div>
+          <div class="timeline-content">
+            <h4 class="timeline-title">${item.title}</h4>
+            <div class="timeline-category">${item.category}</div>
+            <p>${item.content}</p>
+          </div>
+        </div>
+      `;
+    });
+    timelineHTML += '</div>';
+    
+    timelineContainer.innerHTML = timelineHTML;
+    
+    // 将时间线插入到页面中
+    const scheduleContent = document.querySelector('.page-type-schedule .post-block');
+    if (scheduleContent) {
+      // 创建时间线标题
+      const timelineTitle = document.createElement('h2');
+      timelineTitle.textContent = '📅 时间线';
+      timelineTitle.style.marginTop = '50px';
+      
+      // 插入时间线到页面中
+      scheduleContent.appendChild(timelineTitle);
+      scheduleContent.appendChild(filterContainer);
+      scheduleContent.appendChild(timelineContainer);
+      
+      // 添加过滤功能
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // 更新活动按钮状态
+          filterButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const filter = this.getAttribute('data-filter');
+          
+          timelineItems.forEach(item => {
+            if (filter === 'all' || item.getAttribute('data-category') === filter) {
+              item.style.display = 'block';
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+              }, 100);
+            } else {
+              item.style.opacity = '0';
+              item.style.transform = 'translateY(20px)';
+              setTimeout(() => {
+                item.style.display = 'none';
+              }, 300);
+            }
+          });
+        });
+      });
+      
+      // 添加滚动动画
+      const animateOnScroll = () => {
+        const items = document.querySelectorAll('.timeline-item');
+        items.forEach(item => {
+          const itemTop = item.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (itemTop < windowHeight - 100) {
+            item.classList.add('show');
+          }
+        });
+      };
+      
+      // 初始化时执行一次
+      setTimeout(animateOnScroll, 500);
+      
+      // 监听滚动事件
+      window.addEventListener('scroll', animateOnScroll);
+    }
+  }
+});
+</script>
+
+<!-- 添加CSS动画 -->
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+/* 日历样式 */
+.calendar-container {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+#calendar {
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.fc-theme-standard .fc-toolbar {
+  margin-bottom: 1.5em;
+}
+
+.fc-theme-standard .fc-toolbar-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #444;
+}
+
+.fc-theme-standard .fc-button {
+  background-color: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-weight: normal;
+  transition: all 0.3s ease;
+}
+
+.fc-theme-standard .fc-button:hover {
+  background-color: #e0e0e0;
+  color: #444;
+}
+
+.fc-theme-standard .fc-button-active {
+  background-color: #6699cc !important;
+  color: white !important;
+}
+
+.fc-theme-standard .fc-daygrid-day.fc-day-today {
+  background-color: rgba(102, 153, 204, 0.1);
+}
+
+.fc-theme-standard .fc-event {
+  border-radius: 3px;
+  font-size: 0.85em;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fc-theme-standard .fc-event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 时间线样式 */
+.timeline-container {
+  margin: 30px 0;
+  position: relative;
+}
+
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to bottom, #6699cc, #ff6666);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-left: 40px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.timeline-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -36px;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: white;
+  border: 4px solid #6699cc;
+  z-index: 1;
+}
+
+.timeline-date {
+  font-size: 0.9em;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.timeline-title {
+  margin: 0 0 10px 0;
+  color: #444;
+  font-size: 1.2em;
+}
+
+.timeline-category {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  font-size: 0.8em;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.timeline-filter {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.filter-label {
+  margin-right: 10px;
+  color: #666;
+}
+
+.filter-btn {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 5px 12px;
+  margin: 0 5px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+  background-color: #6699cc;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .timeline::before {
+    left: 50%;
+    margin-left: -2px;
+  }
+  
+  .timeline-item {
+    width: 45%;
+    margin-left: 0;
+  }
+  
+  .timeline-item:nth-child(even) {
+    margin-left: auto;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-dot {
+    left: auto;
+    right: -36px;
+  }
+  
+  .timeline-item:nth-child(even) .timeline-dot {
+    left: -36px;
+  }
+}
+</style>
+
+ 
 </body>
 </html>

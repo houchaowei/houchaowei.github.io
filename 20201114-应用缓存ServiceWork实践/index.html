@@ -12,12 +12,15 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="五个Why？  什么是Service Work？ Service Work能帮助我们前端提供什么基础能力？ Service Work的原理是什么？ JS中如何使用它？ 在我们现有的React项目中怎么去使用它？">
@@ -28,20 +31,10 @@
 <meta property="og:site_name" content="MonkeyBlog">
 <meta property="og:description" content="五个Why？  什么是Service Work？ Service Work能帮助我们前端提供什么基础能力？ Service Work的原理是什么？ JS中如何使用它？ 在我们现有的React项目中怎么去使用它？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621051649315-cb08e-9c41a6f29f1d.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621052731609-0f75c6df-32fb-4059-9e2c-c95706aa0c95.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621052162876-4e921605-a41b-42de-a3a0-a8c01faf6d14.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621056712488-045a43f0-7512-45b1-a0fe-5c7d3b0334f9.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/326697/1621057076593-223b28a2-add3-4d21-876a-21d551463f0e.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621057086504-a7bd6519-42c5-4b19-b241-d87ee03d1bb3.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621056782748-d2d62be0-f9a3-4a59-820d-8770b62b4803.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621056910564-025ca9be-111e-41f4-976e-f9352260a027.png">
-<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621057001192-1e61fa15-556c-42ad-be88-c006aca70dd7.png">
 <meta property="og:updated_time" content="2025-07-01T09:12:40.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="应用缓存ServiceWork实践">
 <meta name="twitter:description" content="五个Why？  什么是Service Work？ Service Work能帮助我们前端提供什么基础能力？ Service Work的原理是什么？ JS中如何使用它？ 在我们现有的React项目中怎么去使用它？">
-<meta name="twitter:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621051649315-cb08e-9c41a6f29f1d.png">
 
 <link rel="canonical" href="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/">
 
@@ -55,7 +48,13 @@
     lang   : 'zh-Hans'
   };
 </script>
+<!-- 添加代码字体 -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- 添加FullCalendar日历库 -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/locales/zh-cn.js"></script> 
   <title>应用缓存ServiceWork实践 | MonkeyBlog</title>
   
 
@@ -129,9 +128,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">20</span></a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">41</span></a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap/" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -195,20 +219,27 @@
                 <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
               </span>
 
-          <br>
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
             <span class="post-meta-item" title="Symbols count in article">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>6.4k</span>
+              <span>6k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>6 mins.</span>
+              <span>5 mins.</span>
             </span>
 
         </div>
@@ -238,7 +269,7 @@
 <p>基于 Service Worker API 的特性，结合 Fetch API、Cache API、Push API、postMessage API 和 Notification API，可以在基于浏览器的 web 应用中实现如离线缓存、消息推送、静默更新等 native 应用常见的功能，以给 web 应用提供更好更丰富的使用体验。</p>
 <h1 id="Service-Work的原理是什么？"><a href="#Service-Work的原理是什么？" class="headerlink" title="Service Work的原理是什么？"></a>Service Work的原理是什么？</h1><p>Service Worker 的工作原理主要体现在它的生命周期上，一个 Service Worker 从被注册开始，就会经历自身的一些生命周期的节点，而在这些节点都可以去做一些特定的事情，比如一些复杂的计算、缓存的写入、缓存的读取等操作。通过这些生命周期节点的联合调度，Service Worker 才能完成复杂的资源离线缓存的工作。而开发者只有了解了 Service Worker 的生命周期，才能通过设计相关逻辑，并开发 Service Worker 文件 <code>sw.js</code> ，让 Service Worker 去完成 PWA 离线缓存策略。</p>
 <h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>先来了解下什么是 Service Worker 的生命周期，每个 Service Worker 都有一个独立于 Web 页面的生命周期，其示意图如下图所示。</p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621051649315-cb08e-9c41a6f29f1d.png" alt="image"></p>
+<p><img data-src="1621051649315-cb08e-9c41a6f29f1d.png" alt="image"></p>
 <ol>
 <li>在主线程成功注册 Service Worker 之后，开始下载并解析执行 Service Worker 文件，执行过程中开始安装 Service Worker，在此过程中会触发 worker 线程的 install 事件。</li>
 <li>如果 install 事件回调成功执行（在 install 回调中通常会做一些缓存读写的工作，可能会存在失败的情况），则开始激活 Service Worker，在此过程中会触发 worker 线程的 activate 事件，如果 install 事件回调执行失败，则生命周期进入 Error 终结状态，终止生命周期。（生命周期终止之后会影响页面的正常加载吗？）</li>
@@ -247,7 +278,7 @@
 <blockquote>
 <p>（如何监听fetch事件？）</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.addEventListener(&apos;fetch&apos;, event =&gt; &#123;</span><br><span class="line">  console.log(&apos;service worker 抓取请求成功: &apos; + event.request.url)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs undefined">self.addEventListener(<span class="hljs-string">'fetch'</span>, <span class="hljs-keyword">event</span> =&gt; &#123;<br>  console.<span class="hljs-keyword">log</span>(<span class="hljs-string">'service worker 抓取请求成功: '</span> + <span class="hljs-keyword">event</span>.request.url)<br>&#125;)<br></code></pre></td></tr></table></figure>
 <ol>
 <li>如果在激活后 Service Worker 被 unregister 或者有新的 Service Worker 版本更新，则当前 Service Worker 生命周期完结，进入 Terminated 终结状态。</li>
 </ol>
@@ -265,14 +296,14 @@
 </ul>
 <blockquote>
 <p>主要是因为，所有的终端共用一个 worker 工作线程，当在 worker 线程中执行 <code>console.log()</code> 方法打印内容的时候，会作用到所有的终端，worker 工作线程和终端的关系如下图所示。</p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621052731609-0f75c6df-32fb-4059-9e2c-c95706aa0c95.png" alt="image"></p>
+<p><img data-src="1621052731609-0f75c6df-32fb-4059-9e2c-c95706aa0c95.png" alt="image"></p>
 </blockquote>
 <p>Service Worker 在内部都有一系列的工作流程，这些工作流程决定了开发者可以在 Service Worker 文件中如何进行开发。下图展示的是 Service Worker 工作流程图。</p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621052162876-4e921605-a41b-42de-a3a0-a8c01faf6d14.png" alt="image"></p>
+<p><img data-src="1621052162876-4e921605-a41b-42de-a3a0-a8c01faf6d14.png" alt="image"></p>
 <h1 id="JS中如何使用它？"><a href="#JS中如何使用它？" class="headerlink" title="JS中如何使用它？"></a>JS中如何使用它？</h1><p>首先在页面注册一个service worker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (&apos;serviceWorker&apos; in navigator) &#123;</span><br><span class="line">  navigator.serviceWorker.register(&apos;./index.js&apos;).then((reg) =&gt; &#123;</span><br><span class="line">    console.log(&apos;register a service worker: &apos;, reg)</span><br><span class="line">  &#125;).catch((err) =&gt; &#123;</span><br><span class="line">    console.log(&apos;err: &apos;, err);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">if</span> (<span class="hljs-string">'serviceWorker'</span> <span class="hljs-keyword">in</span> navigator) &#123;<br>  navigator.serviceWorker.register(<span class="hljs-string">'./index.js'</span>).<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">(reg)</span> =&gt;</span> &#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'register a service worker: '</span>, reg)<br>  &#125;).<span class="hljs-keyword">catch</span>(<span class="hljs-function"><span class="hljs-params">(err)</span> =&gt;</span> &#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'err: '</span>, err);<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>接着就可以在Service worker中尽情畅想，以页面的离线应用为出发点，说明sw如实做到离线应用的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const cacheUrl = [</span><br><span class="line">  &apos;/base.css&apos;,</span><br><span class="line">  &apos;/france.html&apos;</span><br><span class="line">];</span><br><span class="line">const cacheName = &apos;my-site-cache&apos;;</span><br><span class="line"></span><br><span class="line">// install阶段</span><br><span class="line">self.addEventListener(&apos;install&apos;, (event) =&gt; &#123;</span><br><span class="line">  console.log(&apos;sw event: install&apos;);</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.open(cacheName).then((cache) =&gt; &#123;</span><br><span class="line">      console.log(&apos;open cache&apos;);</span><br><span class="line">      return cache.addAll(cacheUrl);</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">self.addEventListener(&apos;fetch&apos;, (event) =&gt; &#123;</span><br><span class="line">  event.respondWith(caches.match(event.request).then(res =&gt; &#123;</span><br><span class="line">    if (res) &#123;</span><br><span class="line">      console.log(&apos;match&apos;);</span><br><span class="line">      return res;</span><br><span class="line">    &#125;</span><br><span class="line">    return fetch(event.request);</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">const</span> cacheUrl = [<br>  <span class="hljs-string">'/base.css'</span>,<br>  <span class="hljs-string">'/france.html'</span><br>];<br><span class="hljs-keyword">const</span> cacheName = <span class="hljs-string">'my-site-cache'</span>;<br><br><span class="hljs-comment">// install阶段</span><br>self.addEventListener(<span class="hljs-string">'install'</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> &#123;<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'sw event: install'</span>);<br>  event.waitUntil(<br>    caches.open(cacheName).then(<span class="hljs-function">(<span class="hljs-params">cache</span>) =&gt;</span> &#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'open cache'</span>);<br>      <span class="hljs-keyword">return</span> cache.addAll(cacheUrl);<br>    &#125;)<br>  );<br>&#125;);<br><br>self.addEventListener(<span class="hljs-string">'fetch'</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> &#123;<br>  event.respondWith(caches.match(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;<br>    <span class="hljs-keyword">if</span> (res) &#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'match'</span>);<br>      <span class="hljs-keyword">return</span> res;<br>    &#125;<br>    <span class="hljs-keyword">return</span> fetch(event.request);<br>  &#125;));<br>&#125;);<br></code></pre></td></tr></table></figure>
 <h1 id="在我们现有的React项目中怎么去使用它？"><a href="#在我们现有的React项目中怎么去使用它？" class="headerlink" title="在我们现有的React项目中怎么去使用它？"></a>在我们现有的React项目中怎么去使用它？</h1><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>Service Worker 出于安全性和其实现原理，在使用的时候有一定的前提条件。</p>
 <ul>
 <li>由于 Service Worker 要求 HTTPS 的环境，我们通常可以借助于 <a href="https://pages.github.com/" target="_blank" rel="noopener">github page</a> 进行学习调试。当然一般浏览器允许调试 Service Worker 的时候 host 为 localhost 或者 127.0.0.1 也是 ok 的。</li>
@@ -282,26 +313,26 @@
 </ul>
 <h3 id="浏览器兼容性"><a href="#浏览器兼容性" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h3><p><a href="https://caniuse.com/?search=serviceWork" target="_blank" rel="noopener">https://caniuse.com/?search=serviceWork</a></p>
 <h3 id="workbox方案：workbox-webpack-plugin"><a href="#workbox方案：workbox-webpack-plugin" class="headerlink" title="workbox方案：workbox-webpack-plugin"></a>workbox方案：workbox-webpack-plugin</h3><p>官方文档: <a href="https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin" target="_blank" rel="noopener">https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin</a></p>
-<h4 id="插件版本"><a href="#插件版本" class="headerlink" title="插件版本"></a>插件版本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;webpack&quot;: &quot;^4.46.0&quot;,</span><br><span class="line">&quot;webpack-bundle-analyzer&quot;: &quot;^3.3.2&quot;,</span><br><span class="line">&quot;webpack-cli&quot;: &quot;^3.3.12&quot;,</span><br><span class="line">&quot;webpack-dev-server&quot;: &quot;^3.1.4&quot;,</span><br><span class="line">&quot;webpack-manifest-plugin&quot;: &quot;^2.0.3&quot;,</span><br><span class="line">&quot;workbox-webpack-plugin&quot;: &quot;^6.1.5&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install workbox-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+<h4 id="插件版本"><a href="#插件版本" class="headerlink" title="插件版本"></a>插件版本</h4><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-string">"webpack"</span>: <span class="hljs-string">"^4.46.0"</span>,<br><span class="hljs-string">"webpack-bundle-analyzer"</span>: <span class="hljs-string">"^3.3.2"</span>,<br><span class="hljs-string">"webpack-cli"</span>: <span class="hljs-string">"^3.3.12"</span>,<br><span class="hljs-string">"webpack-dev-server"</span>: <span class="hljs-string">"^3.1.4"</span>,<br><span class="hljs-string">"webpack-manifest-plugin"</span>: <span class="hljs-string">"^2.0.3"</span>,<br><span class="hljs-string">"workbox-webpack-plugin"</span>: <span class="hljs-string">"^6.1.5"</span><br></code></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">npm <span class="hljs-keyword">install</span> workbox-webpack-<span class="hljs-keyword">plugin</span> -D<br></code></pre></td></tr></table></figure>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><ul>
 <li>webpack插件中使用~</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">const &#123; GenerateSW &#125; = require(&apos;workbox-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">exports.override = (webpackConfig, options) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">  webpackConfig.plugins.push(new GenerateSW(&#123;</span><br><span class="line">    swDest: &apos;workboxServiceWorker.js&apos;, // 注意点1: 不写这个名字, 插件默认会生成 service-worker.js 这个文件,然后不知道WHO又生成了一次service-worker.js这个文件(内容不是workbox预期), 所以webpack生成的workbox的脚本就这样被替换了! 导致插件配置好的文件其实没被写出!!!</span><br><span class="line">    </span><br><span class="line">    // 当我们每次访问网站时都会去下载这个文件，当发现文件不一致时，就会安装这个新 Service Worker ，安装成功后，它将进入等待阶段。</span><br><span class="line"></span><br><span class="line">    // importWorkboxFrom: &apos;disabled&apos;, // 可填`cdn`,`local`,`disabled`, 区别下面整理</span><br><span class="line">    importScripts: [&apos;https://fds.api.x.net/workbox-cdn/workbox-sw.js&apos;], // 我从自己的cdn引入了workbox,这样就不用每个项目都上传</span><br><span class="line"></span><br><span class="line">    // 这三个都写true</span><br><span class="line">    skipWaiting: true, // 新 Service Worker 安装成功后需要进入等待阶段，skipWaiting: true 将使其跳过等待，安装成功后立即接管网站。</span><br><span class="line">    clientsClaim: true, // 立即接管</span><br><span class="line">    offlineGoogleAnalytics: true, // 离线也记录ga数据, 有网了再上报的意思。</span><br><span class="line">    cleanupOutdatedCaches: true,  // 尝试删除老版本缓存</span><br><span class="line">    // 缓存规则, 具体下面记录, 更详细的请查阅文档。 目前只缓存api</span><br><span class="line">    runtimeCaching: [</span><br><span class="line">      &#123;</span><br><span class="line">        // Match any request that ends with .png, .jpg, .jpeg or .svg.</span><br><span class="line">        urlPattern: /\.(?:png|jpg|jpeg|svg)$/,</span><br><span class="line"></span><br><span class="line">        // Apply a cache-first strategy.</span><br><span class="line">        handler: &apos;CacheFirst&apos;,</span><br><span class="line"></span><br><span class="line">        options: &#123;</span><br><span class="line">          // Use a custom cache name.</span><br><span class="line">          cacheName: &apos;images&apos;,</span><br><span class="line"></span><br><span class="line">          // Only cache 10 images.</span><br><span class="line">          expiration: &#123;</span><br><span class="line">            maxEntries: 10</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;))</span><br><span class="line">  </span><br><span class="line">  return webpackConfig</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">const</span> &#123; GenerateSW &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">'workbox-webpack-plugin'</span>)<br><br>exports.override = <span class="hljs-function">(<span class="hljs-params">webpackConfig, options</span>) =&gt;</span> &#123;<br><br>  webpackConfig.plugins.push(<span class="hljs-keyword">new</span> GenerateSW(&#123;<br>    <span class="hljs-attr">swDest</span>: <span class="hljs-string">'workboxServiceWorker.js'</span>, <span class="hljs-comment">// 注意点1: 不写这个名字, 插件默认会生成 service-worker.js 这个文件,然后不知道WHO又生成了一次service-worker.js这个文件(内容不是workbox预期), 所以webpack生成的workbox的脚本就这样被替换了! 导致插件配置好的文件其实没被写出!!!</span><br>    <br>    <span class="hljs-comment">// 当我们每次访问网站时都会去下载这个文件，当发现文件不一致时，就会安装这个新 Service Worker ，安装成功后，它将进入等待阶段。</span><br><br>    <span class="hljs-comment">// importWorkboxFrom: 'disabled', // 可填`cdn`,`local`,`disabled`, 区别下面整理</span><br>    <span class="hljs-attr">importScripts</span>: [<span class="hljs-string">'https://fds.api.x.net/workbox-cdn/workbox-sw.js'</span>], <span class="hljs-comment">// 我从自己的cdn引入了workbox,这样就不用每个项目都上传</span><br><br>    <span class="hljs-comment">// 这三个都写true</span><br>    <span class="hljs-attr">skipWaiting</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 新 Service Worker 安装成功后需要进入等待阶段，skipWaiting: true 将使其跳过等待，安装成功后立即接管网站。</span><br>    <span class="hljs-attr">clientsClaim</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 立即接管</span><br>    <span class="hljs-attr">offlineGoogleAnalytics</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 离线也记录ga数据, 有网了再上报的意思。</span><br>    <span class="hljs-attr">cleanupOutdatedCaches</span>: <span class="hljs-literal">true</span>,  <span class="hljs-comment">// 尝试删除老版本缓存</span><br>    <span class="hljs-comment">// 缓存规则, 具体下面记录, 更详细的请查阅文档。 目前只缓存api</span><br>    <span class="hljs-attr">runtimeCaching</span>: [<br>      &#123;<br>        <span class="hljs-comment">// Match any request that ends with .png, .jpg, .jpeg or .svg.</span><br>        <span class="hljs-attr">urlPattern</span>: <span class="hljs-regexp">/\.(?:png|jpg|jpeg|svg)$/</span>,<br><br>        <span class="hljs-comment">// Apply a cache-first strategy.</span><br>        <span class="hljs-attr">handler</span>: <span class="hljs-string">'CacheFirst'</span>,<br><br>        <span class="hljs-attr">options</span>: &#123;<br>          <span class="hljs-comment">// Use a custom cache name.</span><br>          <span class="hljs-attr">cacheName</span>: <span class="hljs-string">'images'</span>,<br><br>          <span class="hljs-comment">// Only cache 10 images.</span><br>          <span class="hljs-attr">expiration</span>: &#123;<br>            <span class="hljs-attr">maxEntries</span>: <span class="hljs-number">10</span><br>          &#125;<br>        &#125;<br>      &#125;<br>    ]<br>  &#125;))<br>  <br>  <span class="hljs-keyword">return</span> webpackConfig<br>&#125;<br></code></pre></td></tr></table></figure>
 <ul>
 <li>在react入口js的代码里注册代码</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if (&apos;serviceWorker&apos; in navigator) &#123;</span><br><span class="line">  window.addEventListener(&apos;load&apos;, () =&gt; &#123;</span><br><span class="line">    // 敲黑板, 这里的/workbox/workboxServiceWorker.js需要根据实际情况变化, 因为我项目没部署到根域名, 所以加了workbox的路径名...</span><br><span class="line">    // 注意: 这里有个坑 workboxServiceWorker 会被缓存, 解决方案在下面的坑点介绍</span><br><span class="line">    navigator.serviceWorker.register(&apos;/workboxServiceWorker.js&apos;).then(registration =&gt; &#123;</span><br><span class="line">      console.log(&apos;SW registered: &apos;, registration)</span><br><span class="line">    &#125;).catch(registrationError =&gt; &#123;</span><br><span class="line">      console.log(&apos;SW registration failed: &apos;, registrationError)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">if</span> (<span class="hljs-string">'serviceWorker'</span> <span class="hljs-keyword">in</span> navigator) &#123;<br>  <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'load'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;<br>    <span class="hljs-comment">// 敲黑板, 这里的/workbox/workboxServiceWorker.js需要根据实际情况变化, 因为我项目没部署到根域名, 所以加了workbox的路径名...</span><br>    <span class="hljs-comment">// 注意: 这里有个坑 workboxServiceWorker 会被缓存, 解决方案在下面的坑点介绍</span><br>    navigator.serviceWorker.register(<span class="hljs-string">'/workboxServiceWorker.js'</span>).then(<span class="hljs-function"><span class="hljs-params">registration</span> =&gt;</span> &#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'SW registered: '</span>, registration)<br>    &#125;).catch(<span class="hljs-function"><span class="hljs-params">registrationError</span> =&gt;</span> &#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'SW registration failed: '</span>, registrationError)<br>    &#125;)<br>  &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
 <h4 id="效果对比"><a href="#效果对比" class="headerlink" title="效果对比"></a>效果对比</h4><p>针对<code>urlPattern: /\.(?:png|jpg|jpeg|svg)$/,</code>图片加载速度，在开启sw前后进行对比</p>
 <p>未开启sw之前，原图是800KB左右，加载时间是79ms左右：</p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621056712488-045a43f0-7512-45b1-a0fe-5c7d3b0334f9.png" alt="image.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2021/png/326697/1621057076593-223b28a2-add3-4d21-876a-21d551463f0e.png" alt="image.png"></p>
+<p><img data-src="1621056712488-045a43f0-7512-45b1-a0fe-5c7d3b0334f9.png" alt="image.png"></p>
+<p><img data-src="https://cdn.nlark.com/yuque/0/2021/png/326697/1621057076593-223b28a2-add3-4d21-876a-21d551463f0e.png" alt="image.png"></p>
 <p>service work中没有信息</p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621057086504-a7bd6519-42c5-4b19-b241-d87ee03d1bb3.png" alt="image.png"></p>
+<p><img data-src="1621057086504-a7bd6519-42c5-4b19-b241-d87ee03d1bb3.png" alt="image.png"></p>
 <p>开启sw之后，图片显示加载自ServiceWorker，且加载时间为4ms，速度提升20倍左右：</p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621056782748-d2d62be0-f9a3-4a59-820d-8770b62b4803.png" alt="image.png"></p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621056910564-025ca9be-111e-41f4-976e-f9352260a027.png" alt="image.png"></p>
-<p><img src="/20201114-应用缓存ServiceWork实践/1621057001192-1e61fa15-556c-42ad-be88-c006aca70dd7.png" alt="image.png"></p>
+<p><img data-src="1621056782748-d2d62be0-f9a3-4a59-820d-8770b62b4803.png" alt="image.png"></p>
+<p><img data-src="1621056910564-025ca9be-111e-41f4-976e-f9352260a027.png" alt="image.png"></p>
+<p><img data-src="1621057001192-1e61fa15-556c-42ad-be88-c006aca70dd7.png" alt="image.png"></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://juejin.cn/post/6844904040489287694" target="_blank" rel="noopener">service-worker工作原理浅析</a></p>
 <p><a href="https://juejin.cn/post/6844903845995216909" target="_blank" rel="noopener">React如何通过Webpack优雅的接入serviceWorker的成熟方案workBox &amp;&amp; Google Analytics</a></p>
 <p><a href="http://zhenhua-lee.github.io/http/service-worker.html" target="_blank" rel="noopener">Service worker介绍</a></p>
@@ -315,6 +346,23 @@
     
     
     
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>MonkeyBlog
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/" title="应用缓存ServiceWork实践">https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -400,6 +448,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="MonkeyBlog"
+      src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">MonkeyBlog</p>
   <div class="site-description" itemprop="description">MonkeyBlog</div>
 </div>
@@ -408,22 +458,29 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+          
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">28</span>
+          
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/houchaowei" title="GitHub → https://github.com/houchaowei" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
@@ -445,7 +502,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -456,18 +513,38 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">327k</span>
+    <span title="Symbols count total">263k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">4:58</span>
+    <span title="Reading time total">3:59</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        Total Visitors: <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        Total Views: <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -481,13 +558,24 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 <script src="/js/next-boot.js"></script>
 
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three-waves.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_sphere.min.js"></script>
 
 
   
@@ -509,6 +597,16 @@
   
 
   
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/',]
+      });
+      });
+  </script>
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
@@ -516,8 +614,8 @@
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
-      clientID    : '5ea5c7c8c8b8a126f692',
-      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      clientID    : '',
+      clientSecret: '',
       repo        : 'houchaowei.github.io',
       owner       : 'houchaowei',
       admin       : ['houchaowei'],
@@ -529,6 +627,966 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   }, window.Gitalk);
 });
 </script>
+<!-- 添加粒子背景效果 -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建粒子容器
+  var particlesContainer = document.createElement('div');
+  particlesContainer.id = 'particles-js';
+  particlesContainer.style.position = 'fixed';
+  particlesContainer.style.top = '0';
+  particlesContainer.style.left = '0';
+  particlesContainer.style.width = '100%';
+  particlesContainer.style.height = '100%';
+  particlesContainer.style.zIndex = '-1';
+  particlesContainer.style.pointerEvents = 'none';
+  document.body.prepend(particlesContainer);
 
+  // 初始化粒子
+  particlesJS('particles-js', {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#ffffff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        }
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 3,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "grab"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 140,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true
+  });
+});
+</script>
+
+<!-- 添加动态波浪效果 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建波浪容器
+  var waveContainer = document.createElement('div');
+  waveContainer.className = 'waveWrapper waveAnimation';
+  waveContainer.style.position = 'fixed';
+  waveContainer.style.top = '0';
+  waveContainer.style.left = '0';
+  waveContainer.style.width = '100%';
+  waveContainer.style.height = '100%';
+  waveContainer.style.zIndex = '-2';
+  waveContainer.style.pointerEvents = 'none';
+  
+  // 创建波浪
+  var waveHTML = '';
+  for (var i = 1; i <= 4; i++) {
+    waveHTML += '<div class="waveWrapperInner wave' + i + '">' +
+                '<div class="wave"></div>' +
+                '</div>';
+  }
+  waveContainer.innerHTML = waveHTML;
+  document.body.prepend(waveContainer);
+
+  // 添加波浪样式
+  var style = document.createElement('style');
+  style.textContent = `
+    .waveWrapper {
+      overflow: hidden;
+    }
+    .waveWrapperInner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      bottom: -1px;
+      background-image: linear-gradient(to top, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 80%);
+    }
+    .wave {
+      position: absolute;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background-repeat: repeat no-repeat;
+      background-position: 0 bottom;
+      transform-origin: center bottom;
+    }
+    .wave1 .wave {
+      background-size: 50% 100px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.3)"/></svg>');
+      animation: wave 15s linear infinite;
+    }
+    .wave2 .wave {
+      background-size: 50% 120px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.4)"/></svg>');
+      animation: wave 10s linear infinite;
+    }
+    .wave3 .wave {
+      background-size: 50% 80px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.2)"/></svg>');
+      animation: wave 13s linear infinite;
+    }
+    .wave4 .wave {
+      background-size: 50% 100px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 88.7"><path d="M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z" fill="rgba(255,255,255,0.3)"/></svg>');
+      animation: wave 5s linear infinite;
+    }
+    @keyframes wave {
+      0% {
+        transform: translateX(0) translateZ(0) scaleY(1);
+      }
+      50% {
+        transform: translateX(-25%) translateZ(0) scaleY(0.8);
+      }
+      100% {
+        transform: translateX(-50%) translateZ(0) scaleY(1);
+      }
+    }
+    .waveAnimation .waveWrapperInner {
+      animation: waveMove 15s linear infinite;
+      animation-delay: calc(var(--i) * -0.5s);
+    }
+    @keyframes waveMove {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- 添加鼠标跟随效果 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建鼠标跟随容器
+  var cursorContainer = document.createElement('div');
+  cursorContainer.className = 'cursor-container';
+  document.body.appendChild(cursorContainer);
+
+  // 添加样式
+  var style = document.createElement('style');
+  style.textContent = `
+    .cursor-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .cursor {
+      position: absolute;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 创建鼠标跟随效果
+  var cursors = [];
+  var cursorCount = 20;
+  var colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#8b00ff'];
+
+  for (var i = 0; i < cursorCount; i++) {
+    var cursor = document.createElement('div');
+    cursor.className = 'cursor';
+    cursor.style.width = (i / cursorCount * 20) + 'px';
+    cursor.style.height = (i / cursorCount * 20) + 'px';
+    cursor.style.backgroundColor = colors[i % colors.length];
+    cursor.style.opacity = (1 - i / cursorCount) * 0.5;
+    cursor.style.zIndex = cursorCount - i;
+    cursorContainer.appendChild(cursor);
+    cursors.push({
+      el: cursor,
+      x: 0,
+      y: 0,
+      delay: i * 2
+    });
+  }
+
+  var mouseX = 0;
+  var mouseY = 0;
+  var prevX = 0;
+  var prevY = 0;
+
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animate() {
+    prevX += (mouseX - prevX) * 0.1;
+    prevY += (mouseY - prevY) * 0.1;
+
+    for (var i = 0; i < cursors.length; i++) {
+      var cursor = cursors[i];
+      var nextCursor = cursors[i + 1] || { x: prevX, y: prevY };
+      
+      cursor.x += (nextCursor.x - cursor.x) * 0.2;
+      cursor.y += (nextCursor.y - cursor.y) * 0.2;
+      
+      cursor.el.style.transform = `translate(${cursor.x}px, ${cursor.y}px)`;
+    }
+    
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+});
+</script>
+
+<!-- 添加流星效果 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 创建流星容器
+  var meteorContainer = document.createElement('div');
+  meteorContainer.className = 'meteor-container';
+  meteorContainer.style.position = 'fixed';
+  meteorContainer.style.top = '0';
+  meteorContainer.style.left = '0';
+  meteorContainer.style.width = '100%';
+  meteorContainer.style.height = '100%';
+  meteorContainer.style.zIndex = '-1';
+  meteorContainer.style.pointerEvents = 'none';
+  document.body.prepend(meteorContainer);
+
+  // 添加样式
+  var style = document.createElement('style');
+  style.textContent = `
+    .meteor {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 2px white;
+      transform: rotate(-45deg);
+    }
+    .meteor::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+      transform-origin: left;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 创建流星
+  function createMeteor() {
+    var meteor = document.createElement('div');
+    meteor.className = 'meteor';
+    
+    var x = Math.random() * window.innerWidth;
+    var y = Math.random() * window.innerHeight / 2;
+    var size = Math.random() * 2 + 1;
+    var speed = Math.random() * 10 + 10;
+    
+    meteor.style.left = x + 'px';
+    meteor.style.top = y + 'px';
+    meteor.style.width = size + 'px';
+    meteor.style.height = size + 'px';
+    meteor.style.animation = `meteor ${speed}s linear forwards`;
+    
+    meteorContainer.appendChild(meteor);
+    
+    // 添加流星动画
+    var keyframes = `
+      @keyframes meteor {
+        0% {
+          transform: translate(0, 0) rotate(-45deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(${-x}px, ${window.innerHeight}px) rotate(-45deg);
+          opacity: 0;
+        }
+      }
+    `;
+    var styleSheet = document.createElement('style');
+    styleSheet.textContent = keyframes;
+    document.head.appendChild(styleSheet);
+    
+    // 移除流星
+    setTimeout(function() {
+      meteor.remove();
+      styleSheet.remove();
+    }, speed * 1000);
+  }
+
+  // 定期创建流星
+  setInterval(createMeteor, 3000);
+  
+  // 初始创建几个流星
+  for (var i = 0; i < 3; i++) {
+    setTimeout(createMeteor, i * 1000);
+  }
+});
+</script>
+
+<!-- 粒子效果 -->
+<script src="//cdn.jsdelivr.net/npm/canvas-nest.js@2.0.4/dist/canvas-nest.js"></script>
+
+<!-- 标签云动画效果和分类功能 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 只在标签页面添加动画效果和分类功能
+  if (document.querySelector('.tag-cloud')) {
+    const tagCloud = document.querySelector('.tag-cloud');
+    const tagLinks = document.querySelectorAll('.tag-cloud-tags a');
+    const tagCloudTitle = document.querySelector('.tag-cloud-title');
+    
+    // 创建搜索框
+    const searchBox = document.createElement('div');
+    searchBox.className = 'tag-search-box';
+    searchBox.innerHTML = `
+      <input type="text" class="tag-search-input" placeholder="搜索标签...">
+      <div class="tag-search-icon">🔍</div>
+    `;
+    
+    // 创建分类控制按钮
+    const controlPanel = document.createElement('div');
+    controlPanel.className = 'tag-control-panel';
+    controlPanel.innerHTML = `
+      <button class="tag-sort-btn active" data-sort="default">默认排序</button>
+      <button class="tag-sort-btn" data-sort="size">按大小排序</button>
+      <button class="tag-sort-btn" data-sort="alpha">按字母排序</button>
+      <button class="tag-sort-btn" data-sort="random">随机排序</button>
+    `;
+    
+    // 在标题后插入搜索框和控制面板
+    if (tagCloudTitle) {
+      tagCloudTitle.insertAdjacentElement('afterend', searchBox);
+      searchBox.insertAdjacentElement('afterend', controlPanel);
+    }
+    
+    // 为每个标签添加随机延迟的动画
+    tagLinks.forEach((tag, index) => {
+      // 添加初始透明度和缩放
+      tag.style.opacity = '0';
+      tag.style.transform = 'scale(0.8)';
+      tag.style.transition = 'all 0.5s ease';
+      
+      // 随机延迟显示
+      setTimeout(() => {
+        tag.style.opacity = '1';
+        tag.style.transform = 'scale(1)';
+      }, 100 + Math.random() * 500);
+      
+      // 鼠标悬停时添加脉动效果
+      tag.addEventListener('mouseover', function() {
+        this.style.animation = 'pulse 0.8s infinite alternate';
+      });
+      
+      tag.addEventListener('mouseout', function() {
+        this.style.animation = '';
+      });
+    });
+    
+    // 搜索功能
+    const searchInput = document.querySelector('.tag-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let hasResults = false;
+        
+        tagLinks.forEach(tag => {
+          const tagText = tag.textContent.toLowerCase();
+          if (tagText.includes(searchTerm) || searchTerm === '') {
+            tag.style.display = 'inline-block';
+            tag.style.opacity = '1';
+            tag.style.transform = 'scale(1)';
+            hasResults = true;
+          } else {
+            tag.style.opacity = '0';
+            tag.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+              if (this.value.toLowerCase().trim() !== searchTerm) return;
+              tag.style.display = 'none';
+            }, 500);
+          }
+        });
+        
+        // 显示无结果提示
+        let noResultsMsg = document.querySelector('.no-results-msg');
+        if (!hasResults && searchTerm !== '') {
+          if (!noResultsMsg) {
+            noResultsMsg = document.createElement('div');
+            noResultsMsg.className = 'no-results-msg';
+            noResultsMsg.textContent = '没有找到匹配的标签';
+            document.querySelector('.tag-cloud-tags').appendChild(noResultsMsg);
+          }
+          noResultsMsg.style.display = 'block';
+        } else if (noResultsMsg) {
+          noResultsMsg.style.display = 'none';
+        }
+      });
+    }
+    
+    // 排序功能
+    const sortBtns = document.querySelectorAll('.tag-sort-btn');
+    if (sortBtns.length) {
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // 更新活动按钮状态
+          sortBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const sortType = this.getAttribute('data-sort');
+          const tagsContainer = document.querySelector('.tag-cloud-tags');
+          const tags = Array.from(tagLinks);
+          
+          // 根据不同排序方式排序
+          switch (sortType) {
+            case 'size':
+              tags.sort((a, b) => parseFloat(b.style.fontSize) - parseFloat(a.style.fontSize));
+              break;
+            case 'alpha':
+              tags.sort((a, b) => a.textContent.localeCompare(b.textContent, 'zh-CN'));
+              break;
+            case 'random':
+              tags.sort(() => Math.random() - 0.5);
+              break;
+            default:
+              // 默认排序，不做任何操作
+              break;
+          }
+          
+          // 重新添加到容器
+          tags.forEach(tag => {
+            // 添加过渡动画
+            tag.style.opacity = '0';
+            tag.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+              tagsContainer.appendChild(tag);
+              
+              // 延迟显示，产生动画效果
+              setTimeout(() => {
+                tag.style.opacity = '1';
+                tag.style.transform = 'scale(1)';
+              }, 50);
+            }, 300);
+          });
+        });
+      });
+    }
+  }
+  
+  // 只在日程页面添加交互式时间线功能和日历功能
+  if (document.querySelector('.page-type-schedule')) {
+    // 技能进度条动画
+    const skillLevels = document.querySelectorAll('.skill-level');
+    
+    if (skillLevels.length > 0) {
+      // 初始化进度条为0%
+      skillLevels.forEach(skill => {
+        const targetWidth = skill.style.width;
+        skill.style.width = '0%';
+        
+        // 添加到可视区域监听
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // 当元素进入可视区域时，开始动画
+              setTimeout(() => {
+                skill.style.width = targetWidth;
+              }, 200);
+              // 只触发一次
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(skill);
+      });
+    }
+    
+    // 创建日历容器
+    const calendarContainer = document.createElement('div');
+    calendarContainer.className = 'calendar-container';
+    calendarContainer.innerHTML = '<div id="calendar"></div>';
+    
+    // 将日历插入到页面中
+    const scheduleContent = document.querySelector('.page-type-schedule .post-block');
+    if (scheduleContent) {
+      // 创建日历标题
+      const calendarTitle = document.createElement('h2');
+      calendarTitle.textContent = '📆 日程日历';
+      calendarTitle.style.marginTop = '50px';
+      
+      // 插入日历到页面中
+      scheduleContent.insertBefore(calendarTitle, scheduleContent.children[1]);
+      scheduleContent.insertBefore(calendarContainer, scheduleContent.children[2]);
+      
+      // 日历事件数据
+      const calendarEvents = [
+        { title: 'Vue3学习开始', start: '2023-01-15', backgroundColor: '#42b883', borderColor: '#42b883' },
+        { title: '电商平台项目启动', start: '2023-02-20', backgroundColor: '#ff6666', borderColor: '#ff6666' },
+        { title: '博客改版上线', start: '2023-03-15', backgroundColor: '#6699cc', borderColor: '#6699cc' },
+        { title: 'React Hooks学习', start: '2023-04-10', backgroundColor: '#61dafb', borderColor: '#61dafb' },
+        { title: 'Docker技术学习', start: '2023-05-05', backgroundColor: '#2496ed', borderColor: '#2496ed' },
+        { title: '前端技术分享', start: '2023-06-20', backgroundColor: '#f5a623', borderColor: '#f5a623' },
+        { title: 'Node.js学习开始', start: '2023-07-01', backgroundColor: '#68a063', borderColor: '#68a063' },
+        { title: 'CI/CD学习', start: '2023-08-15', backgroundColor: '#8e44ad', borderColor: '#8e44ad' },
+        { title: '开源项目发布', start: '2023-09-10', backgroundColor: '#6699cc', borderColor: '#6699cc' },
+        { title: '微前端架构学习', start: '2023-10-01', backgroundColor: '#42b883', borderColor: '#42b883' },
+        { title: '技术博客发表', start: '2023-11-15', backgroundColor: '#f5a623', borderColor: '#f5a623' },
+        { title: '年度技术总结', start: '2023-12-31', backgroundColor: '#6699cc', borderColor: '#6699cc' }
+      ];
+      
+      // 初始化日历
+      const calendarEl = document.getElementById('calendar');
+      if (calendarEl && typeof FullCalendar !== 'undefined') {
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listMonth'
+          },
+          locale: 'zh-cn',
+          events: calendarEvents,
+          eventClick: function(info) {
+            alert(info.event.title);
+          },
+          height: 'auto',
+          themeSystem: 'standard',
+          firstDay: 1, // 周一作为一周的第一天
+          buttonText: {
+            today: '今天',
+            month: '月',
+            week: '周',
+            list: '列表'
+          },
+          allDayText: '全天',
+          eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: false
+          }
+        });
+        
+        calendar.render();
+      }
+    }
+    
+    // 创建时间线数据
+    const timelineData = [
+      { date: '2023-01-15', title: 'Vue3学习开始', category: '学习', content: '开始深入学习Vue3的Composition API和新特性。' },
+      { date: '2023-02-20', title: '电商平台项目启动', category: '工作', content: '开始电商平台重构项目，负责前端架构设计和核心功能实现。' },
+      { date: '2023-03-15', title: '博客改版上线', category: '个人', content: '完成个人博客的改版和功能升级，采用了新的主题和功能。' },
+      { date: '2023-04-10', title: 'React Hooks学习', category: '学习', content: '开始学习React Hooks的高级用法和最佳实践。' },
+      { date: '2023-05-05', title: 'Docker技术学习', category: '学习', content: '学习Docker容器化技术，为DevOps做准备。' },
+      { date: '2023-06-20', title: '前端技术分享', category: '分享', content: '在公司内部进行Vue3相关技术分享，获得良好反馈。' },
+      { date: '2023-07-01', title: 'Node.js学习开始', category: '学习', content: '开始学习Node.js高级应用，包括性能优化和微服务架构。' },
+      { date: '2023-08-15', title: 'CI/CD学习', category: '学习', content: '学习持续集成和持续部署工具及流程。' },
+      { date: '2023-09-10', title: '开源项目发布', category: '个人', content: '发布个人开源项目，获得社区关注和反馈。' },
+      { date: '2023-10-01', title: '微前端架构学习', category: '学习', content: '开始学习微前端架构，研究如何将大型应用拆分为更小的独立部分。' },
+      { date: '2023-11-15', title: '技术博客发表', category: '分享', content: '在掘金平台发表技术文章，分享前端开发经验。' },
+      { date: '2023-12-31', title: '年度技术总结', category: '个人', content: '回顾全年技术学习和项目经验，制定来年计划。' }
+    ];
+    
+    // 创建时间线容器
+    const timelineContainer = document.createElement('div');
+    timelineContainer.className = 'timeline-container';
+    
+    // 创建时间线过滤器
+    const filterContainer = document.createElement('div');
+    filterContainer.className = 'timeline-filter';
+    filterContainer.innerHTML = `
+      <span class="filter-label">筛选类别：</span>
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="学习">学习</button>
+      <button class="filter-btn" data-filter="工作">工作</button>
+      <button class="filter-btn" data-filter="个人">个人</button>
+      <button class="filter-btn" data-filter="分享">分享</button>
+    `;
+    
+    // 创建时间线HTML
+    let timelineHTML = '<div class="timeline">';
+    timelineData.forEach((item, index) => {
+      const date = new Date(item.date);
+      const formattedDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+      
+      timelineHTML += `
+        <div class="timeline-item" data-category="${item.category}">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">${formattedDate}</div>
+          <div class="timeline-content">
+            <h4 class="timeline-title">${item.title}</h4>
+            <div class="timeline-category">${item.category}</div>
+            <p>${item.content}</p>
+          </div>
+        </div>
+      `;
+    });
+    timelineHTML += '</div>';
+    
+    timelineContainer.innerHTML = timelineHTML;
+    
+    // 将时间线插入到页面中
+    const scheduleContent = document.querySelector('.page-type-schedule .post-block');
+    if (scheduleContent) {
+      // 创建时间线标题
+      const timelineTitle = document.createElement('h2');
+      timelineTitle.textContent = '📅 时间线';
+      timelineTitle.style.marginTop = '50px';
+      
+      // 插入时间线到页面中
+      scheduleContent.appendChild(timelineTitle);
+      scheduleContent.appendChild(filterContainer);
+      scheduleContent.appendChild(timelineContainer);
+      
+      // 添加过滤功能
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // 更新活动按钮状态
+          filterButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const filter = this.getAttribute('data-filter');
+          
+          timelineItems.forEach(item => {
+            if (filter === 'all' || item.getAttribute('data-category') === filter) {
+              item.style.display = 'block';
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+              }, 100);
+            } else {
+              item.style.opacity = '0';
+              item.style.transform = 'translateY(20px)';
+              setTimeout(() => {
+                item.style.display = 'none';
+              }, 300);
+            }
+          });
+        });
+      });
+      
+      // 添加滚动动画
+      const animateOnScroll = () => {
+        const items = document.querySelectorAll('.timeline-item');
+        items.forEach(item => {
+          const itemTop = item.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (itemTop < windowHeight - 100) {
+            item.classList.add('show');
+          }
+        });
+      };
+      
+      // 初始化时执行一次
+      setTimeout(animateOnScroll, 500);
+      
+      // 监听滚动事件
+      window.addEventListener('scroll', animateOnScroll);
+    }
+  }
+});
+</script>
+
+<!-- 添加CSS动画 -->
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+/* 日历样式 */
+.calendar-container {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+#calendar {
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.fc-theme-standard .fc-toolbar {
+  margin-bottom: 1.5em;
+}
+
+.fc-theme-standard .fc-toolbar-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #444;
+}
+
+.fc-theme-standard .fc-button {
+  background-color: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-weight: normal;
+  transition: all 0.3s ease;
+}
+
+.fc-theme-standard .fc-button:hover {
+  background-color: #e0e0e0;
+  color: #444;
+}
+
+.fc-theme-standard .fc-button-active {
+  background-color: #6699cc !important;
+  color: white !important;
+}
+
+.fc-theme-standard .fc-daygrid-day.fc-day-today {
+  background-color: rgba(102, 153, 204, 0.1);
+}
+
+.fc-theme-standard .fc-event {
+  border-radius: 3px;
+  font-size: 0.85em;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fc-theme-standard .fc-event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 时间线样式 */
+.timeline-container {
+  margin: 30px 0;
+  position: relative;
+}
+
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to bottom, #6699cc, #ff6666);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-left: 40px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.timeline-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -36px;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: white;
+  border: 4px solid #6699cc;
+  z-index: 1;
+}
+
+.timeline-date {
+  font-size: 0.9em;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.timeline-title {
+  margin: 0 0 10px 0;
+  color: #444;
+  font-size: 1.2em;
+}
+
+.timeline-category {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  font-size: 0.8em;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.timeline-filter {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.filter-label {
+  margin-right: 10px;
+  color: #666;
+}
+
+.filter-btn {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 5px 12px;
+  margin: 0 5px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+  background-color: #6699cc;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .timeline::before {
+    left: 50%;
+    margin-left: -2px;
+  }
+  
+  .timeline-item {
+    width: 45%;
+    margin-left: 0;
+  }
+  
+  .timeline-item:nth-child(even) {
+    margin-left: auto;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-dot {
+    left: auto;
+    right: -36px;
+  }
+  
+  .timeline-item:nth-child(even) .timeline-dot {
+    left: -36px;
+  }
+}
+</style>
+
+ 
 </body>
 </html>
