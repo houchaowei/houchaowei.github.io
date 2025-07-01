@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="编程语言的类型   动态类型语言 静态类型语言   typescript">
+<meta name="keywords" content="typescript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript">
+<meta property="og:url" content="https://houchaowei.github.io/20201004-TypeScript/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="编程语言的类型   动态类型语言 静态类型语言   typescript">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.250Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript">
+<meta name="twitter:description" content="编程语言的类型   动态类型语言 静态类型语言   typescript">
+
+<link rel="canonical" href="https://houchaowei.github.io/20201004-TypeScript/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>TypeScript | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20201004-TypeScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TypeScript
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-04 19:46:14 19:46:14" itemprop="dateCreated datePublished" datetime="2020-10-04T19:46:14+08:00">2020-10-04 19:46:14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>13 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><p><a href="#编程语言的类型">编程语言的类型</a></p>
+</li>
+<li><ul>
+<li><a href="#动态类型语言">动态类型语言</a></li>
+<li><a href="#静态类型语言">静态类型语言</a></li>
+</ul>
+</li>
+<li><p><a href="#typescript">typescript</a></p>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><ul>
+<li><a href="#特性">特性</a></li>
+<li><a href="#优势">优势</a></li>
+<li><a href="#类型注解--类型推断">类型注解 &amp; 类型推断</a></li>
+<li><a href="#基础类型--对象类型">基础类型 &amp; 对象类型</a></li>
+<li><a href="#联合类型">联合类型</a></li>
+<li><a href="#交叉类型">交叉类型</a></li>
+<li><a href="#partial">Partial</a></li>
+<li><a href="#枚举">枚举</a></li>
+<li><a href="#函数注解">函数注解</a></li>
+<li><a href="#数组注解">数组注解</a></li>
+<li><a href="#interface--type">interface &amp; type</a></li>
+<li><a href="#类型断言">类型断言</a></li>
+<li><a href="#类">类</a></li>
+<li><a href="#泛型">泛型</a></li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li><a href="#泛型约束">泛型约束</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="#声明文件">声明文件</a></p>
+</li>
+<li><p><a href="#typescript编译"><code>typescript</code>编译</a></p>
+</li>
+<li><ul>
+<li><a href="#ts-node-编译执行ts-文件"><code>ts-node</code> 编译执行.ts 文件</a></li>
+<li><a href="#tsc"><code>tsc</code></a></li>
+<li><a href="#tsconfig"><code>tsconfig</code></a></li>
+</ul>
+</li>
+<li><p><a href="#typescript--react">typescript + React</a></p>
+</li>
+</ul>
+<h2 id="编程语言的类型"><a href="#编程语言的类型" class="headerlink" title="编程语言的类型"></a>编程语言的类型</h2><h3 id="动态类型语言"><a href="#动态类型语言" class="headerlink" title="动态类型语言"></a>动态类型语言</h3><p>运行期间做数据类型检查 <code>js ruby python</code></p>
+<h3 id="静态类型语言"><a href="#静态类型语言" class="headerlink" title="静态类型语言"></a>静态类型语言</h3><p>编译期间类型检查 <code>c c++ java</code></p>
+<h2 id="typescript"><a href="#typescript" class="headerlink" title="typescript"></a>typescript</h2><p>冒号后面的都是类型</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>typescript 是 js 的超集</li>
+<li>拥有静态类型</li>
+<li>需要编译成 js 运行</li>
+</ul>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li>ts 的静态类型可以在开发过程中，发现潜在问题</li>
+<li>更好的编辑器提示</li>
+<li>通过静态类型的声明，代码清晰易读</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// js中变量是动态类型 可以随时改变类型</span><br><span class="line">let a=1;</span><br><span class="line">a=&apos;str&apos;</span><br><span class="line"></span><br><span class="line">// ts中是静态类型 改变类型会报错</span><br><span class="line">let b=1;</span><br><span class="line">b=&apos;str&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="类型注解-amp-类型推断"><a href="#类型注解-amp-类型推断" class="headerlink" title="类型注解 &amp; 类型推断"></a>类型注解 &amp; 类型推断</h3><p>ts 自动启用类型推断，判断变量类型</p>
+<p>如果能分析变量类型不需要类型注解，否则需要</p>
+<h3 id="基础类型-amp-对象类型"><a href="#基础类型-amp-对象类型" class="headerlink" title="基础类型 &amp; 对象类型"></a>基础类型 &amp; 对象类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 基础类型 string number boolean symbol void null undefined</span><br><span class="line">let count: number;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 对象类型 &#123;&#125; [] function Class</span><br><span class="line">const teacher: &#123;</span><br><span class="line">  name: string;</span><br><span class="line">  age: number;</span><br><span class="line">&#125; = &#123;</span><br><span class="line">  name: &apos;jason&apos;,</span><br><span class="line">  age: 28,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const numbers: number[] = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">class Person &#123;&#125;</span><br><span class="line">const p: Person = new Person();</span><br><span class="line"></span><br><span class="line">const getTotal: () =&gt; number = () =&gt; &#123;</span><br><span class="line">  return 123;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let myName: string | number;</span><br></pre></td></tr></table></figure>
+<h3 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h3><p>将多个类型合并成一个类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">type NativeButtonProps = BaseButtonProps &amp; ButtonHTMLAttributes&lt;HTMLElement&gt;</span><br><span class="line">type AnchorButtonProps = BaseButtonProps &amp; AnchorHTMLAttributes&lt;HTMLElement&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Partial"><a href="#Partial" class="headerlink" title="Partial"></a>Partial</h3><p>把一些属性变为可选的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export type ButtonProps = Partial&lt;NativeButtonProps &amp; AnchorButtonProps&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">enum TabTypes &#123;</span><br><span class="line">  Case = &apos;case&apos;,</span><br><span class="line">  Ganged = &apos;ganged&apos;,</span><br><span class="line">&#125;</span><br><span class="line">const [currentTab, setCurrentTab] = useState(TabTypes.Case);</span><br><span class="line">if (currentTab === TabTypes.Case) &#123;</span><br><span class="line">        setCaseSource(insertKeys(res.data));</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        setGangedSource(insertKeys(res.data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数注解"><a href="#函数注解" class="headerlink" title="函数注解"></a>函数注解</h3><p>函数的入参需要类型注解，返回值如果可以类型推断的话不需要写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// 函数入参及返回值注解 c:可选参数只能放最后</span><br><span class="line">function add(a: number, b: number, c?: number): number &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;</span><br><span class="line">// 函数表达式</span><br><span class="line">const add2: (x: number, y: number) =&gt; number=(a,b)=&gt;&#123;</span><br><span class="line">    return a+b</span><br><span class="line">&#125;</span><br><span class="line">// interface写法</span><br><span class="line">interface IFn &#123;</span><br><span class="line">  (x: number, y: number): number;</span><br><span class="line">&#125;</span><br><span class="line">const add2: IFn = (a, b) =&gt; &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">// type写法</span><br><span class="line">type fn = (x: number, y: number) =&gt; number;</span><br><span class="line">const add2: fn = (a, b) =&gt; &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">// 函数解构的写法</span><br><span class="line">function add2(&#123; a, b &#125;:&#123;a:number, b: number&#125;): number &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;</span><br><span class="line">add2(&#123; a: 1, b: 2 &#125;);</span><br><span class="line">const total = add(1, 2);</span><br><span class="line"></span><br><span class="line">// 无返回值</span><br><span class="line">function sayHello(): void &#123;</span><br><span class="line">  console.log(&apos;hello&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 函数永远不会执行完</span><br><span class="line">function errorEmitter(): never &#123;</span><br><span class="line">  throw new Error(&apos;error&apos;);</span><br><span class="line">  console.log(&apos;end&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数组注解"><a href="#数组注解" class="headerlink" title="数组注解"></a>数组注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 数组注解 能推断出来的不需要注解 直接的赋值的数组ts可以类型推断出来</span><br><span class="line">const arr1: number[] = [1, 2, 3]; // 只能是number</span><br><span class="line">const arr2: (number | string)[] = [&apos;1&apos;, 2, 3]; // 可以是number或string</span><br><span class="line">const arr3: undefined[] = [undefined, undefined]; // 只能是undefined</span><br><span class="line"></span><br><span class="line">// 对象数组</span><br><span class="line">const arr4: &#123; name: string; age: number &#125;[] = [&#123; name: &apos;a&apos;, age: 18 &#125;];</span><br><span class="line">// 类型别名 对上面的另一种写法</span><br><span class="line">type User = &#123; name: string; age: number &#125;;</span><br><span class="line">const arr5: User[] = [&#123; name: &apos;a&apos;, age: 18 &#125;];</span><br><span class="line"></span><br><span class="line">// 元组 tuple 一个数组的长度固定 元素顺序类型固定</span><br><span class="line">const info: [string, string, number] = [&apos;andy&apos;, &apos;male&apos;, 20];</span><br></pre></td></tr></table></figure>
+<h3 id="interface-amp-type"><a href="#interface-amp-type" class="headerlink" title="interface &amp; type"></a>interface &amp; type</h3><ul>
+<li><p><code>interface</code>是数据的共性的抽象 有自己的属性 只是在开发过程中做语法提示校验的工具 编译后不存在</p>
+</li>
+<li><ul>
+<li>对对象的形状(shape)的描述</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">interface Person &#123;</span><br><span class="line">readonly name: string; // 只读 该属性再写会报错</span><br><span class="line">age?: number; // 可选属性 可有可无</span><br><span class="line">[propName: string]: any; // 将来多出的其他属性string类型也是可以的</span><br><span class="line">say?(): string; // 方法属性 返回值string</span><br><span class="line">say: ()=&gt;&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 接口继承</span><br><span class="line">interface Teacher extends Person &#123;</span><br><span class="line">    teach(): string; // 自己的属性</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ul>
+<li>定义函数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// interface 定义函数类型</span><br><span class="line">interface ISayHi &#123;</span><br><span class="line"> (word: string): string;</span><br><span class="line">&#125;</span><br><span class="line">const say: SayHi = () =&gt; &#123;</span><br><span class="line">  return &apos;hi&apos;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">interface IModalProps &#123;</span><br><span class="line">  visible: boolean; // 是否可见</span><br><span class="line">  handleClose: () =&gt; void; // 隐藏自身</span><br><span class="line">  form: any;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ul>
+<li>对类(class)进行抽象</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">interface Radio&#123;</span><br><span class="line">  switchRadio():void</span><br><span class="line">&#125;</span><br><span class="line">interface Battery extends Radio&#123;</span><br><span class="line">  checkBatter():void</span><br><span class="line">&#125;</span><br><span class="line">// 类实现interface</span><br><span class="line">class Car implements Radio&#123;</span><br><span class="line">  switchRadio() &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Phone implements Battery&#123;</span><br><span class="line">  switchRadio() &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">   checkBatter() &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>type</code> 类型别名 只是简单的别名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 常用于</span><br><span class="line">type fnType = (a: string) =&gt; string</span><br><span class="line">type FooType = string | fnType</span><br><span class="line"></span><br><span class="line">type Person = &#123;</span><br><span class="line">   name: string;</span><br><span class="line">   age?: number;</span><br><span class="line">   &#125;;</span><br><span class="line">function getName(person: Person): void &#123;</span><br><span class="line">  console.log(person.name);</span><br><span class="line">&#125;</span><br><span class="line">const setName = (person: Person, newName: string) =&gt; &#123;</span><br><span class="line">  person.name = newName;</span><br><span class="line">  return person;</span><br><span class="line">&#125;;</span><br><span class="line">// 传对象引用和对象字面量的校验结果不一样 前一种无强校验</span><br><span class="line">let p = &#123; name: &apos;andy&apos;, sex: &apos;male&apos;, say() &#123;&#125; &#125;;</span><br><span class="line">getName(p);</span><br><span class="line">getName(&#123; name: &apos;andy&apos;, sex: &apos;male&apos; &#125;);</span><br><span class="line">setName(&#123; name: &apos;jason&apos; &#125;, &apos;andy&apos;);</span><br></pre></td></tr></table></figure>
+<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><p>联合类型时 ts 只拿到公有的一些方法 使用类型断言联合类型的某一种类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function getLength(input: string | number)&#123;</span><br><span class="line">// 这里会报错</span><br><span class="line">  if(input.length)&#123;</span><br><span class="line">      return input.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">function getLength(input: string | number)&#123;</span><br><span class="line">// 类型断言 告诉ts我知道他是什么类型</span><br><span class="line">  const str = input as String</span><br><span class="line">  if(str.length)&#123;</span><br><span class="line">      return str.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">function getLength(input: string | number)&#123;</span><br><span class="line">// 另一种写法</span><br><span class="line">  if((&lt;string&gt;input).length)&#123;</span><br><span class="line">      return (&lt;string&gt;input).length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>ts 给 es6 的类增加了访问修饰符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">  /**</span><br><span class="line">   *  public 允许在类的内外调用</span><br><span class="line">   *  private 允许类内不允许子类</span><br><span class="line">   *  protected 允许类内及继承的子类</span><br><span class="line">   *  readonly 只能读不能写</span><br><span class="line">   * */</span><br><span class="line">  // 简写</span><br><span class="line">  constructor(private _name: string, public age: number)&#123;&#125;</span><br><span class="line">  // 常规写法</span><br><span class="line">  // public name: string;</span><br><span class="line">  // constructor(name) &#123;</span><br><span class="line">  //   this.name = name;</span><br><span class="line">  // &#125;</span><br><span class="line">  // getter 属性</span><br><span class="line">  get name() &#123;</span><br><span class="line">    return this._name + &apos;geted&apos;;</span><br><span class="line">  &#125;</span><br><span class="line">  // setter 属性</span><br><span class="line">  set name(value: string) &#123;</span><br><span class="line">    this._name = value</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const p = new Person(&apos;nn&apos;, 18);</span><br><span class="line">console.log(p.name);</span><br><span class="line">p.name = &apos;change&apos;;</span><br><span class="line">console.log(p.name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// ts 实现单例模式</span><br><span class="line">class Demo&#123;</span><br><span class="line">    // 私有静态属性</span><br><span class="line">    private static instance: Demo;</span><br><span class="line">    // 私有constructor</span><br><span class="line">    private constructor(public name: string)&#123;&#125;;</span><br><span class="line">    // 公共静态方法</span><br><span class="line">    static getInstance()&#123;</span><br><span class="line">        if(!this.instance)&#123;</span><br><span class="line">          this.instance = new Demo(&apos;lee&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">        return this.instance</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 调用的是同一个instance</span><br><span class="line">const demo1 = Demo.getInstance();</span><br><span class="line">const demo2 = Demo.getInstance();</span><br><span class="line">console.log(demo1, demo2)</span><br></pre></td></tr></table></figure>
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><blockquote>
+<p>泛型，泛指的类型, 定义函数、接口和类时使用占位符不指定具体类型，使用时才指定,用&lt;&gt;先声明,  声明泛型 T 可以任意命名函数泛型,代表不知道什么类型的同一种类型</p>
+</blockquote>
+<ol>
+<li>函数泛型</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 常规写法</span><br><span class="line">function plus(a: number, b): number &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">  &#125;</span><br><span class="line">const a = plus</span><br><span class="line">// interface写法</span><br><span class="line">interface IPlus&#123;</span><br><span class="line">    (a: number, b: number): number</span><br><span class="line">&#125;</span><br><span class="line">const plus:IPlus=(a,b)=&gt;&#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br><span class="line">const a = plus(2,2)</span><br><span class="line">// 泛型写法</span><br><span class="line">function join&lt;T&gt;(first: T, second: T): T &#123;</span><br><span class="line">  return `$&#123;first&#125;$&#123;second&#125;`;</span><br><span class="line">&#125;</span><br><span class="line">// 可以声明 也可以类型推断</span><br><span class="line">join&lt;number&gt;(1, 1);</span><br><span class="line">join(1, 2);</span><br><span class="line">function join&lt;T, P&gt;(first: T, second: P) &#123;</span><br><span class="line">  return `$&#123;first&#125;$&#123;second&#125;`;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>接口泛型</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">interface IPlus&lt;T&gt; &#123;</span><br><span class="line">  (a: T, b: T): T;</span><br><span class="line">&#125;</span><br><span class="line">const plus: IPlus&lt;number&gt; = (a, b) =&gt; &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">const a = plus(1, 2);</span><br><span class="line">const connet: IPlus&lt;string&gt; = (a, b) =&gt; &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">const b = connet(&apos;hello&apos;, &apos;ts&apos;);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>类泛型</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Queue&lt;T&gt;&#123;</span><br><span class="line">    private data=[]</span><br><span class="line">    push(item: T)&#123;</span><br><span class="line">      return this.data.push(item)</span><br><span class="line">    &#125;</span><br><span class="line">    pop(): T&#123;</span><br><span class="line">      return this.data.pop()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const q1= new Queue&lt;number&gt;()</span><br><span class="line">q1.push(1)</span><br><span class="line">q1.push(2)</span><br><span class="line">console.log(q1.pop().toFixed());</span><br><span class="line"></span><br><span class="line">const q2= new Queue&lt;string&gt;()</span><br><span class="line">q2.push(&apos;ss&apos;)</span><br><span class="line">console.log(q2.pop().trim())</span><br></pre></td></tr></table></figure>
+<h4 id="泛型约束"><a href="#泛型约束" class="headerlink" title="泛型约束"></a>泛型约束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 泛型约束 使用extends使泛型满足某些条件</span><br><span class="line">interface IWithLength&#123;</span><br><span class="line">    length: number</span><br><span class="line">&#125;</span><br><span class="line">function echo&lt;T extends IWithLength&gt;(args: T):T&#123;</span><br><span class="line">    // 需要一个有length属性的泛型</span><br><span class="line">    console.log(args.length);</span><br><span class="line">    return args</span><br><span class="line">  &#125;</span><br><span class="line">const res = echo(&apos;sss&apos;)</span><br><span class="line">const res2=echo([1,2,3])</span><br><span class="line"></span><br><span class="line">// 泛型继承 使用extends扩展类型</span><br><span class="line">interface IJoin &#123;</span><br><span class="line">    name: string;</span><br><span class="line">&#125;</span><br><span class="line">function join&lt;T extends IJoin | number&gt;(data:T[]) &#123;</span><br><span class="line">  return data[0].name;</span><br><span class="line">&#125;</span><br><span class="line">join([&#123; name: &apos;sss&apos; &#125;]);</span><br></pre></td></tr></table></figure>
+<h2 id="声明文件"><a href="#声明文件" class="headerlink" title="声明文件"></a>声明文件</h2><p>第三方库使用时需要<strong>声明文件</strong></p>
+<p>声明文件以.d.ts 结尾 如：<code>jQuery.d.ts</code> 有了声明文件后项目中就可以使用 <code>jQuery()</code> 提供语法提示且不报错</p>
+<p>搜索第三方库的声明文件 <a href="http://microsoft.github.io/TypeSearch/" target="_blank" rel="noopener">TypeSearch</a></p>
+<p>从 npm 安装第三方库的声明文件 <a href="https://www.npmjs.com/search?q=%40types" target="_blank" rel="noopener">npm @types</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// jQuery.d.ts</span><br><span class="line">declare var jQuery: (selector: string) =&gt; any;</span><br></pre></td></tr></table></figure>
+<h2 id="typescript编译"><a href="#typescript编译" class="headerlink" title="typescript编译"></a><code>typescript</code>编译</h2><h3 id="ts-node-编译执行-ts-文件"><a href="#ts-node-编译执行-ts-文件" class="headerlink" title="ts-node 编译执行.ts 文件"></a><code>ts-node</code> 编译执行.ts 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g ts-node</span><br><span class="line">ts-node script.ts</span><br></pre></td></tr></table></figure>
+<h3 id="tsc"><a href="#tsc" class="headerlink" title="tsc"></a><code>tsc</code></h3><ul>
+<li>不带任何输入文件的情况下调用 tsc，编译器会从当前目录开始去查找 tsconfig.json 文件，逐级向上搜索父目录。</li>
+<li>不带任何输入文件的情况下调用 tsc，且使用命令行参数–project（或-p）指定一个包含 tsconfig.json 文件的目录。</li>
+<li>当命令行上指定了输入文件时，tsconfig.json 文件会被忽略。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Run a compile based on a backwards look through the fs for a tsconfig.json</span><br><span class="line">tsc</span><br><span class="line"></span><br><span class="line"># Transpile just the index.ts with the compiler defaults</span><br><span class="line">tsc index.ts</span><br><span class="line"></span><br><span class="line"># Transpile any .ts files in the folder src, with the default settings</span><br><span class="line">tsc src/*.ts</span><br><span class="line"></span><br><span class="line"># Transpile any .ts files in the folder src, with the compiler settings from tsconfig.json</span><br><span class="line">tsc --project tsconfig.json src/*.ts</span><br></pre></td></tr></table></figure>
+<h3 id="tsconfig"><a href="#tsconfig" class="headerlink" title="tsconfig"></a><code>tsconfig</code></h3><ul>
+<li>生成<code>tsconfig.json</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc --init</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用指定的<code>tsconfig.json</code>编译</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// pacage.json</span><br><span class="line">&quot;script&quot;:&#123;</span><br><span class="line">    &quot;build-ts&quot;: &quot;tsc -p tsconfig.build.json&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>tsconfig</code>配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">// tsconfig.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;compilerOptions&quot;: &#123;</span><br><span class="line">    /*=== Basic Options 基础编译选项 ===*/</span><br><span class="line">    // &quot;incremental&quot;: true,                   /* Enable incremental compilation */</span><br><span class="line">    &quot;target&quot;: &quot;ES5&quot;,                          /* 编译完之后的ECMAScript 目标版本: &apos;ES3&apos; (default), &apos;ES5&apos;, &apos;ES2015&apos;, &apos;ES2016&apos;, &apos;ES2017&apos;, &apos;ES2018&apos;, &apos;ES2019&apos;, &apos;ES2020&apos;, or &apos;ESNEXT&apos;. 但是新的内置对象、静态方法、实例方法等不转换 */</span><br><span class="line">    &quot;module&quot;: &quot;ESNext&quot;,                     /* 使用怎样的模块形式输出: &apos;none&apos;, &apos;commonjs&apos;, &apos;amd&apos;, &apos;system&apos;, &apos;umd&apos;, &apos;es2015&apos;, &apos;es2020&apos;, or &apos;ESNext&apos;. */</span><br><span class="line">    // &quot;lib&quot;: [],                             /* Specify library files to be included in the compilation. */</span><br><span class="line">    &quot;allowJs&quot;: true,                 // default:false 允许编译javascript文件。</span><br><span class="line">    // &quot;checkJs&quot;: true,                       /* Report errors in .js files. */</span><br><span class="line">    &quot;jsx&quot;: &quot;preserve&quot;, //  Default  :&quot;preserve&quot;在 .tsx文件里支持JSX 在preserve模式下生成代码中会保留JSX以供后续的转换操作使用（比如：Babel） &quot;react&quot; 转换成React.</span><br><span class="line">    &quot;declaration&quot;: true,                   /* 为每一个ts文件生成&apos;.d.ts&apos; 文件. */</span><br><span class="line">    // &quot;declarationMap&quot;: true,                /* Generates a sourcemap for each corresponding &apos;.d.ts&apos; file. */</span><br><span class="line">    // &quot;sourceMap&quot;: true,                     /* Generates corresponding &apos;.map&apos; file. */</span><br><span class="line">    // &quot;outFile&quot;: &quot;./&quot;,                       /* Concatenate and emit output to single file. */</span><br><span class="line">    &quot;outDir&quot;: &quot;build&quot;,                        /* 输出目录 */</span><br><span class="line">    // &quot;rootDir&quot;: &quot;./&quot;,                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */</span><br><span class="line">    // &quot;composite&quot;: true,                     /* Enable project compilation */</span><br><span class="line">    // &quot;tsBuildInfoFile&quot;: &quot;./&quot;,               /* Specify file to store incremental compilation information */</span><br><span class="line">    // &quot;removeComments&quot;: true,                /* Do not emit comments to output. */</span><br><span class="line">    // &quot;noEmit&quot;: true,                        /* Do not emit outputs. */</span><br><span class="line">    // &quot;importHelpers&quot;: true,                 /* Import emit helpers from &apos;tslib&apos;. */</span><br><span class="line">    // &quot;downlevelIteration&quot;: true,            /* Provide full support for iterables in &apos;for-of&apos;, spread, and destructuring when targeting &apos;ES5&apos; or &apos;ES3&apos;. */</span><br><span class="line">    // &quot;isolatedModules&quot;: true,               /* 文件必须以模块的形式组织 */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*=== Strict Type-Checking Options 严格模式检查 ===*/</span><br><span class="line">    &quot;strict&quot;: true,                           /* default:false 启用所有严格类型检查选项。相当于全部启用下面这些 */</span><br><span class="line">    // &quot;noImplicitAny&quot;: true,                 /* 不能有隐式的any类型 */</span><br><span class="line">    // &quot;strictNullChecks&quot;: true,              /* Enable strict null checks. */</span><br><span class="line">    // &quot;strictFunctionTypes&quot;: true,           /* Enable strict checking of function types. */</span><br><span class="line">    // &quot;strictBindCallApply&quot;: true,           /* Enable strict &apos;bind&apos;, &apos;call&apos;, and &apos;apply&apos; methods on functions. */</span><br><span class="line">    // &quot;strictPropertyInitialization&quot;: true,  /* Enable strict checking of property initialization in classes. */</span><br><span class="line">    // &quot;noImplicitThis&quot;: true,                /* Raise error on &apos;this&apos; expressions with an implied &apos;any&apos; type. */</span><br><span class="line">    // &quot;alwaysStrict&quot;: true,                  /* Parse in strict mode and emit &quot;use strict&quot; for each source file. */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*=== Additional Checks 一些格式检查===*/</span><br><span class="line">    // &quot;noUnusedLocals&quot;: true,                /* Report errors on unused locals. */</span><br><span class="line">    // &quot;noUnusedParameters&quot;: true,            /* Report errors on unused parameters. */</span><br><span class="line">    // &quot;noImplicitReturns&quot;: true,             /* Report error when not all code paths in function return a value. */</span><br><span class="line">    // &quot;noFallthroughCasesInSwitch&quot;: true,    /* Report errors for fallthrough cases in switch statement. */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*=== Module Resolution Options 模块相关的一些方案===*/</span><br><span class="line">    &quot;moduleResolution&quot;: &quot;node&quot;,            /* 指定模块解析策略为node 否则会绝对路径去找找不到: &apos;node&apos; (Node.js) or &apos;classic&apos; (TypeScript pre-1.6). */</span><br><span class="line">    // &quot;baseUrl&quot;: &quot;./&quot;,                       /* Base directory to resolve non-absolute module names. */</span><br><span class="line">    // &quot;paths&quot;: &#123;&#125;,                           /* A series of entries which re-map imports to lookup locations relative to the &apos;baseUrl&apos;. */</span><br><span class="line">    // &quot;rootDirs&quot;: [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */</span><br><span class="line">    // &quot;typeRoots&quot;: [],                       /* List of folders to include type definitions from. */</span><br><span class="line">    // &quot;types&quot;: [],                           /* Type declaration files to be included in compilation. */</span><br><span class="line">    &quot;allowSyntheticDefaultImports&quot;: true,  /* 允许使用 import React from &quot;react&quot;; 否则要写成：import * as React from &quot;react&quot;; */</span><br><span class="line">    &quot;esModuleInterop&quot;: true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies &apos;allowSyntheticDefaultImports&apos;. */</span><br><span class="line">    // &quot;preserveSymlinks&quot;: true,              /* Do not resolve the real path of symlinks. */</span><br><span class="line">    // &quot;allowUmdGlobalAccess&quot;: true,          /* Allow accessing UMD globals from modules. */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*=== Source Map Options source map配置===*/</span><br><span class="line">    // &quot;sourceRoot&quot;: &quot;&quot;,                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */</span><br><span class="line">    // &quot;mapRoot&quot;: &quot;&quot;,                         /* Specify the location where debugger should locate map files instead of generated locations. */</span><br><span class="line">    // &quot;inlineSourceMap&quot;: true,               /* Emit a single file with source maps instead of having a separate file. */</span><br><span class="line">    // &quot;inlineSources&quot;: true,                 /* Emit the source alongside the sourcemaps within a single file; requires &apos;--inlineSourceMap&apos; or &apos;--sourceMap&apos; to be set. */</span><br><span class="line"></span><br><span class="line">    /*=== Experimental Options 实验性选项支持 ===*/</span><br><span class="line">    // &quot;experimentalDecorators&quot;: true,        /* Enables experimental support for ES7 decorators. */</span><br><span class="line">    // &quot;emitDecoratorMetadata&quot;: true,         /* Default：false 启用实验性的ES装饰器。 */</span><br><span class="line"></span><br><span class="line">    /*=== Advanced Options 高级选项 ===*/</span><br><span class="line">    &quot;forceConsistentCasingInFileNames&quot;: true,  /* Default：false 禁止对同一个文件的不一致的引用 */</span><br><span class="line">    // &quot;skipLibCheck&quot;: false, /* default:false 忽略所有的声明文件（ *.d.ts）的类型检查,适用于node_modules中有两个同样的库 */</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  /*=== File Inclusion 文件包含 ===*/</span><br><span class="line">  &quot;include&quot;: [&quot;src&quot;],</span><br><span class="line">  &quot;exclude&quot;: [&quot;src/**/*.tsx&quot;,&quot;test&quot;, &quot;stories&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="typescript-React"><a href="#typescript-React" class="headerlink" title="typescript + React"></a>typescript + React</h2><p>常规写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">interface IHelloProps &#123;</span><br><span class="line">    name: string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Hello = (props: IHelloProps) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">return &lt;h2&gt;&#123;`Hello $&#123;props.name&#125;`&#125;&lt;/h2&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default Hello;</span><br></pre></td></tr></table></figure>
+<p>使用 react 提供的声明</p>
+<p>/node_modules/@types/react/index.d.ts 声明文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">type FC&lt;P = &#123;&#125;&gt; = FunctionComponent&lt;P&gt;;</span><br><span class="line">interface FunctionComponent&lt;P = &#123;&#125;&gt; &#123;</span><br><span class="line">    (props: PropsWithChildren&lt;P&gt;, context?: any): ReactElement&lt;any, any&gt; | null;</span><br><span class="line">    propTypes?: WeakValidationMap&lt;P&gt;;</span><br><span class="line">    contextTypes?: ValidationMap&lt;any&gt;;</span><br><span class="line">    defaultProps?: Partial&lt;P&gt;;</span><br><span class="line">    displayName?: string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; FC, ButtonHTMLAttributes,</span><br><span class="line">  AnchorHTMLAttributes &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">// 为了允许我们的组件支持原生props 结合react提供的button、a原生props</span><br><span class="line">type NativeButtonProps = IButtonProps &amp; ButtonHTMLAttributes&lt;HTMLElement&gt;</span><br><span class="line">type AnchorButtonProps = IButtonProps &amp; AnchorHTMLAttributes&lt;HTMLElement&gt;</span><br><span class="line"></span><br><span class="line">interface IHelloProps &#123;</span><br><span class="line">  name?: string;</span><br><span class="line">&#125;</span><br><span class="line">// 提供了react函数组件的各种特性 如children displayName等</span><br><span class="line">// 不然会报错 React.FC 是 React.FunctionComponent 的别名</span><br><span class="line">const Hello: React.FC&lt;IHelloProps&gt; = (props) =&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;h2&gt;</span><br><span class="line">      &#123;`Hello $&#123;props.name&#125;`&#125;</span><br><span class="line">      &#123;props.children&#125;</span><br><span class="line">    &lt;/h2&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">Hello.defaultProps=&#123;</span><br><span class="line">    name: &apos;ts&apos;</span><br><span class="line">&#125;</span><br><span class="line">export default Hello;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/typescript/" rel="tag"># typescript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20200618-React基于jest-enzyme测试工具的测试手法/" rel="prev" title="React基于jest+enzyme测试工具的测试技巧">
+      <i class="fa fa-chevron-left"></i> React基于jest+enzyme测试工具的测试技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20201114-应用缓存ServiceWork实践/" rel="next" title="应用缓存ServiceWork实践">
+      应用缓存ServiceWork实践 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编程语言的类型"><span class="nav-number">1.</span> <span class="nav-text">编程语言的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态类型语言"><span class="nav-number">1.1.</span> <span class="nav-text">动态类型语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态类型语言"><span class="nav-number">1.2.</span> <span class="nav-text">静态类型语言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#typescript"><span class="nav-number">2.</span> <span class="nav-text">typescript</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特性"><span class="nav-number">2.1.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优势"><span class="nav-number">2.2.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型注解-amp-类型推断"><span class="nav-number">2.3.</span> <span class="nav-text">类型注解 &amp; 类型推断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础类型-amp-对象类型"><span class="nav-number">2.4.</span> <span class="nav-text">基础类型 &amp; 对象类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#联合类型"><span class="nav-number">2.5.</span> <span class="nav-text">联合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉类型"><span class="nav-number">2.6.</span> <span class="nav-text">交叉类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Partial"><span class="nav-number">2.7.</span> <span class="nav-text">Partial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">2.8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数注解"><span class="nav-number">2.9.</span> <span class="nav-text">函数注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组注解"><span class="nav-number">2.10.</span> <span class="nav-text">数组注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#interface-amp-type"><span class="nav-number">2.11.</span> <span class="nav-text">interface &amp; type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型断言"><span class="nav-number">2.12.</span> <span class="nav-text">类型断言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类"><span class="nav-number">2.13.</span> <span class="nav-text">类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">2.14.</span> <span class="nav-text">泛型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#泛型约束"><span class="nav-number">2.14.1.</span> <span class="nav-text">泛型约束</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声明文件"><span class="nav-number">3.</span> <span class="nav-text">声明文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#typescript编译"><span class="nav-number">4.</span> <span class="nav-text">typescript编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ts-node-编译执行-ts-文件"><span class="nav-number">4.1.</span> <span class="nav-text">ts-node 编译执行.ts 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tsc"><span class="nav-number">4.2.</span> <span class="nav-text">tsc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tsconfig"><span class="nav-number">4.3.</span> <span class="nav-text">tsconfig</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#typescript-React"><span class="nav-number">5.</span> <span class="nav-text">typescript + React</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : 'c15a3f9a283fd9c2ca5f5249a2d49382',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

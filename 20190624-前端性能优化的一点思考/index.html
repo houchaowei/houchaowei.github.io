@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="导语前端目前来说越来越庞大，对前端有了一种新的定义–大前端，PHP和node等一些弱类型的脚本辅助语言也逐渐归类为大前端的一部分。对于一个完整的，可持续优化的项目，前端的优化必不可少。  减少 HTTP请求数 将外部脚本置底 异步执行 inline脚本 将 CSS放在 HEAD中 减少不必要的 HTTP跳转 避免重复的资源请求 Image压缩 文件等静态资源存储到CDN服务器…">
+<meta name="keywords" content="H5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端性能优化的一点思考">
+<meta property="og:url" content="https://houchaowei.github.io/20190624-前端性能优化的一点思考/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="导语前端目前来说越来越庞大，对前端有了一种新的定义–大前端，PHP和node等一些弱类型的脚本辅助语言也逐渐归类为大前端的一部分。对于一个完整的，可持续优化的项目，前端的优化必不可少。  减少 HTTP请求数 将外部脚本置底 异步执行 inline脚本 将 CSS放在 HEAD中 减少不必要的 HTTP跳转 避免重复的资源请求 Image压缩 文件等静态资源存储到CDN服务器…">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://houchaowei.github.io/20190624-前端性能优化的一点思考/1561365784722.jpg">
+<meta property="og:image" content="https://houchaowei.github.io/20190624-前端性能优化的一点思考/1561366676938.jpg">
+<meta property="og:image" content="https://houchaowei.github.io/20190624-前端性能优化的一点思考/1561366112343.jpg">
+<meta property="og:image" content="https://houchaowei.github.io/20190624-前端性能优化的一点思考/1561367648768.jpg">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.258Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端性能优化的一点思考">
+<meta name="twitter:description" content="导语前端目前来说越来越庞大，对前端有了一种新的定义–大前端，PHP和node等一些弱类型的脚本辅助语言也逐渐归类为大前端的一部分。对于一个完整的，可持续优化的项目，前端的优化必不可少。  减少 HTTP请求数 将外部脚本置底 异步执行 inline脚本 将 CSS放在 HEAD中 减少不必要的 HTTP跳转 避免重复的资源请求 Image压缩 文件等静态资源存储到CDN服务器…">
+<meta name="twitter:image" content="https://houchaowei.github.io/20190624-前端性能优化的一点思考/1561365784722.jpg">
+
+<link rel="canonical" href="https://houchaowei.github.io/20190624-前端性能优化的一点思考/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>前端性能优化的一点思考 | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20190624-前端性能优化的一点思考/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端性能优化的一点思考
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-24 16:35:04 16:35:04" itemprop="dateCreated datePublished" datetime="2019-06-24T16:35:04+08:00">2019-06-24 16:35:04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h1><p>前端目前来说越来越庞大，对前端有了一种新的定义–大前端，PHP和node等一些弱类型的脚本辅助语言也逐渐归类为大前端的一部分。对于一个完整的，可持续优化的项目，前端的优化必不可少。</p>
+<ul>
+<li>减少 HTTP请求数</li>
+<li>将外部脚本置底</li>
+<li>异步执行 inline脚本</li>
+<li>将 CSS放在 HEAD中</li>
+<li>减少不必要的 HTTP跳转</li>
+<li>避免重复的资源请求</li>
+<li>Image压缩</li>
+<li>文件等静态资源存储到CDN服务器<br>…<a id="more"></a>
+</li>
+</ul>
+<p>除了以上这些最基础的性能优化方案，随着5G的普及，短视频的道路会越走越远。来看一组数据：<br><img src="/20190624-前端性能优化的一点思考/1561365784722.jpg" alt="几组数据"></p>
+<p>由此可见，5G的到来，会促进前端性能优化的大进发。</p>
+<h1 id="SSR-CSR-NSR"><a href="#SSR-CSR-NSR" class="headerlink" title="SSR? CSR? NSR!"></a>SSR? CSR? NSR!</h1><h2 id="CSR（客户端渲染）"><a href="#CSR（客户端渲染）" class="headerlink" title="CSR（客户端渲染）"></a>CSR（客户端渲染）</h2><p>在当今SPA框架，Vue，React，Angular大行天下的时候，前后端分离开发异常可见。客户端渲染简单理解就是浏览器发送页面请求，服务器返回的是一个模板页面，浏览器从上至下解析过程中需要发送ajax请求获取数据，最后再调用模板引擎（art-template等）渲染HTML结构，并把渲染后的结果添加到页面指定容器中。</p>
+<p>客户端渲染因为数据是异步获取，所以在展示完整页面的过程中最少发起两次请求，数据是动态的添加到页面中，因此，非常不利于SEO，便于前后端分离开发。现如今前端采用Vue等框架开发非常多见，因此为了解决纯客户端渲染面临的问题，很多类似Vue中使用SSR和前后端同构的思想也非常常见。</p>
+<h2 id="SSR（服务端渲染）"><a href="#SSR（服务端渲染）" class="headerlink" title="SSR（服务端渲染）"></a>SSR（服务端渲染）</h2><p>简单理解就是浏览器发送请求后，服务器把客户端网页和数据在后台渲染解析，之后把渲染后的结果返回客户端。</p>
+<p>客户端拿到的是渲染后的结果，可以直接展示。服务器端渲染的页面在网络中传输的时候，传输的是一个真实的页面。因此，爬虫客户端当爬到我们的页面后，会分析我们给他提供的这个页面，此时，我们页面中的关键数据就会被爬虫给收录了。服务端渲染可以解决首页白屏时间过久，但是也容易导致服务器压力大，因此，可以使用服务器端的页面缓存技术，减轻服务器的渲染压力。</p>
+<blockquote>
+<p>思考： 如果SSR是解决web性能问题的最优手段，它能对齐Native的性能吗？</p>
+</blockquote>
+<h2 id="NSR（Native渲染）"><a href="#NSR（Native渲染）" class="headerlink" title="NSR（Native渲染）"></a>NSR（Native渲染）</h2><p>顾名思义，NSR即是通过WebView内核的机制进行的提前渲染，web，h5加载页面的时候，先去读取Core MemiryCache搜寻数据，如果有数据，直接渲染，这个是理论上的最短渲染路径，相比SSR，CSR发请求，拉取数据来说，这个是最快的渲染方式。MemoryCache没有数据拦截IO请求，读取离线资源，解释如下图所示：<br><img src="/20190624-前端性能优化的一点思考/1561366676938.jpg" alt="渲染的最短路径"></p>
+<p>上图的内核缓存首先是基于已经存在的PreFetch，通过内核请求获取到的数据，缓存在内核Core MemoryCache中：<br><img src="/20190624-前端性能优化的一点思考/1561366112343.jpg" alt="阿里巴巴UC目前已经拥有的优化过程PreFetch"></p>
+<p><img src="/20190624-前端性能优化的一点思考/1561367648768.jpg" alt="渲染流程对比"></p>
+<p>NSR存在一个命中率的问题，如果内核没有缓存数据的时候，需要从离线资源缓存或者是http缓存获取数据，这个流程用CSR替代，这些缓存都没有数据的时候需要发起网络请求的时候，服务端返回的数据改用SSR返回已经渲染好的结果。这也就是<code>三端同构</code>，此时的性能更进一步。</p>
+<h1 id="pure-jsx"><a href="#pure-jsx" class="headerlink" title="pure-jsx"></a>pure-jsx</h1><p>一个没有Vdom的但保留最小组件周期的React实现（只有1KB）。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/H5/" rel="tag"># H5</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20190619-JavaScript-中-apply-、call-的详解/" rel="prev" title="JavaScript 中 apply 、call 的详解以及纠正">
+      <i class="fa fa-chevron-left"></i> JavaScript 中 apply 、call 的详解以及纠正
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20190715-JavaScript专题之函数柯里化/" rel="next" title="JavaScript专题之函数柯里化">
+      JavaScript专题之函数柯里化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#导语"><span class="nav-number">1.</span> <span class="nav-text">导语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR-CSR-NSR"><span class="nav-number">2.</span> <span class="nav-text">SSR? CSR? NSR!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSR（客户端渲染）"><span class="nav-number">2.1.</span> <span class="nav-text">CSR（客户端渲染）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSR（服务端渲染）"><span class="nav-number">2.2.</span> <span class="nav-text">SSR（服务端渲染）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSR（Native渲染）"><span class="nav-number">2.3.</span> <span class="nav-text">NSR（Native渲染）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pure-jsx"><span class="nav-number">3.</span> <span class="nav-text">pure-jsx</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : 'a0d3d8ae86c6d47c3eee279fa9126eca',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

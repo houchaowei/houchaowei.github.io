@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写在前面GraphQL是一种新的API标准，它提供了一种更高效、强大和灵活的数据提供方式。">
+<meta name="keywords" content="GraphQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL 入门介绍">
+<meta property="og:url" content="https://houchaowei.github.io/20190219-GraphQL-入门介绍/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="写在前面GraphQL是一种新的API标准，它提供了一种更高效、强大和灵活的数据提供方式。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526221257677-811829512.png">
+<meta property="og:image" content="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526222144350-1979704702.png">
+<meta property="og:image" content="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526222358046-671560965.png····">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.221Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GraphQL 入门介绍">
+<meta name="twitter:description" content="写在前面GraphQL是一种新的API标准，它提供了一种更高效、强大和灵活的数据提供方式。">
+<meta name="twitter:image" content="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526221257677-811829512.png">
+
+<link rel="canonical" href="https://houchaowei.github.io/20190219-GraphQL-入门介绍/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>GraphQL 入门介绍 | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20190219-GraphQL-入门介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GraphQL 入门介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-19 14:09:12 14:09:12" itemprop="dateCreated datePublished" datetime="2019-02-19T14:09:12+08:00">2019-02-19 14:09:12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GraphQL/" itemprop="url" rel="index"><span itemprop="name">GraphQL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526221257677-811829512.png" alt="使用graphQL的公司"></p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>GraphQL是一种新的API标准，它提供了一种更高效、强大和灵活的数据提供方式。<a id="more"></a>它是由Facebook开发和开源，目前由来自世界各地的大公司和个人维护。GraphQL本质上是一种基于api的查询语言，现在大多数应用程序都需要从服务器中获取数据，这些数据存储可能存储在数据库中，API的职责是提供与应用程序需求相匹配的存储数据的接口。有的人经常把GraphQL和数据库技术相混淆，这是一个误解，GraphQL是api的查询语言，而不是数据库。从这个意义上说，它是数据库无关的，而且可以在使用API的任何环境中有效使用，我们可以理解为GraphQL是基于API之上的一层封装，目的是为了更好，更灵活的适用于业务的需求变化。 </p>
+<h2 id="GraphQL出现的历史背景"><a href="#GraphQL出现的历史背景" class="headerlink" title="GraphQL出现的历史背景"></a>GraphQL出现的历史背景</h2><p>当提起API设计的时候，大家通常会想到SOAP，RESTful等设计方式，从2000年RESTful的理论被提出的时候，在业界引起了很大反响，因为这种设计理念更易于用户的使用，所以便很快的被大家所接受。我们知道REST是一种从服务器公开数据的流行方式。当REST的概念被提及出来时，客户端应用程序对数据的需求相对简单，而开发的速度并没有达到今天的水平。因此REST对于许多应用程序来说是非常适合的。然而在业务越发复杂，客户对系统的扩展性有了更高的要求时，API环境发生了巨大的变化。特别是从下面三个方面在挑战api设计的方式:</p>
+<h3 id="1-移动端用户的爆发式增长需要更高效的数据加载"><a href="#1-移动端用户的爆发式增长需要更高效的数据加载" class="headerlink" title="1.移动端用户的爆发式增长需要更高效的数据加载"></a>1.移动端用户的爆发式增长需要更高效的数据加载</h3><p>Facebook开发GraphQL的最初原因是移动用户的增加、低功耗设备和松散的网络。GraphQL最小化了需要网络传输的数据量，从而极大地改善了在这些条件下运行的应用程序。</p>
+<h3 id="2-各种不同的前端框架和平台"><a href="#2-各种不同的前端框架和平台" class="headerlink" title="2.各种不同的前端框架和平台"></a>2.各种不同的前端框架和平台</h3><p>前端框架和平台运行客户端应用程序的异构环境使得我们在构建和维护一个符合所有需求的API变得困难，使用GraphQL每个客户机都可以精确地访问它需要的数据。</p>
+<h3 id="3-在不同前端框架，不同平台下想要加快产品快速开发变的越来越难"><a href="#3-在不同前端框架，不同平台下想要加快产品快速开发变的越来越难" class="headerlink" title="3.在不同前端框架，不同平台下想要加快产品快速开发变的越来越难"></a>3.在不同前端框架，不同平台下想要加快产品快速开发变的越来越难</h3><p>持续部署已经成为许多公司的标准，快速的迭代和频繁的产品更新是必不可少的。对于REST api，服务器公开数据的方式常常需要修改，以满足客户端的特定需求和设计更改。这阻碍了快速开发实践和产品迭代。</p>
+<p>GraphQL的出现不仅仅是针对开发人员的，Facebook在2012年开始在其native mobile apps中使用GraphQL。但有趣的是GraphQL大部分都是在web技术的背景下使用的，并且在native mobile 领域中只得到很少的支持。 Facebook第一次公开谈论GraphQL是在宣布开源计划后不久的2015年React峰会的时候。因为Facebook总是在React的背景下谈GraphQL，所以对于没有React经验的开发人员来说，要理解GraphQL并不是一种仅限于React使用的技术可能还需要一段时间。即便是在这样的背景下诞生的GraphQL依然是一个快速增长的社区 ,事实上GraphQL是一种技术，可以在客户端与API通信的任何地方使用。有趣的是Netflix和Coursera等其他公司都在研究类似的想法以提高API的交互效率。Coursera设想了一种类似的技术，可以让客户指定其数据需求，而Netflix甚至将其解决方案称为Falcor。在GraphQL被开源之后，Coursera完全停止了他们在Falcor上的努力，并转到了GraphQL的学习上。目前已经有很多的公司在使用GraphQL（<a href="https://graphql.org/users/）。" target="_blank" rel="noopener">https://graphql.org/users/）。</a></p>
+<h2 id="GraphQL和RESTful的区别"><a href="#GraphQL和RESTful的区别" class="headerlink" title="GraphQL和RESTful的区别"></a>GraphQL和RESTful的区别</h2><p>前面提到GraphQL可以理解为基于RESTful的一种封装，目的在于构建使Client更加易用的服务，可以说GraphQL是更好的RESTful设计。在过去的十多年中，REST已经成为设计web api的标准(虽然只是一个模糊的标准)。它提供了一些很棒的想法，比如无状态服务器和结构化的资源访问。然而REST api表现得过于僵化，无法跟上访问它们的客户的快速变化的需求。 GraphQL的开发是为了应付更多的灵活性和效率，它解决了与REST api交互时开发人员所经历的许多缺点和低效之处。 为了说明在从API获取数据时REST和GraphQL之间的主要区别，让我们考虑一个简单的示例场景：在blog应用程序中，应用程序需要显示特定用户的文章的标题。同一屏幕还显示该用户最后3个关注者的名称。REST和GraphQL如何解决这种情况?</p>
+<p>使用REST API来现实时，我们通常可以通过访问多次请求来收集数据。比如在这个示例中，我们可以通过下面的三步来实现：</p>
+<ol>
+<li><p>通过 /user/<id>获取初始用户数据</id></p>
+</li>
+<li><p>通过/user/<id>/posts 返回用户的所有帖子</id></p>
+</li>
+<li><p>请求/user/<id>/followers，返回每个用户的关注者列表</id></p>
+</li>
+</ol>
+<p>调用关系如下图所示：<br><img src="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526222144350-1979704702.png" alt><br>如果用GraphQL的话，我们只需要一次请求就可以完成上述的需求<br><img src="https://test-hou.oss-cn-shanghai.aliyuncs.com/blog/423536-20180526222358046-671560965.png····" alt></p>
+<p>在GraphQL的世界里我们不用多取数据，也不用担心数据取少了，我们只需要按需获取即可。</p>
+<p>REST最常见的问题之一是API的返回数据过多或者过少，这是因为客户端下载数据的唯一方法是通过访问返回固定数据结构的endpoint，这就会导致我们设计API非常困难，因为它既要能够为客户提供精确的数据需求，又需要满足不同调用者的需求，这本身就是相互矛盾的。GraphQL的发明者Lee Byron提出了一个很重要的概念： “用图形来思考，而不是endpoint”</p>
+<p>通过上述直观展示我们可以得出一下几点：</p>
+<ol>
+<li>获取了许多多余的数据</li>
+</ol>
+<p>通常情况下我们在调用一个通用API接口时，客户端获取的信息比应用程序中实际需要的要多。例如UI需要显示一个用户列表，而实际上只需要使用他们的名字。在REST API中通常会调用 /user 这个endpoint，并接收一个带有用户数据的JSON数组。但是这个响应可能包含更多关于返回的用户的信息，例如他们的生日或地址，而这些信息对客户来说是无用的，因为它只需要显示用户的名字。</p>
+<ol start="2">
+<li>获取的数据少于Client所需要的数据</li>
+</ol>
+<p>一般来说数据获取不足意味着某个特定的endpoint 没有提供客户端需要的足够信息，客户端将需要额外的请求来获取它所需要的一切。这可能会升级到客户端需要首先获取列表信息，然后需要对单条数据添加一个额外的请求以获取其他所需的数据，例如考虑其他Client 也需要显示每个用户的最后三个关注者，该API提供了额外的endpoint  /user/<userid>/followers，为了能够显示所需的信息，Client 必须向 /users endpoint 发出一个请求，然后点击/user/<user-id>/follwers endpoint 来获取单个用户的follwers信息。</user-id></userid></p>
+<ol start="3">
+<li>前端的快速产品迭代对API有很大的挑战</li>
+</ol>
+<p>REST api的一个常见模式是根据您在应用程序内部的展现逻辑来构造endpoint，这很方便，因为它允许客户端通过访问相应的endpoint获取特定视图的所有所需信息。 这种方法的主要缺点是它不允许前端的快速迭代。对于UI所做的每一个更改，现在都存在比以前更多(或更少)的数据的高风险。因此，需要对后端进行调整，以满足新的数据需求，这会降低生产力并显著降低将用户反馈集成到产品中的能力。 使用GraphQL这个问题就解决了。由于GraphQL的灵活性，无需在服务器上额外工作就可以在客户端上进行更改。由于客户端可以指定准确的数据需求，所以当前端的设计和数据需求发生变化时，并不需要后端API做出任何的修改就可以满足展现层的变化。</p>
+<ol start="4">
+<li>Schema和类型系统的好处</li>
+</ol>
+<p>GraphQL使用强大的Type System来定义API的功能。所有在API中公开的类型都是使用GraphQL schema Definition Language (SDL)在模式中编写的。该模式充当客户端和服务器之间的契约，以定义客户机如何访问数据。 一旦定义了模式，在前端和后端工作的团队就可以在没有进一步通信的情况下完成工作，因为他们都知道通过网络发送的数据的确切结构。 前端团队可以通过mock所需的数据结构来轻松测试他们的应用程序。一旦后端API实现完成，就可以对客户端应用程序进行切换来调用实际的API获取数据，这也可以使得我们实现更好的客户端和服务端的分离。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>我们可以看出GraphQL的出现可以使得我们后端API具有更大的灵活性以及扩展性以满足不同client对数据的需要，这大大丰富了API的数据提供的能力。 </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GraphQL/" rel="tag"># GraphQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20190219-关于爱情/" rel="prev" title="关于爱情">
+      <i class="fa fa-chevron-left"></i> 关于爱情
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20190225-也谈勤俭精神/" rel="next" title="也谈勤俭精神（一）">
+      也谈勤俭精神（一） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GraphQL出现的历史背景"><span class="nav-number">2.</span> <span class="nav-text">GraphQL出现的历史背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-移动端用户的爆发式增长需要更高效的数据加载"><span class="nav-number">2.1.</span> <span class="nav-text">1.移动端用户的爆发式增长需要更高效的数据加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-各种不同的前端框架和平台"><span class="nav-number">2.2.</span> <span class="nav-text">2.各种不同的前端框架和平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-在不同前端框架，不同平台下想要加快产品快速开发变的越来越难"><span class="nav-number">2.3.</span> <span class="nav-text">3.在不同前端框架，不同平台下想要加快产品快速开发变的越来越难</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GraphQL和RESTful的区别"><span class="nav-number">3.</span> <span class="nav-text">GraphQL和RESTful的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">4.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : 'a90bc7a55a037f9b78b5352c5bd7eba3',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

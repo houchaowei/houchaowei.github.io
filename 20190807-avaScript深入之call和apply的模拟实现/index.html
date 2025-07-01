@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="call一句话介绍 call：  call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法。  举个例子：123456789var foo = &amp;#123;    value: 1&amp;#125;;function bar() &amp;#123;    console.log(this.value);&amp;#125;bar.call(foo); // 1">
+<meta name="keywords" content="call &amp;&amp; apply">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript深入之call和apply的模拟实现">
+<meta property="og:url" content="https://houchaowei.github.io/20190807-avaScript深入之call和apply的模拟实现/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="call一句话介绍 call：  call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法。  举个例子：123456789var foo = &amp;#123;    value: 1&amp;#125;;function bar() &amp;#123;    console.log(this.value);&amp;#125;bar.call(foo); // 1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.258Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript深入之call和apply的模拟实现">
+<meta name="twitter:description" content="call一句话介绍 call：  call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法。  举个例子：123456789var foo = &amp;#123;    value: 1&amp;#125;;function bar() &amp;#123;    console.log(this.value);&amp;#125;bar.call(foo); // 1">
+
+<link rel="canonical" href="https://houchaowei.github.io/20190807-avaScript深入之call和apply的模拟实现/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>JavaScript深入之call和apply的模拟实现 | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20190807-avaScript深入之call和apply的模拟实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript深入之call和apply的模拟实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-08-07 17:19:00 17:19:00" itemprop="dateCreated datePublished" datetime="2019-08-07T17:19:00+08:00">2019-08-07 17:19:00</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="call"><a href="#call" class="headerlink" title="call"></a>call</h1><p>一句话介绍 call：</p>
+<blockquote>
+<p>call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法。</p>
+</blockquote>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call(foo); // 1</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>注意两点：</p>
+<ul>
+<li>call 改变了 this 的指向，指向到 foo</li>
+<li>bar 函数执行了</li>
+</ul>
+<h1 id="模拟实现第一步"><a href="#模拟实现第一步" class="headerlink" title="模拟实现第一步"></a>模拟实现第一步</h1><p>那么我们该怎么模拟实现这两个效果呢？</p>
+<p>试想当调用 call 的时候，把 foo 对象改造成如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var foo = &#123;</span><br><span class="line">    value: 1,</span><br><span class="line">    bar: function() &#123;</span><br><span class="line">        console.log(this.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">foo.bar(); // 1</span><br></pre></td></tr></table></figure></p>
+<p>这个时候 this 就指向了 foo，是不是很简单呢？</p>
+<p>但是这样却给 foo 对象本身添加了一个属性，这可不行呐！</p>
+<p>不过也不用担心，我们用 delete 再删除它不就好了~</p>
+<p>所以我们模拟的步骤可以分为：</p>
+<ul>
+<li>将函数设为对象的属性</li>
+<li>执行该函数</li>
+<li>删除该函数</li>
+</ul>
+<p>以上个例子为例，就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 第一步</span><br><span class="line">foo.fn = bar</span><br><span class="line">// 第二步</span><br><span class="line">foo.fn()</span><br><span class="line">// 第三步</span><br><span class="line">delete foo.fn</span><br></pre></td></tr></table></figure></p>
+<p>fn 是对象的属性名，反正最后也要删除它，所以起成什么都无所谓。</p>
+<p>根据这个思路，我们可以尝试着去写第一版的 call2 函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 第一版</span><br><span class="line">Function.prototype.call2 = function(context) &#123;</span><br><span class="line">    // 首先要获取调用call的函数，用this可以获取</span><br><span class="line">    context.fn = this;</span><br><span class="line">    context.fn();</span><br><span class="line">    delete context.fn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试一下</span><br><span class="line">var foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call2(foo); // 1</span><br></pre></td></tr></table></figure>
+<p>正好可以打印 1 哎！是不是很开心！(～￣▽￣)～</p>
+<h1 id="模拟实现第二步"><a href="#模拟实现第二步" class="headerlink" title="模拟实现第二步"></a>模拟实现第二步</h1><p>最一开始也讲了，call 函数还能给定参数执行函数。举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    console.log(name)</span><br><span class="line">    console.log(age)</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call(foo, &apos;kevin&apos;, 18);</span><br><span class="line">// kevin</span><br><span class="line">// 18</span><br><span class="line">// 1</span><br></pre></td></tr></table></figure></p>
+<p>注意：传入的参数并不确定，这可咋办？</p>
+<p>不急，我们可以从 Arguments 对象中取值，取出第二个到最后一个参数，然后放到一个数组里。</p>
+<p>比如这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 以上个例子为例，此时的arguments为：</span><br><span class="line">// arguments = &#123;</span><br><span class="line">//      0: foo,</span><br><span class="line">//      1: &apos;kevin&apos;,</span><br><span class="line">//      2: 18,</span><br><span class="line">//      length: 3</span><br><span class="line">// &#125;</span><br><span class="line">// 因为arguments是类数组对象，所以可以用for循环</span><br><span class="line">var args = [];</span><br><span class="line">for(var i = 1, len = arguments.length; i &lt; len; i++) &#123;</span><br><span class="line">    args.push(&apos;arguments[&apos; + i + &apos;]&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 执行后 args为 [&quot;arguments[1]&quot;, &quot;arguments[2]&quot;, &quot;arguments[3]&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>不定长的参数问题解决了，我们接着要把这个参数数组放到要执行的函数的参数里面去。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 将数组里的元素作为多个参数放进函数的形参里</span><br><span class="line">context.fn(args.join(&apos;,&apos;))</span><br><span class="line">// (O_o)??</span><br><span class="line">// 这个方法肯定是不行的啦！！！</span><br></pre></td></tr></table></figure></p>
+<p>也许有人想到用 ES6 的方法，不过 call 是 ES3 的方法，我们为了模拟实现一个 ES3 的方法，要用到ES6的方法，好像……，嗯，也可以啦。但是我们这次用 eval 方法拼成一个函数，类似于这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(&apos;context.fn(&apos; + args +&apos;)&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>这里 args 会自动调用 Array.toString() 这个方法。</p>
+<p>所以我们的第二版克服了两个大问题，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 第二版</span><br><span class="line">Function.prototype.call2 = function(context) &#123;</span><br><span class="line">    context.fn = this;</span><br><span class="line">    var args = [];</span><br><span class="line">    for(var i = 1, len = arguments.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(&apos;arguments[&apos; + i + &apos;]&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    eval(&apos;context.fn(&apos; + args +&apos;)&apos;);</span><br><span class="line">    delete context.fn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试一下</span><br><span class="line">var foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    console.log(name)</span><br><span class="line">    console.log(age)</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call2(foo, &apos;kevin&apos;, 18); </span><br><span class="line">// kevin</span><br><span class="line">// 18</span><br><span class="line">// 1</span><br></pre></td></tr></table></figure>
+<h1 id="模拟实现第三步"><a href="#模拟实现第三步" class="headerlink" title="模拟实现第三步"></a>模拟实现第三步</h1><p>模拟代码已经完成 80%，还有两个小点要注意：</p>
+<p>1.this 参数可以传 null，当为 null 的时候，视为指向 window</p>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call(null); // 1</span><br></pre></td></tr></table></figure></p>
+<p>虽然这个例子本身不使用 call，结果依然一样。</p>
+<p>2.函数是可以有返回值的！</p>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        value: this.value,</span><br><span class="line">        name: name,</span><br><span class="line">        age: age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(bar.call(obj, &apos;kevin&apos;, 18));</span><br><span class="line">// Object &#123;</span><br><span class="line">//    value: 1,</span><br><span class="line">//    name: &apos;kevin&apos;,</span><br><span class="line">//    age: 18</span><br><span class="line">// &#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过都很好解决，让我们直接看第三版也就是最后一版的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">// 第三版</span><br><span class="line">Function.prototype.call2 = function (context) &#123;</span><br><span class="line">    var context = context || window;</span><br><span class="line">    context.fn = this;</span><br><span class="line"></span><br><span class="line">    var args = [];</span><br><span class="line">    for(var i = 1, len = arguments.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(&apos;arguments[&apos; + i + &apos;]&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var result = eval(&apos;context.fn(&apos; + args +&apos;)&apos;);</span><br><span class="line"></span><br><span class="line">    delete context.fn</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试一下</span><br><span class="line">var value = 2;</span><br><span class="line"></span><br><span class="line">var obj = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">    return &#123;</span><br><span class="line">        value: this.value,</span><br><span class="line">        name: name,</span><br><span class="line">        age: age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call(null); // 2</span><br><span class="line"></span><br><span class="line">console.log(bar.call2(obj, &apos;kevin&apos;, 18));</span><br><span class="line">// 1</span><br><span class="line">// Object &#123;</span><br><span class="line">//    value: 1,</span><br><span class="line">//    name: &apos;kevin&apos;,</span><br><span class="line">//    age: 18</span><br><span class="line">// &#125;</span><br></pre></td></tr></table></figure>
+<p>到此，我们完成了 call 的模拟实现，给自己一个赞 ｂ（￣▽￣）ｄ</p>
+<h1 id="apply的模拟实现"><a href="#apply的模拟实现" class="headerlink" title="apply的模拟实现"></a>apply的模拟实现</h1><p>apply 的实现跟 call 类似，在这里直接给代码，代码来自于知乎 @郑航的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.apply = function (context, arr) &#123;</span><br><span class="line">    var context = Object(context) || window;</span><br><span class="line">    context.fn = this;</span><br><span class="line"></span><br><span class="line">    var result;</span><br><span class="line">    if (!arr) &#123;</span><br><span class="line">        result = context.fn();</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        var args = [];</span><br><span class="line">        for (var i = 0, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">            args.push(&apos;arr[&apos; + i + &apos;]&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        result = eval(&apos;context.fn(&apos; + args + &apos;)&apos;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    delete context.fn</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/call-apply/" rel="tag"># call && apply</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20190801-应用缓存方案/" rel="prev" title="应用缓存方案">
+      <i class="fa fa-chevron-left"></i> 应用缓存方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20190809-html标签之间换行产生的空格/" rel="next" title="html标签之间换行产生的空格">
+      html标签之间换行产生的空格 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#call"><span class="nav-number">1.</span> <span class="nav-text">call</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模拟实现第一步"><span class="nav-number">2.</span> <span class="nav-text">模拟实现第一步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模拟实现第二步"><span class="nav-number">3.</span> <span class="nav-text">模拟实现第二步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模拟实现第三步"><span class="nav-number">4.</span> <span class="nav-text">模拟实现第三步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apply的模拟实现"><span class="nav-number">5.</span> <span class="nav-text">apply的模拟实现</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : '390f2b5c878e13e08bd8bda959e5b32d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin：">
+<meta name="keywords" content="H5,脚手架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脚手架实践: 集成模板搭建及线上部署">
+<meta property="og:url" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527214905927.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527222335168.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528105350735.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528135956543.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528141403845.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528161244379.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528211922062.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528212157517.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/demo.gif">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528230130324.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528230103891.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528230416958.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528235808993.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528235924553.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000018425.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000333623.png">
+<meta property="og:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000500833.png">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.278Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="脚手架实践: 集成模板搭建及线上部署">
+<meta name="twitter:description" content="起步bin目录下创建zh-cli.js 12#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件console.log(&apos;hello zh-cli&apos;) 执行node bin/zh-cli.js，即可输出  配置下package.json的bin：">
+<meta name="twitter:image" content="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527214905927.png">
+
+<link rel="canonical" href="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>脚手架实践: 集成模板搭建及线上部署 | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20220529-脚手架实践-集成模板搭建及线上部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          脚手架实践: 集成模板搭建及线上部署
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-05-29 00:10:08 00:10:08" itemprop="dateCreated datePublished" datetime="2022-05-29T00:10:08+08:00">2022-05-29 00:10:08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>8 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>bin目录下创建zh-cli.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node //让系统动态的去查找node来执行你的脚本文件</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'hello zh-cli'</span>)</span><br></pre></td></tr></table></figure>
+<p>执行<code>node bin/zh-cli.js</code>，即可输出</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527214905927.png" alt="image-20220527214905927" style="zoom:50%;"></p>
+<p>配置下package.json的bin：<br><a id="more"></a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"bin": &#123;</span><br><span class="line">	"zhcli": "bin/zh-cli.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本地<code>npm link</code> , 即可执行<code>zhcli</code> , 等价于<code>node bin/zh-cli.js</code>。</p>
+<blockquote>
+<p>==npm是如何识别并执行对应的文件?==</p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html" target="_blank" rel="noopener">阮一峰：Npm Scripts 使用指南</a></p>
+</blockquote>
+<h4 id="commander"><a href="#commander" class="headerlink" title="commander"></a>commander</h4><p>Nodejs 命令行解决方案。</p>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> program = <span class="built_in">require</span>(<span class="string">"commander"</span>);</span><br><span class="line">program.command().parse(process.argv);</span><br></pre></td></tr></table></figure>
+<h5 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h5><h6 id="command"><a href="#command" class="headerlink" title=".command()"></a>.command()</h6><p><code>.command()</code>的第一个参数为命令名称。命令参数可以跟在名称后面，也可以用<code>.argument()</code>单独指定。参数可为必选的（尖括号表示）、可选的（方括号表示）或变长参数（点号表示，如果使用，只能是最后一个参数）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">program</span><br><span class="line">  .command(<span class="string">'clone &lt;source&gt; [destination]'</span>)</span><br><span class="line">  .description(<span class="string">'clone a repository into a newly created directory'</span>)</span><br><span class="line">  .action(<span class="function">(<span class="params">source, destination</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clone command called'</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h6 id="parse-params-params"><a href="#parse-params-params" class="headerlink" title=".parse(params, [params])"></a>.parse(params, [params])</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">program.parse(process.argv); <span class="comment">// 指明，按 node 约定</span></span><br><span class="line">program.parse(); <span class="comment">// 默认，自动识别 electron</span></span><br><span class="line">program.parse([<span class="string">'-f'</span>, <span class="string">'filename'</span>], &#123; <span class="attr">from</span>: <span class="string">'user'</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p>新增node命令：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">program</span><br><span class="line">  .command(<span class="string">'add'</span>)</span><br><span class="line">  .description(<span class="string">'add a new template'</span>)</span><br><span class="line">  .action(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure>
+<p>终端输入<code>zhcli -h</code>，可以查看新增的命令及注释。</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220527222335168.png" alt="image-20220527222335168" style="zoom:50%;"></p>
+<p>通过commander对用户输入的参数进行解析，只接受一个参数，多余的参数不处理。然后对用户输入的projectName进行处理。</p>
+<p>入口文件<code>zh-cli.js</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="keyword">const</span> program = <span class="built_in">require</span>(<span class="string">"commander"</span>);</span><br><span class="line"><span class="keyword">const</span> minimist = <span class="built_in">require</span>(<span class="string">"minimist"</span>);</span><br><span class="line"><span class="keyword">const</span> chalk = <span class="built_in">require</span>(<span class="string">"chalk"</span>);</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .command(<span class="string">"create &lt;app-name&gt;"</span>)</span><br><span class="line">  .description(<span class="string">"您正在使用zh-cli脚手架创建工程"</span>)</span><br><span class="line">  .action(<span class="function">(<span class="params">name</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (minimist(process.argv.slice(<span class="number">3</span>))._.length &gt; <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(</span><br><span class="line">        chalk.yellow(<span class="string">"\n Info: 只会取第一个参数作为项目名称，其他参数忽略"</span>)</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="comment">// todo 执行创建命令：createProjectByName()</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure>
+<h3 id="校验输入的projectName"><a href="#校验输入的projectName" class="headerlink" title="校验输入的projectName"></a>校验输入的<code>projectName</code></h3><h4 id="validate-npm-package-name"><a href="#validate-npm-package-name" class="headerlink" title="validate-npm-package-name"></a>validate-npm-package-name</h4><p>检验字符串是否是一个有效的包命名。</p>
+<h5 id="包命名规则"><a href="#包命名规则" class="headerlink" title="包命名规则"></a><a href="https://juejin.cn/post/7012047954995314701" target="_blank" rel="noopener">包命名规则</a></h5><ul>
+<li><p>包名不能是空字符串；</p>
+</li>
+<li><p>所有的字符串必须小写；</p>
+</li>
+<li><p>可以包含 连字符 - ；</p>
+</li>
+<li><p>包名不得包含任何非 url 安全字符；</p>
+</li>
+<li><p>包名不得以 . 或者 _ 开头;</p>
+</li>
+<li><p>包名首尾不得包含空格；</p>
+</li>
+<li><p>包名不得包含 <strong>~)(‘!*</strong> 任意一个字符串;</p>
+</li>
+<li><p>包名不得与node.js/io.js 的核心模块 或者 保留名 以及 黑名单相同；</p>
+</li>
+<li><p>包名的长度不得超过 214；</p>
+</li>
+</ul>
+<h5 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> validateProjectName = <span class="built_in">require</span>(<span class="string">"validate-npm-package-name"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = validateProjectName(name);</span><br><span class="line"><span class="keyword">if</span> (!result.validForNewPackages) &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(chalk.red(<span class="string">`非法项目名称: "<span class="subst">$&#123;name&#125;</span>"`</span>));</span><br><span class="line">  result.errors &amp;&amp;</span><br><span class="line">    result.errors.forEach(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(chalk.red.dim(<span class="string">"Error: "</span> + err));</span><br><span class="line">  &#125;);</span><br><span class="line">  result.warnings &amp;&amp;</span><br><span class="line">    result.warnings.forEach(<span class="function">(<span class="params">warn</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(chalk.red.dim(<span class="string">"Warning: "</span> + warn));</span><br><span class="line">  &#125;);</span><br><span class="line">  exit(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="命令行交互"><a href="#命令行交互" class="headerlink" title="命令行交互"></a>命令行交互</h3><h4 id="我们的需求"><a href="#我们的需求" class="headerlink" title="我们的需求"></a>我们的需求</h4><p>我们需要提供几套模板给用户选择，比如：</p>
+<ul>
+<li>纯前端工程（CSR模式，不带node）</li>
+<li>hobber + React前端模板</li>
+<li>SSR工程</li>
+<li>…</li>
+</ul>
+<p>我们需要指定提示并获取用户输入的内容，比如：</p>
+<ul>
+<li>项目描述</li>
+<li>初始化版本号</li>
+<li>是否自动安装依赖</li>
+<li>前端默认端口</li>
+<li>PC端还是移动端</li>
+<li>…</li>
+</ul>
+<p>了解了我们的需求，==inquirer==可以满足我们的需求。</p>
+<h4 id="inquirer：命令行交互问询。"><a href="#inquirer：命令行交互问询。" class="headerlink" title="inquirer：命令行交互问询。"></a><a href="https://www.npmjs.com/package/inquirer" target="_blank" rel="noopener">inquirer</a>：命令行交互问询。</h4><h5 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h5><h6 id="inquirer-prompt-questions-answers-gt-promise"><a href="#inquirer-prompt-questions-answers-gt-promise" class="headerlink" title="inquirer.prompt(questions, answers) -&gt; promise"></a><code>inquirer.prompt(questions, answers) -&gt; promise</code></h6><p>启动提示接口。</p>
+<p><strong>questions</strong>(Array): <a href="https://www.npmjs.com/package/inquirer#question" target="_blank" rel="noopener">Question Object</a></p>
+<p><strong>answers</strong>(Object)</p>
+<p><strong>Question Object</strong>:</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528105350735.png" alt="image-20220528105350735" style="zoom:50%;"></p>
+<h5 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> inquirer = <span class="built_in">require</span>(<span class="string">'inquirer'</span>);</span><br><span class="line">inquirer</span><br><span class="line">  .prompt([</span><br><span class="line">    <span class="comment">/* Pass your questions in here */</span></span><br><span class="line">  ])</span><br><span class="line">  .then(<span class="function">(<span class="params">answers</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// Use user feedback for... whatever!!</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (error.isTtyError) &#123;</span><br><span class="line">      <span class="comment">// Prompt couldn't be rendered in the current environment</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Something else went wrong</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<p>执行结果如图所示:</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528135956543.png" alt="image-20220528135956543" style="zoom:50%;"></p>
+<h4 id="预置模板-amp-收集信息"><a href="#预置模板-amp-收集信息" class="headerlink" title="预置模板 &amp; 收集信息"></a>预置模板 &amp; 收集信息</h4><p>我们先创建一个template的json串：==templatePreset.js==</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">"React client template"</span>,</span><br><span class="line">    gitDirs: [</span><br><span class="line">      &#123;</span><br><span class="line">        name: <span class="string">"React CSR 模板"</span>,</span><br><span class="line">        git: <span class="string">"https://github.com/houchaowei/react-template-client.git"</span>,</span><br><span class="line">        gitSsh: <span class="string">"git@github.com:houchaowei/react-template-client.git"</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">"React server template"</span>,</span><br><span class="line">    gitDirs: [</span><br><span class="line">      &#123;</span><br><span class="line">        name: <span class="string">"React SSR 模板"</span>,</span><br><span class="line">        git: <span class="string">"https://github.com/houchaowei/react-template-server.git"</span>,</span><br><span class="line">        gitSsh: <span class="string">"git@github.com:houchaowei/react-template-server.git"</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>当选择了CSR或者SSR之后，提供meta设置，通过==inquirer.prompt==用户输入提前预置的问题，并收集用户输入的所有answer，==meta.js==：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> prompts = [</span><br><span class="line">    &#123;</span><br><span class="line">      name: <span class="string">"version"</span>,</span><br><span class="line">      type: <span class="string">"string"</span>,</span><br><span class="line">      message: <span class="string">"Initial version of the project"</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">"0.0.1"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      name: <span class="string">"description"</span>,</span><br><span class="line">      type: <span class="string">"string"</span>,</span><br><span class="line">      message: <span class="string">"project description"</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">"description"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      name: <span class="string">"needInstall"</span>,</span><br><span class="line">      type: <span class="string">"string"</span>,</span><br><span class="line">      message: <span class="string">"auto install dependencies?[Y/N]"</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">"N"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      name: <span class="string">"isMobileTemplate"</span>,</span><br><span class="line">      type: <span class="string">"list"</span>,</span><br><span class="line">      message: <span class="string">"组件库是pc端还是移动端？"</span>,</span><br><span class="line">      choices: [</span><br><span class="line">        &#123;</span><br><span class="line">          name: <span class="string">"pc端"</span>,</span><br><span class="line">          value: <span class="literal">false</span>,</span><br><span class="line">          short: <span class="literal">false</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          name: <span class="string">"移动端"</span>,</span><br><span class="line">          value: <span class="literal">true</span>,</span><br><span class="line">          short: <span class="literal">true</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      name: <span class="string">"reactFePort"</span>,</span><br><span class="line">      type: <span class="string">"string"</span>,</span><br><span class="line">      message: <span class="string">"前端默认端口[7001]"</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">"7001"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ];</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    prompts,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当用户输入完信息之后，需要对用户的输入信息进行收集:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 收集meta问题用户的answer</span></span><br><span class="line"><span class="keyword">const</span> globalPromptsAnswers = <span class="keyword">await</span> inquirer.prompt(</span><br><span class="line">  meta().prompts</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528141403845.png" alt="image-20220528141403845" style="zoom:50%;"></p>
+<p>于此同时，需要去clone已经提前预置好的模板，我们内置了两套模板仓库，分别为CSR和SSR的模板。在==templatePreset.js==里已经内置了仓库地址。</p>
+<h4 id="Clone-模板到本地缓存"><a href="#Clone-模板到本地缓存" class="headerlink" title="Clone 模板到本地缓存"></a>Clone 模板到本地缓存</h4><p>clone的方式分为https和ssh，这里我们也提供两套clone方式去使用。</p>
+<h5 id="https-download-git-repo"><a href="#https-download-git-repo" class="headerlink" title="https: download-git-repo"></a>https: download-git-repo</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">download(<span class="string">`direct:<span class="subst">$&#123;gitDir.git&#125;</span>`</span>, tmpdir, &#123;<span class="attr">clone</span>: <span class="literal">true</span>&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意事项，默认是master分支，非master分支：direct:${gitDir.git}/#${branchName}</li>
+</ul>
+<h5 id="ssh-child-process-spawn"><a href="#ssh-child-process-spawn" class="headerlink" title="ssh: child_process.spawn()"></a>ssh: <a href="http://nodejs.cn/api/child_process.html#child_processspawncommand-args-options" target="_blank" rel="noopener">child_process.spawn()</a></h5><h6 id="child-process-spawn-command-args-options"><a href="#child-process-spawn-command-args-options" class="headerlink" title="child_process.spawn(command[, args][, options])"></a><code>child_process.spawn(command[, args][, options])</code></h6><p>为什么要用到child_process.spawn？</p>
+<p>我们当前运行的命令是我们执行的主进程，不可被打断。如果我们要clone提前预置的仓库模板且不影响主进程，通过child_process开启子进程去运行clone命令。创建一个shell，然后在shell里执行命令。执行完成后，将stdout、stderr作为参数传入回调方法。</p>
+<p>参数说明：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528161244379.png" alt="image-20220528161244379"></p>
+<p>包装runCommand方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runCommand</span>(<span class="params">cmd, args, options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> spwan = spawn(cmd, args, &#123;</span><br><span class="line">      cwd: process.cwd(),</span><br><span class="line">      stdio: <span class="string">"inherit"</span>,</span><br><span class="line">      shell: <span class="literal">true</span>,</span><br><span class="line">      ...options,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    spwan.on(<span class="string">"exit"</span>, () =&gt; &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对clone的过程进行一个内容的输出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">exports.gitClone = <span class="function">(<span class="params">&#123; cwd, gitSSH, tmpName &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`\n\n# <span class="subst">$&#123;chalk.green(<span class="string">"tmp路径："</span> + cwd)&#125;</span>`</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`# <span class="subst">$&#123;chalk.green(<span class="string">"正在clone '"</span> + tmpName + <span class="string">"' 模板 ..."</span>)&#125;</span>`</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"# ========================\n"</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(gitSSH));</span><br><span class="line">  <span class="keyword">return</span> runCommand(<span class="string">"git"</span>, [<span class="string">`clone <span class="subst">$&#123;gitSSH&#125;</span>`</span>], &#123; cwd &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>执行clone的命令：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tmpdir = path.join(path.join(os.tmpdir(), <span class="string">"zhcli-presets-temp"</span>), presetName);</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  gitClone(&#123;</span><br><span class="line">    cwd: tmpdir,</span><br><span class="line">    gitSSH: gitDir.gitSsh,</span><br><span class="line">    tmpName: gitDir.name,</span><br><span class="line">  &#125;)</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(chalk.green(<span class="string">'模板仓库克隆成功'</span>))</span><br><span class="line">    resolve();</span><br><span class="line">  &#125;)</span><br><span class="line">    .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    error(err);</span><br><span class="line">    exit(<span class="number">1</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>==os.tmpdir()==: 远程模板仓库clone成功后，暂存到本机的缓存目录里。</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528211922062.png" alt="image-20220528211922062" style="zoom:50%;"></p>
+<p>在缓存目录下可以看到模板仓库：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528212157517.png" alt="image-20220528212157517" style="zoom:50%;"></p>
+<p>走到这一步已经能拿到的信息有：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	answers: &#123;</span><br><span class="line">		name: appName <span class="comment">// 用户创建时的app name</span></span><br><span class="line">	&#125;,</span><br><span class="line">	tmpdir: fullname, <span class="comment">// 模板clone的缓存目录全路径</span></span><br><span class="line">	gitDir: &#123;</span><br><span class="line">    name: <span class="string">"React CSR 模板"</span>, <span class="comment">// 模板名称</span></span><br><span class="line">    git: <span class="string">"https://github.com/xx/react-redux-tutorial.git"</span>, <span class="comment">// git https地址</span></span><br><span class="line">    gitSsh: <span class="string">"git@github.com:xx/react-redux-tutorial.git"</span>, <span class="comment">// git ssh地址</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下一步就是生成模板文件，如果只是个人使用的，就直接生成模板文件就可以了，如果是涉及到公司的流水线部署时，这里会涉及到集成CI/CD的一个流程，后面会以阿里云服务器为例进行讲解。</p>
+<h4 id="generator-file"><a href="#generator-file" class="headerlink" title="generator file"></a>generator file</h4><p>根据tmpdir的缓存模板目录，通过fs对文件进行递归遍历，拿到每一个目录下的所有的文件。</p>
+<p>代码参考：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFileList</span>(<span class="params">dir</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> list = [];</span><br><span class="line">  <span class="keyword">const</span> arr = fs.readdirSync(dir);</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    arr.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> fullpath = path.join(dir, item);</span><br><span class="line">      <span class="keyword">const</span> stats = fs.statSync(fullpath);</span><br><span class="line">      <span class="keyword">if</span> (stats.isDirectory()) &#123;</span><br><span class="line">        list.push(...getFileList(fullpath));</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        list.push(fullpath);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'获取文件目录error：'</span>, chalk.red(error))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对拿到的fileList通过async.each()进行异步遍历，用fs.readFileSync()拿到每一个文件的内容进行写操作。其中对每个文件的lastIndexOf(“/“)执行fs.mkdif()建立文件夹，绝对路径执行fs.writeFile()写操作。</p>
+<p>其中基于当前主进程的路径组合绝对路径：当前路径 + appName + 每一个文件的相对路径。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = path.join(process.cwd(), appName, relativePath);</span><br></pre></td></tr></table></figure>
+<p>关键代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 写文件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;*&#125;</span> </span>param0 </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns </span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> writeFileRecursive = <span class="function">(<span class="params">_path, buffer, callback</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> lastPath = _path.substring(<span class="number">0</span>, _path.lastIndexOf(<span class="string">"/"</span>));</span><br><span class="line">  fs.mkdir(lastPath, &#123;</span><br><span class="line">    recursive: <span class="literal">true</span></span><br><span class="line">  &#125;, (err) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> callback(err);</span><br><span class="line">    fs.writeFile(_path, buffer, (_err) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (_err) <span class="keyword">return</span> callback(_err);</span><br><span class="line">      <span class="keyword">return</span> callback(<span class="literal">null</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">writeFiles</span>(<span class="params">&#123;</span></span></span><br><span class="line"><span class="function"><span class="params">  fileObjArray,</span></span></span><br><span class="line"><span class="function"><span class="params">  answers,</span></span></span><br><span class="line"><span class="function"><span class="params">  tmpdir</span></span></span><br><span class="line"><span class="function"><span class="params">&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// fileObjArray 包含os.tmpdir中使用handleBar替换过的git项目的全部路径和文件内容</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">async</span>.each(</span><br><span class="line">      fileObjArray,</span><br><span class="line">      (fileObj, next) =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> rp = getRelativePath(fileObj.file, tmpdir);</span><br><span class="line">        <span class="keyword">if</span> (rp === <span class="string">"gitignore"</span>) &#123;</span><br><span class="line">          rp = <span class="string">`.<span class="subst">$&#123;rp&#125;</span>`</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 基于当前主进程的路径组合绝对路径：当前路径 + appName + 每一个文件的相对路径</span></span><br><span class="line">        rp = path.join(process.cwd(), answers.name, rp);</span><br><span class="line"></span><br><span class="line">        writeFileRecursive(rp, fileObj.contents, () =&gt; &#123;</span><br><span class="line">          next();</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;,</span><br><span class="line">      resolve</span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = (&#123;</span><br><span class="line">  tmpdir,</span><br><span class="line">  answers,</span><br><span class="line">&#125;) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    renderTemplateFiles(&#123;</span><br><span class="line">        tmpdir,</span><br><span class="line">        answers,</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// console.log('result', res);</span></span><br><span class="line">        writeFiles(&#123;</span><br><span class="line">            fileObjArray: res.fileObjArray,</span><br><span class="line">            answers: res.answers,</span><br><span class="line">            tmpdir,</span><br><span class="line">          &#125;)</span><br><span class="line">          .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            resolve();</span><br><span class="line">          &#125;)</span><br><span class="line">          .catch(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            reject();</span><br><span class="line">          &#125;);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        reject();</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>至此，缓存模板写入当前路径文件已完成。</p>
+<p>相关知识点：模板引擎替换<a href="https://www.tabnine.com/code/javascript/functions/consolidate/Consolidate/handlebars" target="_blank" rel="noopener">https://www.tabnine.com/code/javascript/functions/consolidate/Consolidate/handlebars</a></p>
+<p>gif图实现效果图：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/demo.gif" alt="demo"></p>
+<h3 id="阿里云ecs申请购买服务器，安装nginx服务，配置安全组，开启80端口。"><a href="#阿里云ecs申请购买服务器，安装nginx服务，配置安全组，开启80端口。" class="headerlink" title="阿里云ecs申请购买服务器，安装nginx服务，配置安全组，开启80端口。"></a>阿里云ecs申请购买服务器，安装nginx服务，配置安全组，开启80端口。</h3><p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528230130324.png" alt="image-20220528230130324" style="zoom:50%;"></p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528230103891.png" alt="image-20220528230103891" style="zoom:50%;"></p>
+<p>访问线上地址：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528230416958.png" alt="image-20220528230416958"></p>
+<p>在本地启动demo项目</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528235808993.png" alt="image-20220528235808993" style="zoom:50%;"></p>
+<p>修改其中一行代码：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220528235924553.png" alt="image-20220528235924553"></p>
+<p>package.json中配置的script命令：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000018425.png" alt="image-20220529000018425" style="zoom:50%;"></p>
+<blockquote>
+<p>build命令和deploy.sh发线上部署脚本都已经内置在脚手架中，创建新项目的时候，会一并附带来，将部署脚本集成到脚手架，且脚手架可能只多套脚本。</p>
+</blockquote>
+<p>发版和部署：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000333623.png" alt="image-20220529000333623" style="zoom:50%;"></p>
+<p>刷新线上地址：</p>
+<p><img src="/20220529-脚手架实践-集成模板搭建及线上部署/image-20220529000500833.png" alt="image-20220529000500833"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/H5/" rel="tag"># H5</a>
+              <a href="/tags/脚手架/" rel="tag"># 脚手架</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20210817-React之Ref/" rel="prev" title="React之Ref">
+      <i class="fa fa-chevron-left"></i> React之Ref
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#起步"><span class="nav-number">1.</span> <span class="nav-text">起步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#commander"><span class="nav-number">1.1.</span> <span class="nav-text">commander</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用"><span class="nav-number">1.1.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#命令"><span class="nav-number">1.1.2.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#command"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">.command()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#parse-params-params"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">.parse(params, [params])</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验输入的projectName"><span class="nav-number">2.</span> <span class="nav-text">校验输入的projectName</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#validate-npm-package-name"><span class="nav-number">2.1.</span> <span class="nav-text">validate-npm-package-name</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#包命名规则"><span class="nav-number">2.1.1.</span> <span class="nav-text">包命名规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行交互"><span class="nav-number">3.</span> <span class="nav-text">命令行交互</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们的需求"><span class="nav-number">3.1.</span> <span class="nav-text">我们的需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inquirer：命令行交互问询。"><span class="nav-number">3.2.</span> <span class="nav-text">inquirer：命令行交互问询。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods"><span class="nav-number">3.2.1.</span> <span class="nav-text">Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#inquirer-prompt-questions-answers-gt-promise"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">inquirer.prompt(questions, answers) -&gt; promise</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用-2"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预置模板-amp-收集信息"><span class="nav-number">3.3.</span> <span class="nav-text">预置模板 &amp; 收集信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Clone-模板到本地缓存"><span class="nav-number">3.4.</span> <span class="nav-text">Clone 模板到本地缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#https-download-git-repo"><span class="nav-number">3.4.1.</span> <span class="nav-text">https: download-git-repo</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssh-child-process-spawn"><span class="nav-number">3.4.2.</span> <span class="nav-text">ssh: child_process.spawn()</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#child-process-spawn-command-args-options"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">child_process.spawn(command[, args][, options])</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#generator-file"><span class="nav-number">3.5.</span> <span class="nav-text">generator file</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阿里云ecs申请购买服务器，安装nginx服务，配置安全组，开启80端口。"><span class="nav-number">4.</span> <span class="nav-text">阿里云ecs申请购买服务器，安装nginx服务，配置安全组，开启80端口。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : '33497c8467e8644f83b022a6916f4c43',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

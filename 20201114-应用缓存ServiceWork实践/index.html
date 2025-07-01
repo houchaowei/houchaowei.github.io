@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="五个Why？  什么是Service Work？ Service Work能帮助我们前端提供什么基础能力？ Service Work的原理是什么？ JS中如何使用它？ 在我们现有的React项目中怎么去使用它？">
+<meta name="keywords" content="ServiceWork,应用缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应用缓存ServiceWork实践">
+<meta property="og:url" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="五个Why？  什么是Service Work？ Service Work能帮助我们前端提供什么基础能力？ Service Work的原理是什么？ JS中如何使用它？ 在我们现有的React项目中怎么去使用它？">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621051649315-cb08e-9c41a6f29f1d.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621052731609-0f75c6df-32fb-4059-9e2c-c95706aa0c95.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621052162876-4e921605-a41b-42de-a3a0-a8c01faf6d14.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621056712488-045a43f0-7512-45b1-a0fe-5c7d3b0334f9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/326697/1621057076593-223b28a2-add3-4d21-876a-21d551463f0e.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621057086504-a7bd6519-42c5-4b19-b241-d87ee03d1bb3.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621056782748-d2d62be0-f9a3-4a59-820d-8770b62b4803.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621056910564-025ca9be-111e-41f4-976e-f9352260a027.png">
+<meta property="og:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621057001192-1e61fa15-556c-42ad-be88-c006aca70dd7.png">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="应用缓存ServiceWork实践">
+<meta name="twitter:description" content="五个Why？  什么是Service Work？ Service Work能帮助我们前端提供什么基础能力？ Service Work的原理是什么？ JS中如何使用它？ 在我们现有的React项目中怎么去使用它？">
+<meta name="twitter:image" content="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/1621051649315-cb08e-9c41a6f29f1d.png">
+
+<link rel="canonical" href="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>应用缓存ServiceWork实践 | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20201114-应用缓存ServiceWork实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          应用缓存ServiceWork实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-14 20:12:10 20:12:10" itemprop="dateCreated datePublished" datetime="2020-11-14T20:12:10+08:00">2020-11-14 20:12:10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>6 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="五个Why？"><a href="#五个Why？" class="headerlink" title="五个Why？"></a>五个Why？</h1><blockquote>
+<ul>
+<li>什么是Service Work？</li>
+<li>Service Work能帮助我们前端提供什么基础能力？</li>
+<li>Service Work的原理是什么？</li>
+<li>JS中如何使用它？</li>
+<li>在我们现有的React项目中怎么去使用它？<a id="more"></a>
+</li>
+</ul>
+</blockquote>
+<h1 id="什么是Service-Work？"><a href="#什么是Service-Work？" class="headerlink" title="什么是Service Work？"></a>什么是Service Work？</h1><p>Service Worker是浏览器在后台独立于网页运行的脚本，独立于页面，是一个worker线程，也可以理解为一个网络代理服务器。 </p>
+<p><strong>不受页面刷新的影响，可以监听和截拦作用域范围内所有页面的 HTTP 请求；</strong></p>
+<p>Service Worker是PWA的重要组成部分，主要用来做持久的离线缓存；</p>
+<h1 id="Service-Work能为前端提供什么基础能力？"><a href="#Service-Work能为前端提供什么基础能力？" class="headerlink" title="Service Work能为前端提供什么基础能力？"></a>Service Work能为前端提供什么基础能力？</h1><p>ServiceWorker给前端开发者开放了内核大量的底层能力，比如，它给前端提供了细粒度操作请求缓存的底层原语，等同于给前端开放了操作HTTP Cache级别缓存的能力，与Fetch API结合，让前端具备了完全操控请求，响应，缓存的能力，这点对于pwa的实现至关重要。因此serviceWorker是pwa的核心。</p>
+<p>实际应用中，为了兼容安卓与ios，serviceWorker的应用最广泛的还不在pwa上面，而是在网站的优化方面。</p>
+<p>基于 Service Worker API 的特性，结合 Fetch API、Cache API、Push API、postMessage API 和 Notification API，可以在基于浏览器的 web 应用中实现如离线缓存、消息推送、静默更新等 native 应用常见的功能，以给 web 应用提供更好更丰富的使用体验。</p>
+<h1 id="Service-Work的原理是什么？"><a href="#Service-Work的原理是什么？" class="headerlink" title="Service Work的原理是什么？"></a>Service Work的原理是什么？</h1><p>Service Worker 的工作原理主要体现在它的生命周期上，一个 Service Worker 从被注册开始，就会经历自身的一些生命周期的节点，而在这些节点都可以去做一些特定的事情，比如一些复杂的计算、缓存的写入、缓存的读取等操作。通过这些生命周期节点的联合调度，Service Worker 才能完成复杂的资源离线缓存的工作。而开发者只有了解了 Service Worker 的生命周期，才能通过设计相关逻辑，并开发 Service Worker 文件 <code>sw.js</code> ，让 Service Worker 去完成 PWA 离线缓存策略。</p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>先来了解下什么是 Service Worker 的生命周期，每个 Service Worker 都有一个独立于 Web 页面的生命周期，其示意图如下图所示。</p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621051649315-cb08e-9c41a6f29f1d.png" alt="image"></p>
+<ol>
+<li>在主线程成功注册 Service Worker 之后，开始下载并解析执行 Service Worker 文件，执行过程中开始安装 Service Worker，在此过程中会触发 worker 线程的 install 事件。</li>
+<li>如果 install 事件回调成功执行（在 install 回调中通常会做一些缓存读写的工作，可能会存在失败的情况），则开始激活 Service Worker，在此过程中会触发 worker 线程的 activate 事件，如果 install 事件回调执行失败，则生命周期进入 Error 终结状态，终止生命周期。（生命周期终止之后会影响页面的正常加载吗？）</li>
+<li>完成激活之后，Service Worker 就能够控制作用域下的页面的资源请求，可以监听 fetch 事件。</li>
+</ol>
+<blockquote>
+<p>（如何监听fetch事件？）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.addEventListener(&apos;fetch&apos;, event =&gt; &#123;</span><br><span class="line">  console.log(&apos;service worker 抓取请求成功: &apos; + event.request.url)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果在激活后 Service Worker 被 unregister 或者有新的 Service Worker 版本更新，则当前 Service Worker 生命周期完结，进入 Terminated 终结状态。</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>首次注册成功的 Service Worker 没能拦截当前页面的请求，非首次注册的 Service Worker 可以控制当前的页面并能拦截请求</li>
+</ul>
+<blockquote>
+<p>（为什么首次注册的时候，却没有拦截到网络资源请求的？）</p>
+<p>主要是因为在 Service Worker 的注册是一个异步的过程，在激活完成后当前页面的请求都已经发送完成，因为时机太晚，此时是拦截不到任何请求的，只能等待下次访问再进行。</p>
+<p>而第二次刷新页面，由于当前站点的 Service Worker 是处于激活状态，所以不会再次新建 worker 工作线程并执行 Service Worker。也就是说激活状态的 Service Worker 在一个站点只会存在一个 worker 工作线程，除非 Service Worker 文件发生了变化（手动 unregister Service Worker 也会注销掉 worker 工作线程），触发了浏览器更新，才会重新开启生命周期。而由于 Service Worker 工作线程的离线特性，只要处于激活状态，在后续的任何访问中，都会通过 fetch 事件监听器拦截当前页面的网络请求，并执行 <code>fetch</code> 事件回调。</p>
+</blockquote>
+<ul>
+<li>在手机端或者 PC 端浏览器，每新打开一个已经激活了 Service Worker 的页面，那 Service Worker 所控制的终端就新增一个，每关闭一个包含已经激活了 Service Worker 页面的时候（不包含手机端浏览器进入后台运行的情况），则 Service Worker 所控制的终端就减少一个，如上图打开了三个浏览器标签，则当前 Service Worker 控制了三个终端，通过 Chrome 浏览器 Devtools 的 <code>Applications -&gt; ServiceWorker</code> 标签可以查看如下图所示 Service Worker 控制的三个终端。当刷新其中一个浏览器标签的时候，会发现一个奇怪的现象，当前的浏览器标签的控制台打印了一条信息，而并没有对其他的两个浏览器标签进行刷新，但是它们的控制台也出现了打印信息</li>
+</ul>
+<blockquote>
+<p>主要是因为，所有的终端共用一个 worker 工作线程，当在 worker 线程中执行 <code>console.log()</code> 方法打印内容的时候，会作用到所有的终端，worker 工作线程和终端的关系如下图所示。</p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621052731609-0f75c6df-32fb-4059-9e2c-c95706aa0c95.png" alt="image"></p>
+</blockquote>
+<p>Service Worker 在内部都有一系列的工作流程，这些工作流程决定了开发者可以在 Service Worker 文件中如何进行开发。下图展示的是 Service Worker 工作流程图。</p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621052162876-4e921605-a41b-42de-a3a0-a8c01faf6d14.png" alt="image"></p>
+<h1 id="JS中如何使用它？"><a href="#JS中如何使用它？" class="headerlink" title="JS中如何使用它？"></a>JS中如何使用它？</h1><p>首先在页面注册一个service worker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (&apos;serviceWorker&apos; in navigator) &#123;</span><br><span class="line">  navigator.serviceWorker.register(&apos;./index.js&apos;).then((reg) =&gt; &#123;</span><br><span class="line">    console.log(&apos;register a service worker: &apos;, reg)</span><br><span class="line">  &#125;).catch((err) =&gt; &#123;</span><br><span class="line">    console.log(&apos;err: &apos;, err);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着就可以在Service worker中尽情畅想，以页面的离线应用为出发点，说明sw如实做到离线应用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const cacheUrl = [</span><br><span class="line">  &apos;/base.css&apos;,</span><br><span class="line">  &apos;/france.html&apos;</span><br><span class="line">];</span><br><span class="line">const cacheName = &apos;my-site-cache&apos;;</span><br><span class="line"></span><br><span class="line">// install阶段</span><br><span class="line">self.addEventListener(&apos;install&apos;, (event) =&gt; &#123;</span><br><span class="line">  console.log(&apos;sw event: install&apos;);</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.open(cacheName).then((cache) =&gt; &#123;</span><br><span class="line">      console.log(&apos;open cache&apos;);</span><br><span class="line">      return cache.addAll(cacheUrl);</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">self.addEventListener(&apos;fetch&apos;, (event) =&gt; &#123;</span><br><span class="line">  event.respondWith(caches.match(event.request).then(res =&gt; &#123;</span><br><span class="line">    if (res) &#123;</span><br><span class="line">      console.log(&apos;match&apos;);</span><br><span class="line">      return res;</span><br><span class="line">    &#125;</span><br><span class="line">    return fetch(event.request);</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="在我们现有的React项目中怎么去使用它？"><a href="#在我们现有的React项目中怎么去使用它？" class="headerlink" title="在我们现有的React项目中怎么去使用它？"></a>在我们现有的React项目中怎么去使用它？</h1><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>Service Worker 出于安全性和其实现原理，在使用的时候有一定的前提条件。</p>
+<ul>
+<li>由于 Service Worker 要求 HTTPS 的环境，我们通常可以借助于 <a href="https://pages.github.com/" target="_blank" rel="noopener">github page</a> 进行学习调试。当然一般浏览器允许调试 Service Worker 的时候 host 为 localhost 或者 127.0.0.1 也是 ok 的。</li>
+<li>Service Worker 的缓存机制是依赖 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Cache" target="_blank" rel="noopener">Cache API</a> 实现的</li>
+<li>依赖<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API" target="_blank" rel="noopener"> HTML5 fetch API</a></li>
+<li>依赖 <a href="https://developer.mozilla.org/zh-CN/docs/Web/javaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">Promise </a>实现</li>
+</ul>
+<h3 id="浏览器兼容性"><a href="#浏览器兼容性" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h3><p><a href="https://caniuse.com/?search=serviceWork" target="_blank" rel="noopener">https://caniuse.com/?search=serviceWork</a></p>
+<h3 id="workbox方案：workbox-webpack-plugin"><a href="#workbox方案：workbox-webpack-plugin" class="headerlink" title="workbox方案：workbox-webpack-plugin"></a>workbox方案：workbox-webpack-plugin</h3><p>官方文档: <a href="https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin" target="_blank" rel="noopener">https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin</a></p>
+<h4 id="插件版本"><a href="#插件版本" class="headerlink" title="插件版本"></a>插件版本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;webpack&quot;: &quot;^4.46.0&quot;,</span><br><span class="line">&quot;webpack-bundle-analyzer&quot;: &quot;^3.3.2&quot;,</span><br><span class="line">&quot;webpack-cli&quot;: &quot;^3.3.12&quot;,</span><br><span class="line">&quot;webpack-dev-server&quot;: &quot;^3.1.4&quot;,</span><br><span class="line">&quot;webpack-manifest-plugin&quot;: &quot;^2.0.3&quot;,</span><br><span class="line">&quot;workbox-webpack-plugin&quot;: &quot;^6.1.5&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install workbox-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><ul>
+<li>webpack插件中使用~</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">const &#123; GenerateSW &#125; = require(&apos;workbox-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">exports.override = (webpackConfig, options) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">  webpackConfig.plugins.push(new GenerateSW(&#123;</span><br><span class="line">    swDest: &apos;workboxServiceWorker.js&apos;, // 注意点1: 不写这个名字, 插件默认会生成 service-worker.js 这个文件,然后不知道WHO又生成了一次service-worker.js这个文件(内容不是workbox预期), 所以webpack生成的workbox的脚本就这样被替换了! 导致插件配置好的文件其实没被写出!!!</span><br><span class="line">    </span><br><span class="line">    // 当我们每次访问网站时都会去下载这个文件，当发现文件不一致时，就会安装这个新 Service Worker ，安装成功后，它将进入等待阶段。</span><br><span class="line"></span><br><span class="line">    // importWorkboxFrom: &apos;disabled&apos;, // 可填`cdn`,`local`,`disabled`, 区别下面整理</span><br><span class="line">    importScripts: [&apos;https://fds.api.x.net/workbox-cdn/workbox-sw.js&apos;], // 我从自己的cdn引入了workbox,这样就不用每个项目都上传</span><br><span class="line"></span><br><span class="line">    // 这三个都写true</span><br><span class="line">    skipWaiting: true, // 新 Service Worker 安装成功后需要进入等待阶段，skipWaiting: true 将使其跳过等待，安装成功后立即接管网站。</span><br><span class="line">    clientsClaim: true, // 立即接管</span><br><span class="line">    offlineGoogleAnalytics: true, // 离线也记录ga数据, 有网了再上报的意思。</span><br><span class="line">    cleanupOutdatedCaches: true,  // 尝试删除老版本缓存</span><br><span class="line">    // 缓存规则, 具体下面记录, 更详细的请查阅文档。 目前只缓存api</span><br><span class="line">    runtimeCaching: [</span><br><span class="line">      &#123;</span><br><span class="line">        // Match any request that ends with .png, .jpg, .jpeg or .svg.</span><br><span class="line">        urlPattern: /\.(?:png|jpg|jpeg|svg)$/,</span><br><span class="line"></span><br><span class="line">        // Apply a cache-first strategy.</span><br><span class="line">        handler: &apos;CacheFirst&apos;,</span><br><span class="line"></span><br><span class="line">        options: &#123;</span><br><span class="line">          // Use a custom cache name.</span><br><span class="line">          cacheName: &apos;images&apos;,</span><br><span class="line"></span><br><span class="line">          // Only cache 10 images.</span><br><span class="line">          expiration: &#123;</span><br><span class="line">            maxEntries: 10</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;))</span><br><span class="line">  </span><br><span class="line">  return webpackConfig</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在react入口js的代码里注册代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if (&apos;serviceWorker&apos; in navigator) &#123;</span><br><span class="line">  window.addEventListener(&apos;load&apos;, () =&gt; &#123;</span><br><span class="line">    // 敲黑板, 这里的/workbox/workboxServiceWorker.js需要根据实际情况变化, 因为我项目没部署到根域名, 所以加了workbox的路径名...</span><br><span class="line">    // 注意: 这里有个坑 workboxServiceWorker 会被缓存, 解决方案在下面的坑点介绍</span><br><span class="line">    navigator.serviceWorker.register(&apos;/workboxServiceWorker.js&apos;).then(registration =&gt; &#123;</span><br><span class="line">      console.log(&apos;SW registered: &apos;, registration)</span><br><span class="line">    &#125;).catch(registrationError =&gt; &#123;</span><br><span class="line">      console.log(&apos;SW registration failed: &apos;, registrationError)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="效果对比"><a href="#效果对比" class="headerlink" title="效果对比"></a>效果对比</h4><p>针对<code>urlPattern: /\.(?:png|jpg|jpeg|svg)$/,</code>图片加载速度，在开启sw前后进行对比</p>
+<p>未开启sw之前，原图是800KB左右，加载时间是79ms左右：</p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621056712488-045a43f0-7512-45b1-a0fe-5c7d3b0334f9.png" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/326697/1621057076593-223b28a2-add3-4d21-876a-21d551463f0e.png" alt="image.png"></p>
+<p>service work中没有信息</p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621057086504-a7bd6519-42c5-4b19-b241-d87ee03d1bb3.png" alt="image.png"></p>
+<p>开启sw之后，图片显示加载自ServiceWorker，且加载时间为4ms，速度提升20倍左右：</p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621056782748-d2d62be0-f9a3-4a59-820d-8770b62b4803.png" alt="image.png"></p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621056910564-025ca9be-111e-41f4-976e-f9352260a027.png" alt="image.png"></p>
+<p><img src="/20201114-应用缓存ServiceWork实践/1621057001192-1e61fa15-556c-42ad-be88-c006aca70dd7.png" alt="image.png"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://juejin.cn/post/6844904040489287694" target="_blank" rel="noopener">service-worker工作原理浅析</a></p>
+<p><a href="https://juejin.cn/post/6844903845995216909" target="_blank" rel="noopener">React如何通过Webpack优雅的接入serviceWorker的成熟方案workBox &amp;&amp; Google Analytics</a></p>
+<p><a href="http://zhenhua-lee.github.io/http/service-worker.html" target="_blank" rel="noopener">Service worker介绍</a></p>
+<p><a href="https://blog.csdn.net/chiuwingyan/article/details/88264192" target="_blank" rel="noopener">Service Worker初探</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Cache" target="_blank" rel="noopener">MDN Cache</a></p>
+<p><a href="https://lavas-project.github.io/pwa-book/chapter04/3-service-worker-dive.html" target="_blank" rel="noopener">Service Worker 工作原理</a></p>
+<p><a href="https://www.jianshu.com/p/8fecf39e04c5" target="_blank" rel="noopener">【sw】service worker概述</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ServiceWork/" rel="tag"># ServiceWork</a>
+              <a href="/tags/应用缓存/" rel="tag"># 应用缓存</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20201004-TypeScript/" rel="prev" title="TypeScript">
+      <i class="fa fa-chevron-left"></i> TypeScript
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20210105-HTTP缓存机制及原理/" rel="next" title="HTTP缓存机制及原理">
+      HTTP缓存机制及原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#五个Why？"><span class="nav-number">1.</span> <span class="nav-text">五个Why？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Service-Work？"><span class="nav-number">2.</span> <span class="nav-text">什么是Service Work？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Service-Work能为前端提供什么基础能力？"><span class="nav-number">3.</span> <span class="nav-text">Service Work能为前端提供什么基础能力？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Service-Work的原理是什么？"><span class="nav-number">4.</span> <span class="nav-text">Service Work的原理是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期"><span class="nav-number">4.0.1.</span> <span class="nav-text">生命周期</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JS中如何使用它？"><span class="nav-number">5.</span> <span class="nav-text">JS中如何使用它？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在我们现有的React项目中怎么去使用它？"><span class="nav-number">6.</span> <span class="nav-text">在我们现有的React项目中怎么去使用它？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前提条件"><span class="nav-number">6.0.1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器兼容性"><span class="nav-number">6.0.2.</span> <span class="nav-text">浏览器兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#workbox方案：workbox-webpack-plugin"><span class="nav-number">6.0.3.</span> <span class="nav-text">workbox方案：workbox-webpack-plugin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插件版本"><span class="nav-number">6.0.3.1.</span> <span class="nav-text">插件版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">6.0.3.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">6.0.3.3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效果对比"><span class="nav-number">6.0.3.4.</span> <span class="nav-text">效果对比</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : '282540b0f0787783be0159f47c745640',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

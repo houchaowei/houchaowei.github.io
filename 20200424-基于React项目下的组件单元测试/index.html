@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"houchaowei.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"text":"GitHub评论","order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="什么是单元测试？ 一般测试分成几个类型：单元测试、集成测试、功能测试。集成测试和功能测试不赘述。单元测试是用来对一个模块、一个函数或者一个类来进行正确性检验的测试工作，这里的单元是程序工作的最小工作单位。单元测试应该仅仅依赖输入，不依赖多余的环境，如果你的单元测试依赖很多环境，那么你可能需要的是集成测试。   单元测试又可以根据开发模式分成以下两类：TDD, TDD指的是Test Drive De">
+<meta name="keywords" content="React,JavaScript,H5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于React项目下的组件单元测试">
+<meta property="og:url" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/index.html">
+<meta property="og:site_name" content="MonkeyBlog">
+<meta property="og:description" content="什么是单元测试？ 一般测试分成几个类型：单元测试、集成测试、功能测试。集成测试和功能测试不赘述。单元测试是用来对一个模块、一个函数或者一个类来进行正确性检验的测试工作，这里的单元是程序工作的最小工作单位。单元测试应该仅仅依赖输入，不依赖多余的环境，如果你的单元测试依赖很多环境，那么你可能需要的是集成测试。   单元测试又可以根据开发模式分成以下两类：TDD, TDD指的是Test Drive De">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/1.png">
+<meta property="og:image" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/2.png">
+<meta property="og:image" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/3.png">
+<meta property="og:image" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/4.png">
+<meta property="og:image" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/5.png">
+<meta property="og:updated_time" content="2025-07-01T09:12:40.262Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于React项目下的组件单元测试">
+<meta name="twitter:description" content="什么是单元测试？ 一般测试分成几个类型：单元测试、集成测试、功能测试。集成测试和功能测试不赘述。单元测试是用来对一个模块、一个函数或者一个类来进行正确性检验的测试工作，这里的单元是程序工作的最小工作单位。单元测试应该仅仅依赖输入，不依赖多余的环境，如果你的单元测试依赖很多环境，那么你可能需要的是集成测试。   单元测试又可以根据开发模式分成以下两类：TDD, TDD指的是Test Drive De">
+<meta name="twitter:image" content="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/1.png">
+
+<link rel="canonical" href="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于React项目下的组件单元测试 | MonkeyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MonkeyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">生命的意義在於編程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://houchaowei.github.io/20200424-基于React项目下的组件单元测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MonkeyBlog">
+      <meta itemprop="description" content="MonkeyBlog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MonkeyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于React项目下的组件单元测试
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-24 15:11:49 15:11:49" itemprop="dateCreated datePublished" datetime="2020-04-24T15:11:49+08:00">2020-04-24 15:11:49</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-01 17:12:40 17:12:40" itemprop="dateModified" datetime="2025-07-01T17:12:40+08:00">2025-07-01 17:12:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>8.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="什么是单元测试？"><a href="#什么是单元测试？" class="headerlink" title="什么是单元测试？"></a>什么是单元测试？</h2><blockquote>
+<p>一般测试分成几个类型：单元测试、集成测试、功能测试。集成测试和功能测试不赘述。单元测试是用来对一个模块、一个函数或者一个类来进行正确性检验的测试工作，这里的单元是程序工作的最小工作单位。单元测试应该仅仅依赖输入，不依赖多余的环境，如果你的单元测试依赖很多环境，那么你可能需要的是集成测试。</p>
+</blockquote>
+<blockquote>
+<p>单元测试又可以根据开发模式分成以下两类：<br>TDD, TDD指的是Test Drive Development，很明显的意思是测试驱动开发，也就是说我们可以从测试的角度来检验整个项目。大概的流程是先针对每个功能点抽象出接口代码，然后编写单元测试代码，接下来实现接口，运行单元测试代码，循环此过程，直到整个单元测试都通过。<br>BDD指的是Behavior Drive Development，也就是行为驱动开发。行为驱动开发是一种敏捷软件开发的技术，它鼓励软件项目中的开发者、QA和非技术人员或商业参与者之间的协作。主要是从用户的需求出发，强调系统行为。BDD最初是由Dan North在2003年命名，它包括验收测试和客户测试驱动等的极限编程的实践，作为对测试驱动开发的回应。<br>目前我接触到的项目都是BDD，国内的前端项目对单元测试重视程度没有那么高，TDD这种先编写单元测试的模式应用并不多。</p>
+</blockquote>
+<blockquote>
+<p>但是但是，我真的想说，高覆盖率的单元测试，可以保证每次上线bug率大大降低，也是代码重构的基础。很多老项目，开发人员离职、新接手的人员不敢重构，慢慢称为团队负担、又不能下线，就是因为没有单元测试，改一点都怕出现不可测的bug。<a id="more"></a></p>
+</blockquote>
+<h2 id="单元测试框架选择"><a href="#单元测试框架选择" class="headerlink" title="单元测试框架选择"></a>单元测试框架选择</h2><h3 id="1-测试用例在node环境下运行，不依赖于浏览器，建议选用Jest-Enzyme"><a href="#1-测试用例在node环境下运行，不依赖于浏览器，建议选用Jest-Enzyme" class="headerlink" title="1.测试用例在node环境下运行，不依赖于浏览器，建议选用Jest + Enzyme"></a>1.测试用例在<code>node环境</code>下运行，不依赖于浏览器，建议选用<code>Jest + Enzyme</code></h3><p>Jest 是 Facebook 发布的一个开源的、基于 Jasmine 框架的 JavaScript 单元测试工具。提供了包括内置的测试环境 DOM API 支持、断言库、Mock 库等，还包含了 Spapshot Testing、 Instant Feedback 等特性。</p>
+<p>Enzyme是Airbnb开源的 React 测试类库，提供了一套简洁强大的 API，并通过 jQuery 风格的方式进行DOM 处理，开发体验十分友好。不仅在开源社区有超高人气，同时也获得了React 官方的推荐。</p>
+<h3 id="2-测试用例依赖于浏览器环境，建议选用Karma-Jasmine-Enzyme"><a href="#2-测试用例依赖于浏览器环境，建议选用Karma-Jasmine-Enzyme" class="headerlink" title="2.测试用例依赖于浏览器环境，建议选用Karma + Jasmine + Enzyme"></a>2.测试用例依赖于浏览器环境，建议选用<code>Karma + Jasmine + Enzyme</code></h3><p>Karma 是一个用来搜索测试文件、编译它们然后运行断言的测试器，Angular团队作品。</p>
+<p>Jasmine 是一个断言库，它仅仅问“我们得到我们期待的东西了么？”。它提供类似describe，expect 和 it的函数，也提供监听一个函数或方法有没有被触发的监听器。</p>
+<blockquote>
+<p>我这里选用的是node环境下的<code>Jset + Enzyme</code>进行的前端组件测试用例的开发和使用</p>
+</blockquote>
+<h2 id="环境数据"><a href="#环境数据" class="headerlink" title="环境数据"></a>环境数据</h2><ul>
+<li>nodejs v8.16.0</li>
+<li>npm 6.4.1</li>
+<li>依赖版本 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;@babel/core&quot;: &quot;^7.9.0&quot;,</span><br><span class="line">&quot;@babel/plugin-transform-runtime&quot;: &quot;^7.9.0&quot;,</span><br><span class="line">&quot;@babel/preset-env&quot;: &quot;^7.9.0&quot;,</span><br><span class="line">&quot;@babel/preset-react&quot;: &quot;^7.9.4&quot;,</span><br><span class="line">&quot;babel-loader&quot;: &quot;^8.0.5&quot;,</span><br><span class="line">&quot;jest&quot;: &quot;^25.1.0&quot;,</span><br><span class="line">&quot;enzyme&quot;: &quot;^3.11.0&quot;,</span><br><span class="line">&quot;enzyme-adapter-react-16&quot;: &quot;^1.15.2&quot;,</span><br><span class="line">&quot;chai&quot;: &quot;^4.2.0&quot;,</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="执行及结果"><a href="#执行及结果" class="headerlink" title="执行及结果"></a>执行及结果</h2><h3 id="Demo-test-jsx示例代码"><a href="#Demo-test-jsx示例代码" class="headerlink" title="Demo.test.jsx示例代码"></a><code>Demo.test.jsx</code>示例代码</h3><p><img src="/20200424-基于React项目下的组件单元测试/1.png" alt="在这里插入图片描述"></p>
+<h3 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h3><p><img src="/20200424-基于React项目下的组件单元测试/2.png" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-MR6HrOSa-1585295902034)(quiver-image-url/8F7701A9849A10F4230A4809F945FF83.jpg =686x191)\]"></p>
+<h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><h3 id="1-Plugin-Preset-files-are-not-allowed-to-export-objects-only-functions"><a href="#1-Plugin-Preset-files-are-not-allowed-to-export-objects-only-functions" class="headerlink" title="1. Plugin/Preset files are not allowed to export objects,only functions."></a>1. <code>Plugin/Preset files are not allowed to export objects,only functions.</code></h3><ul>
+<li>原因：babel版本冲突不兼容的问题</li>
+<li><p>解决方案：</p>
+<ul>
+<li><p>升级babel到babel7.0</p>
+<ul>
+<li><p>将所有有关babel的包都升级为7.0版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;@babel/core&quot;: &quot;^7.2.2&quot;,</span><br><span class="line">&quot;@babel/preset-env&quot;: &quot;^7.3.1&quot;,</span><br><span class="line">&quot;@babel/preset-react&quot;: &quot;^7.0.0&quot;,</span><br><span class="line">&quot;babel-loader&quot;: &quot;^8.0.5&quot;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>并且修改.babel文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;presets&quot;:[&quot;@babel/react&quot;,&quot;@babel/env&quot;,]&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>降级到babel6.0版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;babel-core&quot;: &quot;^6.26.3&quot;,</span><br><span class="line">&quot;babel-preset-env&quot;: &quot;^1.7.0&quot;,</span><br><span class="line">&quot;babel-preset-react&quot;: &quot;^6.24.1&quot;,</span><br><span class="line">&quot;babel-loader&quot;: &quot;^7.1.5&quot;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对应修改.babelrc文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;presets&quot;: [&quot;react&quot;, &quot;env&quot;]&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里我选择的是升级babel到babel7.0</p>
+</blockquote>
+<h4 id="我当前的项目中在结合babel升级过程中遇到的问题进行了总结，解决的具体问题以及方案，在Error-Requires-Babel-“-7-0-0-0”-but-was-loaded-with-“6-26-3”-If-you-are-sure-you-have-a-compatible-version-of-babel-core-11337，-整理如下："><a href="#我当前的项目中在结合babel升级过程中遇到的问题进行了总结，解决的具体问题以及方案，在Error-Requires-Babel-“-7-0-0-0”-but-was-loaded-with-“6-26-3”-If-you-are-sure-you-have-a-compatible-version-of-babel-core-11337，-整理如下：" class="headerlink" title="我当前的项目中在结合babel升级过程中遇到的问题进行了总结，解决的具体问题以及方案，在Error: Requires Babel “^7.0.0-0”, but was loaded with “6.26.3”. If you are sure you have a compatible version of @babel/core, #11337， 整理如下："></a>我当前的项目中在结合babel升级过程中遇到的问题进行了总结，解决的具体问题以及方案，在<a href="https://github.com/babel/babel/issues/11337" target="_blank" rel="noopener">Error: Requires Babel “^7.0.0-0”, but was loaded with “6.26.3”. If you are sure you have a compatible version of @babel/core, #11337</a>， 整理如下：</h4><ul>
+<li>babel-upgrade插件安装<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># npx lets you run babel-upgrade without installing it locally </span><br><span class="line">npx babel-upgrade --write</span><br><span class="line"># or install globally and run </span><br><span class="line">npm install babel-upgrade -g</span><br><span class="line">babel-upgrade --write</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这个安装完成之后，package.json文件依赖已经更新，而且按照新版的babel7.+的内容结合你本地的.babelrc已存在的内容进行了更新。</p>
+<ul>
+<li>install &amp;&amp; run<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在npm run start的时候，遇到了一个棘手的问题，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ERROR in ./client/index.jsx</span><br><span class="line">Module build failed (from ./node_modules/babel-loader/lib/index.js):</span><br><span class="line">Error: [BABEL] /Users/resource/BeiKe/pikachu-static-front-owner/client/index.jsx: The &apos;polyfill&apos; option has been removed. Use the &apos;corejs&apos;option to polyfill with `core-js` via @babel/runtime. (While processing: &quot;/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/plugin-transform-runtime/lib/index.js&quot;)</span><br><span class="line">    at _default (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/plugin-transform-runtime/lib/index.js:144:13)</span><br><span class="line">    at /Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/helper-plugin-utils/lib/index.js:19:12</span><br><span class="line">    at /Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/core/lib/config/full.js:199:14</span><br><span class="line">    at Generator.next (&lt;anonymous&gt;)</span><br><span class="line">    at Function.&lt;anonymous&gt; (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/core/lib/gensync-utils/async.js:26:3)</span><br><span class="line">    at Generator.next (&lt;anonymous&gt;)</span><br><span class="line">    at step (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/gensync/index.js:254:32)</span><br><span class="line">    at evaluateAsync (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/gensync/index.js:284:5)</span><br><span class="line">    at Function.errback (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/gensync/index.js:108:7)</span><br><span class="line">    at errback (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/core/lib/gensync-utils/async.js:70:18)</span><br><span class="line">    at async (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/gensync/index.js:183:31)</span><br><span class="line">    at onFirstPause (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/gensync/index.js:209:13)</span><br><span class="line">    at Generator.next (&lt;anonymous&gt;)</span><br><span class="line">    at cachedFunction (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/core/lib/config/caching.js:68:46)</span><br><span class="line">    at cachedFunction.next (&lt;anonymous&gt;)</span><br><span class="line">    at loadPluginDescriptor (/Users/resource/BeiKe/pikachu-static-front-owner/node_modules/@babel/core/lib/config/full.js:235:43)</span><br><span class="line">ℹ ｢wdm｣: Failed to compile.</span><br></pre></td></tr></table></figure></p>
+<p>编译失败！原因是.babelrc中的两个corejs冲突了。corejs3.0+对应的是babel7.0+的版本。</p>
+<blockquote>
+<p>Remove the polyfill option from @babel/plugin-transform-runtime.<br>移除前我的.babelrc：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    &quot;@babel/preset-react&quot;,</span><br><span class="line">    [</span><br><span class="line">      &quot;@babel/preset-env&quot;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;useBuiltIns&quot;: &quot;usage&quot;,</span><br><span class="line">        &quot;corejs&quot;: 3,</span><br><span class="line">        &quot;targets&quot;: &#123;</span><br><span class="line">          &quot;chrome&quot;: 48,</span><br><span class="line">          &quot;ie&quot;: 9,</span><br><span class="line">          &quot;browsers&quot;: [</span><br><span class="line">            &quot;&gt; 1%&quot;,</span><br><span class="line">            &quot;last 5 versions&quot;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ],</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    [</span><br><span class="line">      &quot;@babel/plugin-transform-runtime&quot;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;corejs&quot;: 2,</span><br><span class="line">        &quot;helpers&quot;: true,</span><br><span class="line">        &quot;polyfill&quot;: true,</span><br><span class="line">        &quot;regenerator&quot;: true,</span><br><span class="line">        &quot;moduleName&quot;: &quot;babel-runtime&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;@babel/plugin-proposal-class-properties&quot;,</span><br><span class="line">    &quot;@babel/plugin-syntax-dynamic-import&quot;,</span><br><span class="line">    &quot;@babel/plugin-proposal-object-rest-spread&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>移除后我的.babelrc:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    &quot;@babel/preset-react&quot;,</span><br><span class="line">    [</span><br><span class="line">      &quot;@babel/preset-env&quot;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;useBuiltIns&quot;: &quot;usage&quot;,</span><br><span class="line">        &quot;corejs&quot;: 3,</span><br><span class="line">        &quot;targets&quot;: &#123;</span><br><span class="line">          &quot;chrome&quot;: 48,</span><br><span class="line">          &quot;ie&quot;: 9,</span><br><span class="line">          &quot;browsers&quot;: [</span><br><span class="line">            &quot;&gt; 1%&quot;,</span><br><span class="line">            &quot;last 5 versions&quot;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ],</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    &quot;@babel/plugin-proposal-class-properties&quot;,</span><br><span class="line">    &quot;@babel/plugin-syntax-dynamic-import&quot;,</span><br><span class="line">    &quot;@babel/plugin-proposal-object-rest-spread&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后<code>npm run start</code>，正常运行。</p>
+<p>重新<code>jest</code>：<br><img src="/20200424-基于React项目下的组件单元测试/3.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>参考：<a href="https://www.npmjs.com/package/babel-upgrade" target="_blank" rel="noopener">https://www.npmjs.com/package/babel-upgrade</a></p>
+</blockquote>
+<h3 id="2-当组件中引入了图片或者css文件，"><a href="#2-当组件中引入了图片或者css文件，" class="headerlink" title="2.当组件中引入了图片或者css文件，"></a>2.当组件中引入了图片或者css文件，</h3><p><img src="/20200424-基于React项目下的组件单元测试/4.png" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-ns8BcwyF-1585295902040)(quiver-image-url/C1664B6CD073AF290832F1AA255887CE.jpg =618x139)\]"><br><img src="/20200424-基于React项目下的组件单元测试/5.png" alt="在这里插入图片描述"></p>
+<h3 id="3-npm包提供的module格式问题"><a href="#3-npm包提供的module格式问题" class="headerlink" title="3.npm包提供的module格式问题"></a>3.npm包提供的module格式问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> FAIL  test/product.test.jsx</span><br><span class="line">  ● Test suite failed to run</span><br><span class="line"></span><br><span class="line">    Jest encountered an unexpected token</span><br><span class="line"></span><br><span class="line">    This usually means that you are trying to import a file which Jest cannot parse, e.g. it&apos;s not plain JavaScript.</span><br><span class="line"></span><br><span class="line">    By default, if Jest sees a Babel config, it will use that to transform your files, ignoring &quot;node_modules&quot;.</span><br><span class="line"></span><br><span class="line">    Here&apos;s what you can do:</span><br><span class="line">     • To have some of your &quot;node_modules&quot; files transformed, you can specify a custom &quot;transformIgnorePatterns&quot; in your config.</span><br><span class="line">     • If you need a custom transformation specify a &quot;transform&quot; option in your config.</span><br><span class="line">     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the &quot;moduleNameMapper&quot; config option.</span><br><span class="line"></span><br><span class="line">    You&apos;ll find more details and examples of these config options in the docs:</span><br><span class="line">    https://jestjs.io/docs/en/configuration.html</span><br><span class="line"></span><br><span class="line">    Details:</span><br><span class="line"></span><br><span class="line">    /Users/resource/BeiKe/pikachu-static-front-owner/node_modules/glue-redux/es/index.js:1</span><br><span class="line">    (&#123;&quot;Object.&lt;anonymous&gt;&quot;:function(module,exports,require,__dirname,__filename,global,jest)&#123;import _defineProperty from &apos;babel-runtime/helpers/defineProperty&apos;;</span><br><span class="line">                                                                                             ^^^^^^</span><br><span class="line"></span><br><span class="line">    SyntaxError: Unexpected token import</span><br><span class="line"></span><br><span class="line">      1 | </span><br><span class="line">      2 |</span><br><span class="line">    &gt; 3 | import &#123; createGlue, gluePair &#125; from &apos;glue-redux&apos;;</span><br><span class="line">        | ^</span><br><span class="line">      4 | import confirmLoan from &apos;./confirmLoan&apos;;</span><br><span class="line">      5 | import Certification from &apos;./certification&apos;;</span><br><span class="line">      6 |</span><br><span class="line"></span><br><span class="line">      at Runtime.createScriptFromCode (../../.nvm/versions/node/v8.16.0/lib/node_modules/jest/node_modules/jest-runtime/build/index.js:1059:14)</span><br><span class="line">      at Object.&lt;anonymous&gt; (client/glue/glue.js:3:1)</span><br><span class="line"></span><br><span class="line">Test Suites: 1 failed, 1 total</span><br><span class="line">Tests:       0 total</span><br><span class="line">Snapshots:   0 total</span><br><span class="line">Time:        9.061s</span><br><span class="line">Ran all test suites.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>原因：是glue-redux旧版本在包的导出格式有问题。</li>
+<li><p>解决方案：</p>
+<ul>
+<li><p>修改glue-redux的文件指向cj模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createGlue, gluePair &#125; from &apos;glue-redux&apos;;</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createGlue, gluePair &#125; from &apos;glue-redux/cj&apos;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/H5/" rel="tag"># H5</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20191120-React-Hook借助useReducer-useContext代替Redux方案/" rel="prev" title="React Hook借助useReducer, useContext代替Redux方案">
+      <i class="fa fa-chevron-left"></i> React Hook借助useReducer, useContext代替Redux方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20200618-React基于jest-enzyme测试工具的测试手法/" rel="next" title="React基于jest+enzyme测试工具的测试技巧">
+      React基于jest+enzyme测试工具的测试技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是单元测试？"><span class="nav-number">1.</span> <span class="nav-text">什么是单元测试？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试框架选择"><span class="nav-number">2.</span> <span class="nav-text">单元测试框架选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-测试用例在node环境下运行，不依赖于浏览器，建议选用Jest-Enzyme"><span class="nav-number">2.1.</span> <span class="nav-text">1.测试用例在node环境下运行，不依赖于浏览器，建议选用Jest + Enzyme</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-测试用例依赖于浏览器环境，建议选用Karma-Jasmine-Enzyme"><span class="nav-number">2.2.</span> <span class="nav-text">2.测试用例依赖于浏览器环境，建议选用Karma + Jasmine + Enzyme</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境数据"><span class="nav-number">3.</span> <span class="nav-text">环境数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行及结果"><span class="nav-number">4.</span> <span class="nav-text">执行及结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo-test-jsx示例代码"><span class="nav-number">4.1.</span> <span class="nav-text">Demo.test.jsx示例代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行结果"><span class="nav-number">4.2.</span> <span class="nav-text">执行结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题总结"><span class="nav-number">5.</span> <span class="nav-text">问题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Plugin-Preset-files-are-not-allowed-to-export-objects-only-functions"><span class="nav-number">5.1.</span> <span class="nav-text">1. Plugin/Preset files are not allowed to export objects,only functions.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我当前的项目中在结合babel升级过程中遇到的问题进行了总结，解决的具体问题以及方案，在Error-Requires-Babel-“-7-0-0-0”-but-was-loaded-with-“6-26-3”-If-you-are-sure-you-have-a-compatible-version-of-babel-core-11337，-整理如下："><span class="nav-number">5.1.1.</span> <span class="nav-text">我当前的项目中在结合babel升级过程中遇到的问题进行了总结，解决的具体问题以及方案，在Error: Requires Babel “^7.0.0-0”, but was loaded with “6.26.3”. If you are sure you have a compatible version of @babel/core, #11337， 整理如下：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-当组件中引入了图片或者css文件，"><span class="nav-number">5.2.</span> <span class="nav-text">2.当组件中引入了图片或者css文件，</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-npm包提供的module格式问题"><span class="nav-number">5.3.</span> <span class="nav-text">3.npm包提供的module格式问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MonkeyBlog</p>
+  <div class="site-description" itemprop="description">MonkeyBlog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MonkeyBlog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">327k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:58</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5ea5c7c8c8b8a126f692',
+      clientSecret: '1e0c177e50cddcc5ac433d77ab2f7db9c221397a',
+      repo        : 'houchaowei.github.io',
+      owner       : 'houchaowei',
+      admin       : ['houchaowei'],
+      id          : 'c01ea56e0221db396ca364b8a59de2ca',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
